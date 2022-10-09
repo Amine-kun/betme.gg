@@ -1,0 +1,51 @@
+.footer{
+	background-color: var(--primary-color-layer3);
+	height: auto;
+	padding: 40px 0;
+	gap:40px;
+	width: 100vw;
+	flex-direction:column;
+	position:relative;
+
+	.footer__main{
+		gap:60px;
+
+		.logo{
+			height: auto;
+			width: 100px;
+			margin-top: -50px;
+		}
+		.tabs{
+			display: flex;
+			flex-direction:column;
+			gap:8px;
+		}
+		.contact{
+			display: flex;
+			flex-direction:column;
+			gap:8px;
+		}
+		@media screen and (max-width: 600px){
+			gap:30px;
+		}
+	}
+	.copyright{
+
+	}
+	.arrow{
+		display: flex;
+		  justify-content: center;
+		  align-content: center;
+		  background: white;
+		  border: none;
+		  padding: 8px;
+		  border-radius: 50%;
+		  outline: 0;
+		  cursor: pointer;
+		  transform: rotate(-90deg);
+	}
+
+	@media screen and (max-width: 800px){
+		padding: 40px 30px;
+	}
+}

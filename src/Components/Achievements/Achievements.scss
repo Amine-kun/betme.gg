@@ -1,0 +1,29 @@
+.Achievements{
+	margin-top: 15px;
+	.active-icon{
+		width: 100%;
+		gap:10px;
+		justify-content:flex-start;
+		
+		.ach-icon{
+			font-size: 3rem;
+			background-color: var(--blue-color);
+			padding: 6px;
+			border-radius: 10px;
+		}
+		.ach-info{
+			width: 80%;
+			gap:3px;
+		}
+	}
+	.ach-icons{
+		flex-wrap:wrap;
+		gap:10px;
+		.ach-icon{
+			font-size: 3rem;
+			background-color: var(--blue-color);
+			padding: 6px;
+			border-radius: 10px;
+		}
+	}
+}

@@ -1,0 +1,16 @@
+.main_page{
+	 justify-content: flex-start;
+	 align-items:flex-start;
+	 background-color: var(--primary-color-layer2);
+	 gap:0px;
+
+	 .Queue{
+		height: 100vh;
+		width: 100vw;
+		padding: 20px 20px;
+		display: flex;
+		flex-direction:column;
+		gap:20px;
+		overflow-y:auto; 
+	 }
+}

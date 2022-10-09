@@ -1,0 +1,33 @@
+.userauth{
+	height: 100vh;
+	width: 100vw;
+	background-image: url(https://images8.alphacoders.com/992/992724.png);
+	background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+	display: flex;
+	justify-content:center;
+	align-items:center;
+	position: relative;
+	flex-direction:column;
+
+	.navbar{
+		z-index: 2;
+		position: absolute;
+		top: 40px;
+		left:40px;
+	}
+
+ 	&::after{
+ 		content:'';
+ 		z-index: 1;
+ 		height: 100%;
+ 		width: 100%;
+ 		background-color: #0d1430a1;
+ 		position: absolute;
+ 		top:0;
+ 		left:0;
+ 		backdrop-filter: saturate(170%) blur(50px);
+ 	}
+
+}

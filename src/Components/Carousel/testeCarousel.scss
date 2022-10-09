@@ -1,0 +1,18 @@
+.testemoniel__Carousel{
+			    position: relative;
+			    overflow-y: auto;
+			    max-width: 1100px;
+			    width: 100%;
+			    max-height: 662px;
+			    height: 100%;
+			    scroll-behavior: smooth;
+			    scrollbar-width:none;
+
+			    &::-webkit-scrollbar {
+				  height: 0;
+				}
+				.testes{
+				    position: absolute;
+				    left:0;
+				}
+		}

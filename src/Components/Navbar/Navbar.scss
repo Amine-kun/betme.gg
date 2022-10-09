@@ -1,0 +1,130 @@
+.navbar-main{
+	gap:30px;
+	height: 50px;
+	.active{
+		color: var(--blue-color);
+		transition:300ms;
+	}
+	.hide{
+		@media screen and (max-width: 800px){
+			display: none;
+		}
+	}
+	.rightSide{
+		margin-left: auto;
+
+		.notification{
+			font-size: 1.6rem;
+			background-color: var(--primary-color);
+			padding: 9px 9px 2px 9px;
+			border-radius: 50px;
+			position: relative;
+			cursor: pointer;
+			
+			.notification-icon{
+
+			}
+			.red-dot{
+				font-size: 10px;
+				height: 15px;
+				width: 15px;
+				padding: 1px 1px 1px 0;
+				border-radius: 50px;
+				background-color: var(--red-color);
+				position: absolute;	
+				right:0;
+				top:0;
+			}
+			.drop-notification{
+				z-index: 2;
+				position: absolute;
+				top: 100px;
+				right: 0%;
+				height: 100px;
+				width: 300px;
+				background-color: var(--white-color);
+				color:var(--primary-color);
+				padding: 10px;
+				border-radius: var(--radius);
+				font-size: 20px;
+				cursor: default;
+				opacity: 0;
+				transition:300ms ease-in-out;
+				z-index: 4;
+
+				.arrow{
+					background-color: var(--white-color);
+					position: absolute;
+					top: -3px;
+					right: 11px;
+					z-index: 1;
+					height: 20px;
+					width: 20px;
+					transform: rotate(-45deg);
+
+					@media screen and (max-width: 800px){
+						right: 108px;
+					}
+				}
+
+				@media screen and (max-width: 800px){
+					right: -50%;
+					transform:translate(25%);
+				}
+			}
+			.show-notification{
+				opacity: 1;
+				top:50px;
+			}
+		}
+		.profile-tab{
+			background-color: var(--primary-color);
+			padding: 8px;
+			border-radius: 50px;
+			cursor: pointer;
+			position: relative;
+
+			.p-p{
+				height: auto;
+				width: 35px;
+				border-radius: 50px;
+			}
+			&::after{
+					content: '';
+					background-color: var(--green-color);
+					height: 12px;
+					width: 12px;
+					border-radius: 50px;
+					bottom: 11px;
+					right: 150px;
+					position: absolute;
+
+					@media screen and (max-width: 800px){
+						right: 27px;
+						bottom: 9px;
+					}
+				}
+			.user{
+				.status{
+					color: var(--green-color);
+					}
+
+					@media screen and (max-width: 800px){
+						display: none;
+					}
+			}
+
+			@media screen and (max-width: 800px){
+					gap:5px;
+				}
+		}
+		.active{
+			background-color: transparent;
+			background: linear-gradient(45deg,var(--blue-color), var(--purple-color));
+			color:var(--white-color);
+			.status{
+				color: var(--white-color) !important;
+			}
+		}
+	}
+}

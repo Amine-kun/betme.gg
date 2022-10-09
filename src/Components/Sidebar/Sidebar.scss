@@ -1,0 +1,77 @@
+.Sidebar_main{
+	background-color: var(--primary-color);
+	z-index: 2;
+	padding: 20px 20px;
+	height: 100vh;
+	max-width: 275px;
+	width: 100%;
+	overflow-y: auto; 
+	transition:300ms ease-in-out;
+
+	.Sidebar_container{
+		align-items:center;
+		width: 100%;
+		gap:20px;
+
+		.logo{
+			height: auto;
+			width: 140px;
+			margin-left: -60px;
+		}
+		.smalllogo{
+			height: auto;
+			width: 50px;
+		}
+		.tabs{
+			gap:10px;
+			width: 95%;
+			.tab{
+				justify-content:flex-start;
+				cursor: pointer;
+				padding: 12px 20px;
+				border-radius: var(--radius);
+				width: 100%;
+				.rotate{
+					transform:rotate(0deg);
+				}
+			}
+			.shrinkTab{
+				justify-content:center;
+				padding:unset;
+				height: 48px;
+			}
+			.games{
+				align-self:center;
+				background-color: var(--primary-color-layer2);
+				width: 82%;
+				opacity: 0;
+				transition:300ms ease-in-out;
+				.game{
+					width: 100%;
+				}
+			    .game-shrinked{
+					padding: 12px 0;
+					display: flex;
+					flex-direction:column;
+					align-items:center;
+				}
+			}
+			.show-games{
+				opacity: 1;
+			}
+			.active{
+				background: linear-gradient(45deg, var(--blue-color), var(--purple-color));
+			}
+		}
+	}
+	@media screen and (max-width: 800px){
+		 padding: 20px 10px;
+		}
+}
+.Sidebar_shrink{
+	max-width: 110px;
+
+	@media screen and (max-width: 800px){
+		max-width: 80px;
+				}
+}

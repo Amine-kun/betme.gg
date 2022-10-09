@@ -1,0 +1,29 @@
+.sign__main{
+	z-index: 2;
+	gap:30px;
+
+	.inputs{
+		width: 100%;
+		gap:10px;
+
+		.input{
+			width: 100%;
+			background-color: #232940a6;
+			color: var(--white-color);
+			border-radius: var(--radius);
+			border:1px solid var(--white-color);
+			padding: 10px 15px;
+			outline:none;
+		}
+	}
+	.btns{
+		display: flex;
+		align-items:center;
+		gap:15px;
+		.bar{
+			height: 20px;
+			width: 1px;
+			background-color: var(--white-color);
+		}
+	}
+}

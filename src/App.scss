@@ -1,0 +1,94 @@
+.app{
+	background-color: var(--primary-color);
+	font-family: var(--font-base);
+	color:var(--white-color);
+	overflow-x:hidden; 
+}
+
+.app-flex{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap:20px;
+}
+.app-flex-wrap{
+	display: flex;
+	justify-content: center;
+	align-items: flex-start;
+	flex-direction:column;
+	gap:10px;
+}
+
+.head-bold-text{
+	font-weight: bold;
+	font-size: 2.2rem;
+	margin-bottom: 15px;
+
+	@media (min-width: 500px) and (max-width: 800px){
+		font-size: 1.8rem;
+	}
+	@media screen and (max-width: 500px){
+		font-size: 1.6rem;
+	}
+}
+.bg-sub{
+	background-color: var(--primary-color-layer3);
+}
+
+.head-text{	
+	font-weight: bold;;
+	font-size: 1.5rem;
+
+}
+.p-text{
+	font-weight: bold;
+
+}
+.lg-text{
+	font-size: 1.2rem;
+}
+.sub-text{
+	font-size: 0.8rem;
+}
+.highlight{
+	color: var(--blue-color);
+	font-weight: bold;
+	font-size: 1rem;
+}
+.main-btn{
+	background: linear-gradient(45deg, var(--blue-color), var(--purple-color));
+	color: var(--white-color);
+	border: none;
+	padding: 0.8rem 1.8rem;	
+	border-radius: var(--radius);
+	cursor: pointer;
+	font-weight: bold;
+}
+.sub-btn{
+	background-color: transparent;
+	color: var(--white-color);
+	border:transparent;
+	cursor: pointer;
+	font-weight: bold;
+}
+.icons{
+	color: var(--white-color);
+	margin-right: 10px;
+	font-size: 1.5rem;
+	cursor: pointer;
+}
+.pointer{
+	cursor: pointer;
+}
+.remove {
+	display: none;
+}
+.icon{
+	font-size: 1.4rem;
+	}
+.drop-arrow{
+	margin-left:10px;
+	font-size:1.3rem;
+	transform:rotate(-90deg);
+	transition:300ms ease-in-out;
+}

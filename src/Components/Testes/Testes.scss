@@ -1,0 +1,26 @@
+.testemoniel{
+	background-color: var(--primary-color-layer3);
+	padding: 15px;
+	width: 200px;
+	height: auto;
+	border-radius: var(--radius);
+	.container{
+		display: flex;
+		flex-direction:column;
+		gap:10px;
+		.teste-info{
+			display: flex;
+			justify-content: center;
+			flex-direction:row;
+		}
+		.stars{
+			display: flex;
+			gap:5px;
+
+			.star{
+				height: 15px;
+				width: 15px;
+			}
+		}
+	}
+}

@@ -1,0 +1,56 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap");
+
+:root {
+  --font-base: "DM Sans", sans-serif;
+
+  --primary-color: #1e2337;
+  --primary-color-layer2: #1f2639;
+  --primary-color-layer3: #232940;
+  --blue-color: #13b1d9;
+  --purple-color: #4a5a9a;
+  --black-color: #16182c;
+  --white-color: #f2f2f2;
+  --red-color: #d11e26;
+  --green-color: #08ad08;
+
+  --radius: 4px;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  scroll-behavior: smooth;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--primary-color-layer2); 
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--primary-color-layer3);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--blue-color); 
+}
+  
+  ::placeholder { 
+      color: var(--white-color);
+      opacity: 1; 
+  }
+  input:focus::placeholder {
+    color: transparent;
+  }
+  ::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+  }
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
