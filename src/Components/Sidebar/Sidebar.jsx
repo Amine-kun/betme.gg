@@ -10,9 +10,11 @@ import {HiFlag} from 'react-icons/hi';
 import {CgMediaLive} from 'react-icons/cg';
 import {IoGrid} from 'react-icons/io5';
 import {MdArrowDropDown} from 'react-icons/md';
+import {RiMessage3Fill} from 'react-icons/ri';
 
 const tabs = [{icon:AiFillHome, name:'Home'},
 			  {icon:IoPerson, name:'Profile'},
+			  {icon:RiMessage3Fill, name:'Messanger'},
 			  {icon:HiFlag, name:'Challenge'},
 			  {icon:AiFillStar, name:'Tournements'},
 			  {icon:CgMediaLive, name:'Lives'},

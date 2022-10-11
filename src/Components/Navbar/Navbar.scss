@@ -12,6 +12,11 @@
 	}
 	.rightSide{
 		margin-left: auto;
+		gap: 10px;
+
+		.active-tab{
+			background-color: var(--blue-color) !important;
+		}
 
 		.notification{
 			font-size: 1.6rem;

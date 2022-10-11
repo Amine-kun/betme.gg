@@ -5,6 +5,7 @@ import {useNavigate, useLocation} from	'react-router-dom';
 
 import {IoNotifications} from 'react-icons/io5';
 import {MdArrowDropDown} from 'react-icons/md';
+import {FaUserFriends} from 'react-icons/fa';
 
 const navTabs = ["Home", "Esports", "Events", "Updates"];
 
@@ -14,6 +15,7 @@ const Navbar = () => {
 
 	const [activeNav, setActiveNav] = useState("Home");
 	const [isNotification, setIsNotification] = useState(false);
+	const [friends, setFriends] = useState(false);
 
 	useEffect(() => {
 		if(location.pathname.split('/')[1] !== ''){
@@ -36,14 +38,18 @@ const Navbar = () => {
 					</h5>
 				}
 
-			<div className="rightSide app-flex">
-				<div className="notification" onClick={(e)=>setIsNotification(!isNotification)}>
-					<IoNotifications className="notification-icon"/>
+			<div className="rightSide app-flex"> 					
+				<div className={`notification ${isNotification && 'active-tab'}`} onClick={(e)=>setIsNotification(!isNotification)}>
+					<IoNotifications className='notification-icon'/>
 					<span className="red-dot app-flex">3</span>
 					<div className={`drop-notification app-flex ${isNotification && 'show-notification'}`} onClick={(e)=> e.stopPropagation()}>
 						<h6>You have no notifications at the moment.</h6>
 						<span className="arrow"></span>
 					</div>
+				</div>
+				<div className={`notification ${friends && 'active-tab'}`} onClick={()=> setFriends(!friends)}>
+					<FaUserFriends className='notification-icon'/>
+					<span className="red-dot app-flex">5</span>
 				</div>
 				<div className={`profile-tab app-flex ${activeNav === 'Profile' && 'active'}`} onClick={()=>{navigate('/Profile'); setActiveNav('Profile')}}>
 					<img src={picture} alt="profile" className="p-p"/>
