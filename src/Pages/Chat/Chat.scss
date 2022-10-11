@@ -2,14 +2,10 @@
 	width: 100%;
 	height: auto;
 	gap:20px;
-
-	.friends{
-		width: 30%;
-	}
-	.convo{
-		width: 40%;
-	}
-	.friend-about{
-		width: 30%;
-	}
+	background-color: var(--primary-color);
+	border-radius: var(--radius);
+	height: 100vh;
+	align-items:flex-start;
+	padding: 15px 15px;
+	position: relative;
 }

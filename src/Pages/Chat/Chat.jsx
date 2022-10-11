@@ -1,23 +1,20 @@
 import React from 'react';
 import './Chat.scss';
+import Conversations from './Conversations/Conversations'
+import SingleConvo from './SingleConvo/SingleConvo'
+import ContactorAbout from './ContactorAbout/ContactorAbout'
 
 const Chat = () => {
 
 	return (
 		<div className="chat app-flex">
-			<section className="friends">
-				friends
-			</section>
 			
-			<section className="convo">
-				convo
-			</section>
+			<Conversations/>
+			<SingleConvo/>
+			<ContactorAbout/>
 
-			<section className="friend-about">
-				about
-			</section>
 		</div>
 	)
 }
 
-export default Chat
+export default Chat;
