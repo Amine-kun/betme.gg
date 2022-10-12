@@ -1,5 +1,52 @@
 .Conversations{
-	width: 30%;
+	width: 400px;
 	height: 100%;
-	background-color: red;
+	border-right: 1px solid #13b1d91c;
+	padding: 8px 8px;
+	justify-content:flex-start;
+	overflow: auto;
+
+	@media screen and (max-width: 900px){
+		width: 100%;
+		height: 175px;
+		padding: 10px 10px;
+		align-items:center;
+		border-right: none;
+		border-bottom: 1px solid #13b1d91c;
+	}
+
+	.chats__header{
+		width: 100%;
+	}
+	.contacts{
+		width: 100%;
+		height: 100%;
+		align-items:center;
+		overflow: auto;
+
+		.scroller{
+			height: 100%;
+			width: 100%;
+
+			@media screen and (max-width: 900px){
+				display: flex;
+				overflow-x: auto;
+				overflow-y: hidden;
+				min-width: 500px;
+
+			}
+		}
+
+		@media screen and (max-width: 900px){
+			overflow-y: hidden;
+			scrollbar-width: none;
+
+			&::-webkit-scrollbar {
+				height: 0;
+			}
+
+		}
+	}
+
 }
+

@@ -39,6 +39,11 @@ const Navbar = () => {
 				}
 
 			<div className="rightSide app-flex"> 					
+				<div className={`notification ${friends && 'active-tab'}`} onClick={()=> setFriends(!friends)}>
+					<FaUserFriends className='notification-icon'/>
+					<span className="red-dot app-flex">5</span>
+				</div>
+
 				<div className={`notification ${isNotification && 'active-tab'}`} onClick={(e)=>setIsNotification(!isNotification)}>
 					<IoNotifications className='notification-icon'/>
 					<span className="red-dot app-flex">3</span>
@@ -47,10 +52,7 @@ const Navbar = () => {
 						<span className="arrow"></span>
 					</div>
 				</div>
-				<div className={`notification ${friends && 'active-tab'}`} onClick={()=> setFriends(!friends)}>
-					<FaUserFriends className='notification-icon'/>
-					<span className="red-dot app-flex">5</span>
-				</div>
+				
 				<div className={`profile-tab app-flex ${activeNav === 'Profile' && 'active'}`} onClick={()=>{navigate('/Profile'); setActiveNav('Profile')}}>
 					<img src={picture} alt="profile" className="p-p"/>
 					<div className="app-flex-wrap user" style={{gap:'2px'}}>

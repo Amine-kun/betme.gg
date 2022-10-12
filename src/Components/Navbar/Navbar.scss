@@ -41,7 +41,6 @@
 				top:0;
 			}
 			.drop-notification{
-				z-index: 2;
 				position: absolute;
 				top: 100px;
 				right: 0%;
@@ -55,7 +54,6 @@
 				cursor: default;
 				opacity: 0;
 				transition:300ms ease-in-out;
-				z-index: 4;
 
 				.arrow{
 					background-color: var(--white-color);
@@ -78,6 +76,7 @@
 				}
 			}
 			.show-notification{
+				z-index: 4;
 				opacity: 1;
 				top:50px;
 			}

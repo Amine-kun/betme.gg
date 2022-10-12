@@ -1,0 +1,61 @@
+.contact{
+			gap:20px;	
+			width: 100%;
+			height: 60px;
+			transition:300ms;	
+			cursor: pointer;
+			padding: 8px;
+			overflow: hidden;
+			border-radius: 11px;
+			
+			.user-p-s{
+				width: auto;
+				height: 100%;
+				position: relative;
+				.user-p{
+					height: 100%;
+					object-fit:cover;
+					width: auto;
+					border-radius: 11px;
+				}
+				.status{
+					background-color: var(--green-color);
+					position: absolute;
+					bottom: -2px;
+					right: -2px;
+					height: 12px;
+					width: 12px;
+					border-radius: 10px;
+				}
+			}
+			.recent-text{
+				opacity: 0.7;
+			}
+			.convo-info{
+				align-self:flex-start;
+				gap:5px;
+				overflow:hidden;
+				white-space: nowrap;
+				width: 60%;
+
+				@media screen and (max-width: 900px){
+					display: none;
+				}
+			}
+			.time{
+				height: 100%;
+				display: flex;
+				align-items:flex-end;
+				margin-left: auto;
+				opacity: 0.7;
+
+				@media screen and (max-width: 900px){
+					display: none;
+				}
+			}
+			
+			&:hover{
+				background-color: var(--primary-color-layer3);
+			}
+		}
+
