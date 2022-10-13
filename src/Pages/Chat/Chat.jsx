@@ -12,7 +12,7 @@ const Chat = () => {
 		<div className="chat app-flex">
 			
 			<Conversations/>
-			<SingleConvo/>
+			<SingleConvo setShowAbout={setShowAbout}/>
 
 			{showAbout && <ContactorAbout/>}
 
