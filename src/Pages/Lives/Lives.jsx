@@ -4,7 +4,7 @@ import './Lives.scss';
 const Lives = () => {
 	return (
 		<div>
-			Lives
+			This feature will be added soon!
 		</div>
 	)
 }

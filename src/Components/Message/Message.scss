@@ -1,0 +1,79 @@
+.message-div{
+			gap:10px;
+			width: 100%;
+			justify-content:flex-start;
+			margin-bottom: 5px;
+
+			.message-pic{
+				height: 30px;
+				width: 30px;
+				border-radius: 100px;
+			}
+			.wrapper{
+				position: relative;
+				.message{
+					background-color: var(--primary-color-layer3);
+					padding: 10px 15px;
+					border-radius: 100px;
+					max-width: 200px;
+					width: 100%;
+
+					@media screen and (max-width: 900px){
+						font-size: 0.8rem;
+					}
+				}
+				.timeStamp{
+					position: absolute;
+					top: 13px;
+					right: -50px;
+					opacity:0;
+					transition:300ms ease-in-out;
+				}
+				.showTime{
+					opacity: 0.7;
+				}
+
+				.dublicated-sender-other{
+					background-color: var(--primary-color-layer3);
+					padding: 10px 15px;
+					border-radius: 100px;
+					max-width: 300px;
+					margin-left: 40px;
+				}
+			}
+
+		}
+		.owner{
+			flex-flow: row-reverse;
+
+			.wrapper{
+				.m-right{
+					background-color: #13b1d987;
+
+				}
+				.right{
+					right: unset;
+					left:-50px;
+				}
+				.toLeft{
+					right: 58px;
+				}
+				.toRight{
+					left: 58px;
+				}
+				.dublicated-sender{
+					background-color: #13b1d987;
+					padding: 10px 15px;
+					border-radius: 100px;
+					max-width: 300px;
+					margin-right: 40px;
+
+					@media screen and (max-width: 900px){
+										font-size: 0.8rem;
+									}
+				}
+			}
+		}
+	.pushTop{
+		margin-top: 20px;
+	}

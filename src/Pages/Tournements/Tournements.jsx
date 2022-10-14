@@ -4,7 +4,7 @@ import './Tournements.scss';
 const Tournements = () => {
 	return (
 		<div>
-			Tournements	
+			This feature will be added soon!	
 		</div>
 	)
 }

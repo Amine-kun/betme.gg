@@ -1,13 +1,13 @@
 .chat{
 	width: 100%;
-	max-height: 80%;
+	max-height: 88%;
 	gap:0px;
 	border-radius: var(--radius);
 	align-items:flex-start;
 	position: relative;
 	background-color: var(--primary-color);
 
-	@media screen and (max-width: 900px){
+	@media screen and (max-width: 1100px){
 		flex-direction:column;
 		height:90%;
 	}

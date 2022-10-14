@@ -14,7 +14,7 @@ const Chat = () => {
 			<Conversations/>
 			<SingleConvo setShowAbout={setShowAbout}/>
 
-			{showAbout && <ContactorAbout/>}
+			{showAbout && <ContactorAbout setShowAbout={setShowAbout}/>}
 
 		</div>
 	)
