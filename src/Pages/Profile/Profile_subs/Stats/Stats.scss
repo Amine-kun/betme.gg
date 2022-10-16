@@ -1,0 +1,141 @@
+.stats_main{
+	background-color: var(--primary-color);
+	border-radius: var(--radius);
+	padding: 15px;
+
+	.player-games-sum{
+		width: 100%;
+		margin-top: 15px;
+
+		.sum-up{
+			margin-top: 15px;
+			width: 100%;
+			height: auto;
+
+			.all-games{
+				width: 100%;
+				display: none;
+				margin-bottom: 15px;
+				height: 300px;
+
+				@media screen and (max-width: 1000px){
+					flex-direction:column;
+					height: auto;
+				}
+
+				.game-img{
+					position: relative;
+					width: 30%;
+					height: 100%;
+
+					@media screen and (max-width: 1000px){
+						width: 100%;
+						height: 150px;
+					}
+
+					.game{
+						width: 100%;
+						height: 100%;
+						object-fit:cover;
+						border-radius: var(--radius);
+					}
+					.overlay{
+						height: 100%;
+						width: 100%;
+						background-color: #1e233729;
+						backdrop-filter: saturate(170%) blur(2px);
+						border-radius: var(--radius);
+						position: absolute;
+						top: 0;
+						left: 0;
+						border-radius: var(--radius);
+
+					}
+				}
+				.info{
+					width: 70%;
+					height: 100%;
+					padding: 15px;
+					justify-content:flex-start;
+
+					@media screen and (max-width: 1000px){
+						flex-direction:column;
+						width: 100%;
+						height: 70%;
+					}
+
+					.drop{
+						position: relative;
+
+						@media screen and (max-width: 1000px){
+								justify-content:flex-start;
+							}
+
+						.drop-menu{
+							background-color: var(--primary-color-layer3);
+							width: 205px;
+							text-align: left;
+							border-radius: var(--radius);
+							position: absolute;
+							top: 30px;
+							left: 0;
+							gap:5px;
+							height: 0px;
+							overflow: hidden;
+							transition:300ms ease-in-out;
+
+							.drop-option{
+								border-bottom: 1px solid var(--primary-color-layer3);
+								padding: 8px 10px;
+								border-radius: var(--radius);
+
+								&:hover{
+									background-image: linear-gradient(45deg, var(--blue-color), var(--purple-color));
+								}
+							}
+							.active{
+								background-image: linear-gradient(45deg, var(--blue-color), var(--purple-color));
+							}
+						}
+						.active-drop{
+							height: 200px;
+							overflow-y:auto;
+							padding: 15px;
+						}
+
+					}
+					.game-stats{
+						flex-wrap:wrap;
+						width: 100%;
+						gap:10px;
+
+						@media screen and (max-width: 1000px){
+							flex-direction:column;
+
+						}
+						
+						.wrap{
+							width: 48%;
+							background-color: var(--primary-color-layer3);
+							padding: 10px 15px;
+							border-radius: var(--radius);
+							height: 50px;
+							justify-content:flex-start;
+
+							@media screen and (max-width: 1000px){
+								width:100%;
+							}
+						}
+					}
+				}
+			}
+			.show{
+				display: flex;
+			}
+			.selectedGame-history{
+				width: 100%;
+
+			}
+		}
+	}
+}

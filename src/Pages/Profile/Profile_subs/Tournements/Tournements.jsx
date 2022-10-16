@@ -24,13 +24,13 @@ const Tournements = () => {
 						<GamesTable showMore={showMore} setShowMore={setShowMore}>
 							{[1,2,3,4,5,6,7].map((game, i)=>
 									 i < 4 && (i === 0 || i % 2 === 0 
-														? <GameState bg={'var(--primary-color-layer3)'} tournament={true} status={"win"} key={i}/>
-														: <GameState tournament={true} status={"lose"} key={i}/>) 
+														? <GameState bg={'var(--primary-color-layer3)'} isFinished={true} status={"win"} key={i}/>
+														: <GameState isFinished={true} status={"lose"} key={i}/>) 
 								)}
 							{showMore && [1,2,3,4,5,6,7].map((game, i)=>
 									i > 4 && (i % 2 !== 0 
-														? <GameState bg={'var(--primary-color-layer3)'} tournament={true} status={"win"} key={i}/>
-														: <GameState tournament={true} status={"lose"} key={i}/>) 
+														? <GameState bg={'var(--primary-color-layer3)'} isFinished={true} status={"win"} key={i}/>
+														: <GameState isFinished={true} status={"lose"} key={i}/>) 
  
 								)}
 						</GamesTable>

@@ -56,6 +56,8 @@
 	}
 	.timer{
 		padding: 5px 8px;
+		width: 50px;
+		text-align: center;
 		padding-left: auto;
 		border-radius: var(--radius);
 		background-color: var(--red-color);
@@ -65,4 +67,7 @@
 					font-size: 0.9rem;
 				}
 	}
+	    .winner{
+			   	background-color: var(--green-color);
+			   }
 }

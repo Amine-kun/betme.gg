@@ -5,7 +5,7 @@ import './GameState.scss';
 import {files} from '../../Assets';
 import profile from '../../Assets/profile.jpg';
 
-export const GameState = ({bg, tournament, status}) => {
+export const GameState = ({bg, isFinished, status}) => {
 
 	return (
 		<div className="gamestate_main app-flex" style={{backgroundColor:bg}}>	
@@ -25,7 +25,7 @@ export const GameState = ({bg, tournament, status}) => {
 				</div>
 			</div>
 
-			{tournament 
+			{isFinished 
 				? <span className={`timer ${status === "win" && "winner"}`}>
 						<h6>{status}</h6>
 				  </span>
