@@ -1,6 +1,10 @@
 
 import React, {useState} from 'react';
 import './Overview.scss';
+
+import {RiArrowUpSLine,RiArrowDownSLine} from 'react-icons/ri';
+import {GiTrophy} from 'react-icons/gi';
+
 import GamesTable, {GameState} from '../../../../Components/GamesTable/GamesTable';
 import Achievements from '../../../../Components/Achievements/Achievements';
 import {files} from	'../../../../Assets';
@@ -23,10 +27,12 @@ const Overview = () => {
 							<h1>$1023.00</h1>
 						</div>
 						<div className="summary app-flex">
-							<span className="up">
+							<span className="up app-flex" style={{gap:'3px'}}>
+								<RiArrowUpSLine style={{color:'var(--green-color)', fontSize:'1.2rem'}}/>
 								<h6>$100.00</h6>
 							</span>
-							<span className="down">
+							<span className="down app-flex" style={{gap:'3px'}}>
+								<RiArrowDownSLine style={{color:'var(--red-color)', fontSize:'1.2rem'}}/>
 								<h6>$83.00</h6>
 							</span>
 						</div>
@@ -38,12 +44,13 @@ const Overview = () => {
 						<div className="t-detail app-flex">
 							<div className="t-total">
 								<h1>17</h1>
+								<GiTrophy className="main-tr"/>
 							</div>
 							
 							<div className="t-details app-flex-wrap">
-								<h5>Unique Trophies: 2</h5>
-								<h5>Special Trophies: 1</h5>
-								<h5>Rare trophies: 14</h5>
+								<h5>Unique Trophies : <span style={{color:'yellow'}}>2</span> </h5>
+								<h5>Special Trophies : <span style={{color:'yellow'}}>1</span> </h5>
+								<h5>Rare trophies : <span style={{color:'yellow'}}>14</span> </h5>
 							</div>
 						</div>
 					</div>

@@ -9,13 +9,12 @@ import {FaUserFriends} from 'react-icons/fa';
 
 const navTabs = ["Home", "Esports", "Events", "Updates"];
 
-const Navbar = () => {
+const Navbar = ({showFriends, setShowFriends}) => {
 	const navigate = useNavigate();
 	const location = useLocation();
 
 	const [activeNav, setActiveNav] = useState("Home");
 	const [isNotification, setIsNotification] = useState(false);
-	const [friends, setFriends] = useState(false);
 
 	useEffect(() => {
 		if(location.pathname.split('/')[1] !== ''){
@@ -39,7 +38,7 @@ const Navbar = () => {
 				}
 
 			<div className="rightSide app-flex"> 					
-				<div className={`notification ${friends && 'active-tab'}`} onClick={()=> setFriends(!friends)}>
+				<div className={`notification ${showFriends && 'active-tab'}`} onClick={()=> setShowFriends(true)}>
 					<FaUserFriends className='notification-icon'/>
 					<span className="red-dot app-flex">5</span>
 				</div>

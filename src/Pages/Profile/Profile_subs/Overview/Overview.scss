@@ -36,7 +36,14 @@
                 align-items:center;
                 .t-detail{
                     .t-total{
+                        position: relative;
 
+                        .main-tr{
+                            color: yellow;
+                            position: absolute;
+                            bottom: 10px;
+                            left: -20px;
+                        }
                     }
                     .t-details{
 
