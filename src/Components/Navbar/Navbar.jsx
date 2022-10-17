@@ -1,10 +1,10 @@
 import React , {useState, useEffect} from 'react';
 import './Navbar.scss';
 import picture from '../../Assets/profile.jpg';
-import {useNavigate, useLocation} from	'react-router-dom';
+import {useNavigate, useLocation, Link} from	'react-router-dom';
 
 import {IoNotifications} from 'react-icons/io5';
-import {MdArrowDropDown} from 'react-icons/md';
+import {MdArrowDropDown, MdArrowRight} from 'react-icons/md';
 import {FaUserFriends} from 'react-icons/fa';
 
 const navTabs = ["Home", "Esports", "Events", "Updates"];
@@ -15,6 +15,7 @@ const Navbar = ({showFriends, setShowFriends}) => {
 
 	const [activeNav, setActiveNav] = useState("Home");
 	const [isNotification, setIsNotification] = useState(false);
+	const [userDrop, setUserDrop] = useState(false);
 
 	useEffect(() => {
 		if(location.pathname.split('/')[1] !== ''){
@@ -43,7 +44,7 @@ const Navbar = ({showFriends, setShowFriends}) => {
 					<span className="red-dot app-flex">5</span>
 				</div>
 
-				<div className={`notification ${isNotification && 'active-tab'}`} onClick={(e)=>setIsNotification(!isNotification)}>
+				<div className={`notification ${isNotification  && 'active-tab'}`} onClick={(e)=>setIsNotification(!isNotification)}>
 					<IoNotifications className='notification-icon'/>
 					<span className="red-dot app-flex">3</span>
 					<div className={`drop-notification app-flex ${isNotification && 'show-notification'}`} onClick={(e)=> e.stopPropagation()}>
@@ -52,13 +53,32 @@ const Navbar = ({showFriends, setShowFriends}) => {
 					</div>
 				</div>
 				
-				<div className={`profile-tab app-flex ${activeNav === 'Profile' && 'active'}`} onClick={()=>{navigate('/Profile'); setActiveNav('Profile')}}>
+				<div className={`profile-tab app-flex ${(activeNav === 'Profile' || userDrop) && 'active'}`} onClick={()=> setUserDrop(!userDrop)}>
 					<img src={picture} alt="profile" className="p-p"/>
 					<div className="app-flex-wrap user" style={{gap:'2px'}}>
 						<h4 className="userName">Aminedesu</h4>
 						<h6 className="status">Online</h6>
 					</div>
-					<MdArrowDropDown/>
+					{userDrop ? <MdArrowDropDown /> : <MdArrowRight />}
+
+					<div className={`user-drop-down ${userDrop && 'show'}`} onClick={(e)=>{ e.stopPropagation(); setUserDrop(false)}}>
+						<div className="upper app-flex" onClick={()=>navigate('/Profile')}>
+							<img src={picture} alt="profile" className="p-p"/>
+							<h5>Aminedesu</h5>
+						</div>
+						<div className="crossing-bar"></div>
+						<div className="drop-tabs app-flex-wrap">	
+							<Link to="/Settings" className="tab">
+								<h4>Settings</h4>
+							</Link>
+							<Link to="/Help_Center" className="tab">
+								<h4>Help</h4>
+							</Link>
+							<Link to="/betme" className="tab">
+								<h4>Logout</h4>
+							</Link>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
