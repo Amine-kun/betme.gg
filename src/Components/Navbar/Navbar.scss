@@ -54,7 +54,7 @@
 				cursor: default;
 				opacity: 0;
 				transition:300ms ease-in-out;
-				z-index: 0;
+				z-index: -1;
 
 				.arrow{
 					background-color: var(--white-color);
@@ -132,7 +132,7 @@
 					position: absolute;
 					top: 200px;
 					right: 0px;
-					z-index: 0;
+					z-index: -1;
 					opacity: 0;
 					box-shadow: -3px 3px 5px 1px #0000004a;
 					cursor: default;
