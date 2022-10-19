@@ -27,7 +27,7 @@ const Profile = () => {
 	}, [location])
 
 	return (
-		<div className="profile app-flex-wrap ">
+		<section className="profile app-flex-wrap ">
 				<div className="profile_header">
 					<div className="walpaper">
 						<img src={files.yasuo} alt="walpaper" className="user-walpaper"/>
@@ -65,7 +65,7 @@ const Profile = () => {
 					</Routes>
 				</div>
 
-		</div>
+		</section>
 	)
 }
 

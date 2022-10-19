@@ -32,7 +32,7 @@ const Main = () => {
 	const [showFriends, setShowFriends] = useState(false);
 
 	return (
-		<section className="main_page app-flex">
+		<main className="main_page app-flex">
 					<Sidebar/>
 					
 					{showFriends && 
@@ -56,7 +56,7 @@ const Main = () => {
 								</div>
 							</div>}
 
-					<div className="Queue">
+					<section className="Queue">
 						<Navbar showFriends={showFriends} setShowFriends={setShowFriends}/>
 						<Routes>
 							<Route path="/" element={<Home/>}/>
@@ -66,8 +66,8 @@ const Main = () => {
 							<Route path="/Tournements" element={<Tournements/>}/>
 							<Route path="/Messanger" element={<Chat/>}/>
 						</Routes>
-					</div>
-		</section>
+					</section>
+		</main>
 	)
 }
 

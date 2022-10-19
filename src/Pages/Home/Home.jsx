@@ -27,7 +27,7 @@ const Home = () => {
 	const [showMore, setShowMore] = useState(false);
 
 	return (
-		<div className="home app-flex-wrap">
+		<section className="home app-flex-wrap">
 			<div className="app-flex heads">
 				<Carousel>
 					<CarouselItem><img src={files.raven} className="slide" alt="pannel"/></CarouselItem>
@@ -122,7 +122,7 @@ const Home = () => {
 
 				</div>
 			</div>
-		</div>
+		</section>
 	)
 }
 

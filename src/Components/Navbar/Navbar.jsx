@@ -26,7 +26,7 @@ const Navbar = ({showFriends, setShowFriends}) => {
 			
 	}, [location.pathname])
 	return (
-		<div className="navbar-main app-flex">
+		<nav className="navbar-main app-flex">
 			{location.pathname.split('/')[1] === '' 
 				?  navTabs.map((tab, i)=>(
 					<h5 className={`pointer ${activeNav === tab  && 'active'} ${tab !== 'Home' && 'hide'}`} key={i} onClick={()=>setActiveNav(tab)}>
@@ -38,7 +38,7 @@ const Navbar = ({showFriends, setShowFriends}) => {
 					</h5>
 				}
 
-			<div className="rightSide app-flex"> 					
+			<section className="rightSide app-flex"> 					
 				<div className={`notification ${showFriends && 'active-tab'}`} onClick={()=> setShowFriends(true)}>
 					<FaUserFriends className='notification-icon'/>
 					<span className="red-dot app-flex">5</span>
@@ -80,8 +80,8 @@ const Navbar = ({showFriends, setShowFriends}) => {
 						</div>
 					</div>
 				</div>
-			</div>
-		</div>
+			</section>
+		</nav>
 	)
 }
 

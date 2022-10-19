@@ -5,7 +5,7 @@ import star from '../../Assets/icons/star.png';
 
 const Testes = () => {
 	return (
-		<div className="testemoniel">
+		<article className="testemoniel">
 			<div className="container">
 				<span className="teste-info" style={{opacity:"0.7"}}>
 					<h5>Amine</h5>
@@ -23,7 +23,7 @@ const Testes = () => {
 						and push my limits to another level all at once.
 					    Totall recommend it</h4>
 			</div>
-		</div>
+		</article>
 	)
 }
 

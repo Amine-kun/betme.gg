@@ -9,7 +9,7 @@ const Footer = () => {
 	}
 
 	return (
-		<div className="footer app-flex">
+		<footer className="footer app-flex">
 				<div className="footer__main app-flex">
 					<img src={logo} className="logo" alt="logo"/>
 					<div className="tabs">
@@ -38,7 +38,7 @@ const Footer = () => {
 				<div className="copyright">
 					<p>All rights reserved 2022</p>
 				</div>
-		</div>
+		</footer>
 	)
 }
 

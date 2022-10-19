@@ -9,14 +9,14 @@ const Chat = () => {
 	const [showAbout, setShowAbout] = useState(false);
 
 	return (
-		<div className="chat app-flex">
+		<section className="chat app-flex">
 			
 			<Conversations/>
 			<SingleConvo setShowAbout={setShowAbout}/>
 
 			{showAbout && <ContactorAbout setShowAbout={setShowAbout}/>}
 
-		</div>
+		</section>
 	)
 }
 

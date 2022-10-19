@@ -3,9 +3,9 @@ import './Lives.scss';
 
 const Lives = () => {
 	return (
-		<div>
+		<section>
 			This feature will be added soon!
-		</div>
+		</section>
 	)
 }
 

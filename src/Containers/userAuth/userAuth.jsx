@@ -6,7 +6,7 @@ import Signup from "../../Components/Signup/Signup";
 
 const userAuth = () => {
 	return (
-			<div className="userauth">
+			<main className="userauth">
 				<div className="navbar">
 					<Link to="/betme">
 						<button className="sub-btn">Back</button>
@@ -16,7 +16,7 @@ const userAuth = () => {
 					<Route path="/Login" element={<Login/>}/>
 					<Route path="/Signup" element={<Signup/>}/>
 				</Routes>
-			</div>
+			</main>
 	)
 }
 

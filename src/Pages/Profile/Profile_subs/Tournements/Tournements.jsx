@@ -8,7 +8,7 @@ const Tournements = () => {
 	const [showMore, setShowMore] = useState(false);
 
 	return (
-		<div className="tounaments app-flex-wrap">
+		<section className="tounaments app-flex-wrap">
              <div className="section__header">
 						<h4>Your Tournements</h4>
 		     </div>
@@ -34,7 +34,7 @@ const Tournements = () => {
  
 								)}
 						</GamesTable>
-		</div>
+		</section>
 	)
 }
 

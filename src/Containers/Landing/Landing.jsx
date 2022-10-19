@@ -11,7 +11,7 @@ import Footer from '../../Components/Footer/Footer';
 
 const Landing = () => {
 	return (
-		<div className="main">
+		<main className="main">
 			<header className="landing-nav app-flex">
 				<div className="navbar app-flex">
 					<img src={logo} alt="logo" className="logo"/>
@@ -90,7 +90,7 @@ const Landing = () => {
 			</div>
 
 			<Footer/>
-		</div>
+		</main>
 	)
 }
 

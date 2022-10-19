@@ -3,9 +3,9 @@ import './Tournements.scss';
 
 const Tournements = () => {
 	return (
-		<div>
+		<section>
 			This feature will be added soon!	
-		</div>
+		</section>
 	)
 }
 

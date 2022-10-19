@@ -5,9 +5,9 @@ import './About.scss';
 const About = () => {
 
 	return (
-		<div className="">
+		<section className="">
              About
-		</div>
+		</section>
 	)
 }
 

@@ -15,7 +15,7 @@ const Overview = () => {
 		const [showMore, setShowMore] = useState(false);
 
 	return (
-		<div className="overview app-flex">
+		<section className="overview app-flex">
              <div className='main-side app-flex-wrap'>
 				<div className="dashboard  app-flex">
 
@@ -116,7 +116,7 @@ const Overview = () => {
 
 				</div>
 			 </div>
-		</div>
+		</section>
 	)
 }
 
