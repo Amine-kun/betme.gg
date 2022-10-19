@@ -24,27 +24,39 @@ const Challenge = (e) => {
 		<section className="bet_page app-flex-wrap">
 			
 			<div className="main_container app-flex">
-				<div className="game">
-				 	<img src={files.valo} alt="game-walpaper" className="game-walp"/>
-				 	<div className="overlay"></div>
-				 	<h3 className="name">LEAGUE of legends</h3>
-				</div>
+				
+				{gamesData.map((game, i)=>(
+					game.name === currentGame
+						 && 
+						 <div className='game' key={i}>
+						 	<img src={game.icon} alt="game-walpaper" className="game-walp"/>
+						 	<div className="overlay"></div>
+						 	<h3 className="name">{game.name}</h3>
+						</div>
+					))}
 				
 				<div className="game_sets app-flex-wrap">
 					<div className="app-flex select_container">
 						<h4 className="def">Select Game : </h4>
-						<select className="selector">	
-							<option>{gamesData[0].name}</option>
-							<option>{gamesData[1].name}</option>
-							<option>{gamesData[2].name}</option>
+						<select className="selector" onChange={(e)=>setCurrentGame(e.target.value)}>	
+							
+							{gamesData.map((game, i)=>(
+								<option key={i}>{game.name}</option>
+										))}
+
 						</select>
 					</div>
 					<div className="app-flex select_container">
 						<h4 className="def">Game Mode : </h4>
 						<select className="selector">	
-							<option>{gamesData[0].modes[0]}</option>
-							<option>{gamesData[0].modes[1]}</option>
-							<option>{gamesData[0].modes[2]}</option>
+								
+							 {gamesData.map((game)=>(
+							 	 game.name === currentGame 
+							 	 	&& game.modes.map((mode, i)=>(
+							 	 		<option key={i}>{mode}</option>
+							 	 		))
+							 	))}
+							
 						</select>
 					</div>
 					

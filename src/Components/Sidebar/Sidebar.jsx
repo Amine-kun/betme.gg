@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import './Sidebar.scss';
+import {files} from '../../Assets';
 import {useNavigate, useLocation } from 'react-router-dom';
 
 import logo from '../../Assets/logo/fullLogo.png';
@@ -20,8 +21,11 @@ const tabs = [{icon:AiFillHome, name:'Home'},
 			  {icon:CgMediaLive, name:'Lives'},
 			  {icon:IoGrid, name:'Games'}];
 
-const games = ['CS:GO','League of Legends','Apex Legends','Fifa 22','Fortnite'];
-const gamesIcons = ['CS','LOL','Apex','FF22','Dota2'];
+const games = [{icon:files.Csgo, game:'CS:GO'},
+							 {icon:files.League, game:'League of Legends'},
+							 {icon:files.Apex, game:'Apex Legends'},
+							 {icon:files.Rainbow, game:'Rainbow Six Siege'},
+							 {icon:files.fortnite, game:'Fortnite'}];
 
 const getWindowSize = () => {
   const {innerWidth, innerHeight} = window;
@@ -68,7 +72,7 @@ const Sidebar = () => {
 
 
 	useEffect(() => {
-		if(windowSize.innerWidth < 800){
+		if(windowSize.innerWidth < 1160){
 			setShrink(true);
 		} else {
 			setShrink(false);
@@ -91,11 +95,11 @@ const Sidebar = () => {
 	}, [location.pathname])
 
 	return (
-		<div className={shrink ? "Sidebar_main Sidebar_shrink" : "Sidebar_main"}>
+		<section className={shrink ? "Sidebar_main Sidebar_shrink" : "Sidebar_main"}>
 			<div className="Sidebar_container app-flex-wrap">
 				
-				<img src={logo} className={shrink ? "logo pointer remove" : "logo pointer"} alt="logo" onClick={()=>setShrink(!shrink)}/> 
-				<img src={smallLogo} className={shrink ? "smallLogo pointer" : "logo pointer remove"} alt="logo" onClick={()=>setShrink(!shrink)}/>
+				<img src={logo} className={shrink ? "logo pointer remove" : "logo pointer"} alt="logo" /> 
+				<img src={smallLogo} className={shrink ? "smallLogo pointer" : "logo pointer remove"} alt="logo" />
 
 				<div className="tabs app-flex-wrap">
 
@@ -113,13 +117,13 @@ const Sidebar = () => {
 
 									{!shrink 
 										? games.map((game, i)=>(
-											<div className={activeGame === game ? 'game tab active' :  'game tab'} key={i} onClick={()=>{setActiveGame(`${game}`); navigate(`/Games/${game}`)}}>
-												<p className="sub-text">{game}</p>
+											<div className={activeGame === game.game ? 'game tab active' :  'game tab'} key={i} onClick={()=>{setActiveGame(`${game.game}`); navigate(`/Games/${game.game}`)}}>
+												<p className="sub-text">{game.game}</p>
 											</div>
 											))
-										: gamesIcons.map((game, i)=>(
-											<div className={activeGame === game ? 'game-shrinked tab active' :  'game-shrinked tab'} key={i} onClick={()=>{setActiveGame(`${game}`); navigate(`/Games/${game}`)}}>
-												<p className="sub-text">{game}</p>
+										: games.map((game, i)=>(
+											<div className={activeGame === game.game ? 'game-shrinked tab active' :  'game-shrinked tab'} key={i} onClick={()=>{setActiveGame(`${game.game}`); navigate(`/Games/${game.game}`)}}>
+												<img src={game.icon} alt="game-icon" className="game-icon"/>											
 											</div>
 											))
 
@@ -128,7 +132,7 @@ const Sidebar = () => {
 						</div>
 				</div>
 			</div>
-		</div>
+		</section>
 	)
 }
 
