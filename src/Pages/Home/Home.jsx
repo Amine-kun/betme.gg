@@ -17,7 +17,6 @@ const games = [{name:'League of Legends', icon:files.League},
 			   {name:'League of Legends', icon:files.League},
 			   {name:'League of Legends', icon:files.League}];
 
-const tableTab = ["1V1 GAMES","5V5 GAMES","TOURNEMENTS","CUSTOM GAMES"];
 const Home = () => {
 
 	const navigate = useNavigate();

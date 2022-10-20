@@ -7,7 +7,6 @@ import {GiTrophy} from 'react-icons/gi';
 
 import GamesTable, {GameState} from '../../../../Components/GamesTable/GamesTable';
 import Achievements from '../../../../Components/Achievements/Achievements';
-import {files} from	'../../../../Assets';
 import Statistics from '../../../../Components/Statistics/Statistics';
 
 const Overview = () => {
@@ -43,7 +42,7 @@ const Overview = () => {
 						</div>
 						<div className="t-detail app-flex">
 							<div className="t-total">
-								<h1>17</h1>
+								<h1 style={{fontSize:'2rem'}}>17</h1>
 								<GiTrophy className="main-tr"/>
 							</div>
 							

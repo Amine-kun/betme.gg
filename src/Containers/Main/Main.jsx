@@ -11,6 +11,7 @@ import Lives from '../../Pages/Lives/Lives';
 import Challenge from '../../Pages/Challenge/Challenge';
 import Tournements from '../../Pages/Tournements/Tournements';
 import Chat from '../../Pages/Chat/Chat';
+import GameOptions from '../../Pages/GameOptions/GameOptions';
 
 import Sidebar from '../../Components/Sidebar/Sidebar';
 import Navbar from '../../Components/Navbar/Navbar';
@@ -65,6 +66,7 @@ const Main = () => {
 							<Route path="/Challenge" element={<Challenge/>}/>
 							<Route path="/Tournements" element={<Tournements/>}/>
 							<Route path="/Messanger" element={<Chat/>}/>
+							<Route path="/Games/*" element={<GameOptions/>}/>
 						</Routes>
 					</section>
 		</main>
