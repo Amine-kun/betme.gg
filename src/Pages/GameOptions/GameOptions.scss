@@ -6,6 +6,10 @@
 	padding: 15px;
 	justify-content:flex-start;
 
+		@media screen and (max-width:900px ){
+			padding: 0;
+		}
+
 	.game_header{
 		width: 100%;
 		height: 150px;
@@ -47,131 +51,72 @@
 				width: 40px;
 			}
 		}
-		.add-icon{
-			position: absolute;
-			top: 15px;
-			left: 15px;
-			cursor: pointer;
-			font-size: 2rem;
-			color: var(--white-color);
-			z-index: 1;
-
-			@media screen and (max-width: 500px){
-				top: 5px;
-				left:5px;
-			}
-		}
 	}
 	.game-info{
 		width: 100%;
 		padding:10px 20px; 
-		align-items:flex-start;
+		justify-content:flex-start;
 
 		@media screen and (max-width:1000px ){
 			flex-direction:column;
 		}
 
-		.about-game{
-			width: 60%;
-
-			@media screen and (max-width:1000px ){
-				width: 100%;
+		.add-btn{
+			margin-left: auto;
+			
+			@media screen and (max-width: 900px){
+				margin-left: unset;
+			}
+			.add-icon{
+				font-size: 1.3rem;
 			}
 		}
-		.game-stats{
-			width:	40%;
-			align-items:flex-start;
-
-			@media screen and (max-width:1000px ){
-				width: 100%;
-			}
-			.styled-table{
-			    border-collapse: collapse;
-			    font-size: 0.9em;
-			    font-family: sans-serif;
-			    width: 100%;
-			    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
-
-					    .title{
-					      tr{
-						    background-image: linear-gradient(45deg, var(--blue-color), var(--purple-color));
-						    border-radius: var(--radius);
-						    color: var(--white-color);
-						    text-align: left;
-						    }
-						}
-						thead {
-							tr{
-								background-color: transparent;
-							    color: var(--white-color);
-							    border-bottom: 1px solid var(--primary-color-layer3);
-							    text-align: left;
-							}
-						}
-						th,td {
-						    padding: 12px 15px;
-						}
-						.period{
-						    	 font-weight: bold;
-						    }
-						tbody{
-						    tr{
-						    	border-bottom: 1px solid var(--primary-color-layer3);
-						    	&:nth-of-type(even){
-						    		background-color: var(--primary-color-layer3);
-						    	}
-						    	&:last-of-type {
-						    		border-bottom: 2px solid var(--blue-color);
-						    	}
-						    }
-						}
-			}
-
-		}
+		
 	}
-					.live-games{
-						width: 100%;
-						height: auto;
-						gap:0;
+	.main-content{
+		width: 100%;
+		align-items:flex-start;
 
-						@media screen and (max-width: 900px){
+			@media screen and (max-width: 900px){
+				flex-direction : column;
+				    flex-flow: column-reverse;
+			}
+
+		.live-games{
+			width: 70%;
+			height: auto;
+			gap:0;
+
+			@media screen and (max-width: 900px){
+				width: 100%;
+			}
+				.games-table{
+					width:100%;
+					background-color: var(--primary-color);
+					padding: 8px 15px;
+
+						.onPhone-table-header{
+							width: 100%;
 							display: none;
-						}
+							flex-direction:column;
+							gap:10px;
 
-						.header{
-							    background-image: linear-gradient(45deg, var(--blue-color), var(--purple-color));
-							    width: calc(100% - 30px);
-							    padding: 10px 15px;
-							    border-radius: 3px;
-							    align-self:center;
-							}
-
-						.games-table{
-							width:100%;
-							background-color: var(--primary-color);
-							padding: 8px 15px;
-
-							.onPhone-table-header{
+							.hidden-tab{
 								width: 100%;
-								display: none;
-								flex-direction:column;
-								gap:10px;
-
-								.hidden-tab{
-									width: 100%;
-									height: 0px;
-									overflow: hidden;
-									justify-content:center;
-									transition:300ms ease-in-out;
-								}
-								.show{
-									height: 150px;
-								}
+								height: 0px;
+								overflow: hidden;
+								justify-content:center;
+								transition:300ms ease-in-out;
+							 }
+							.show{
+								height: 150px;
+							}
 
 								@media screen and (max-width: 900px){
 									display: flex !important; 
 								}
 							}
+
 							.table-header{
 								width: 100%;
 								justify-content:flex-start;
@@ -197,6 +142,22 @@
 							}
 						}
 					}
+					.game-statistics{
+						width: 30%;
+
+						@media screen and (max-width:900px ){
+									width: 100%;
+								}
+					}
+	}
+					
 }
 
 
+			.header{
+			    background-image: linear-gradient(45deg, var(--blue-color), var(--purple-color));
+			    width: calc(100% - 30px);
+			    padding: 10px 15px;
+			    border-radius: 3px;
+			    align-self:center;
+			}

@@ -3,14 +3,10 @@ import './GameOptions.scss';
 
 import {files} from '../../Assets';
 import GamesTable, {GameState} from '../../Components/GamesTable/GamesTable';
-import {IoMdArrowDropdown} from 'react-icons/io';
-import {MdAddBox} from 'react-icons/md';
+import Statistics from '../../Components/Statistics/Statistics';
 
-const data = [{month:'Last 24Hours', avg:'1150', peak:'2463'},
-			  {month:'Last Week', avg:'1150', peak:'2463'},
-			  {month:'Last Month', avg:'1150', peak:'2463'},
-			  {month:'Last 3 Months', avg:'1150', peak:'2463'},
-			  {month:'Last Year', avg:'1150', peak:'2463'}];
+import {IoMdArrowDropdown} from 'react-icons/io';
+import {MdAddBox} from 'react-icons/md'
 
 const GameOptions = () => {
 
@@ -26,51 +22,26 @@ const GameOptions = () => {
 						<img alt="game-icon" src={files.League} className="game-icon"/>
 						<h3 className="game-name">League Of Lengends</h3>
 					</span>
-				<MdAddBox className="add-icon"/>
 			</div>
 			
 			<div className="game-info app-flex">
-				<div  className="about-game">	
-					<p>
-					 	League of Legends is one of the world's most popular
-					 	 video games, developed by Riot Games. 
-					 	 It features a team-based competitive game 
-					 	 mode based on strategy and outplaying opponents.
-					 	  Players work with their team to break the enemy 
-					 	  Nexus before the enemy team breaks theirs.
-					</p>
-				</div>
-				<div className="game-stats app-flex">
-					<table className="styled-table">
-						<thead className="title">
-						        <tr>
-						            <th>Total games</th>
-						            <th></th>
-						            <th></th>
-						        </tr>
-					    </thead>
-					    <thead>
-					        <tr>
-					            <th>Month</th>
-					            <th>Average</th>
-					            <th>Peak</th>
-					        </tr>
-					    </thead>
-					    <tbody>
-					        {data.map((datum, i)=>(
-							         <tr key={i}>
-							            <td className="period">{datum.month}</td>
-							            <td>{datum.avg}</td>
-							            <td>{datum.peak}</td>
-							         </tr>
-					        	))}
-					    </tbody>
-					</table>
-				</div>
+				<button className="main-btn">
+					Start A Bet
+				</button>
+				<p style={{opacity:'0.7'}}>Last PLayed : <span className="highlight">2 Jun</span></p>
+				
+				<span className="add-btn main-btn app-flex">
+					<h5>Add to Library</h5>
+					<MdAddBox className="add-icon"/>
+				</span>
 			</div>
-					<div className="app-flex-wrap live-games">
+
+			<span className="crossing-bar"></span>
+
+			<div className="main-content app-flex">
+				<div className="app-flex-wrap live-games">
 						 <div className="header">
-									<h4>League Of Legends Live Games</h4>
+									<h4>Live Games</h4>
 					     </div>
 						<div className="games-table app-flex-wrap">
 							<div className="table-header app-flex">
@@ -114,6 +85,14 @@ const GameOptions = () => {
 
 						</div>
 					</div>
+					<div className="game-statistics app-flex-wrap">
+						<div className="header">
+									<h4>Game Statistics</h4>
+					     </div>
+							<Statistics/>
+					</div>
+			</div>
+					
 		</section>
 	)
 }
