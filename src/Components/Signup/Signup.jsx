@@ -12,7 +12,8 @@ const Signup = () => {
 				<p className="head-bold-text">Welcome to <span className="pointer" style={{color:'var(--blue-color)'}}>1V1Arena!</span></p>
 				<p className="sub-text" style={{marginTop:'-12px'}}>Feel free to join us !</p>
 			</div>
-			<div className="app-flex-wrap inputs">
+
+			<form className="app-flex-wrap inputs">
 				<div className="app-flex" style={{gap:'10px'}}>
 					<input type="text" placeholder="Firstname" className="input"/>
 					<input type="text" placeholder="Lastname" className="input"/>
@@ -39,7 +40,8 @@ const Signup = () => {
 				  </Link>
 				</p>
 
-			</div>
+			</form>
+			
 			<div className="btns">
 					<button className="main-btn">Signup</button>
 			</div>
