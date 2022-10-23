@@ -24,6 +24,29 @@
 			border-radius: var(--radius);
 			object-fit:cover;
 		}
+		.upload-walp{
+				position: absolute;
+				top: 10px;
+				left: 10px;
+				z-index: 5;
+
+			.edit-icon{
+				background-color: var(--white-color);
+				color: var(--primary-color);
+				padding: 7px;
+				font-size: 2rem;
+				border-radius: 100px;
+				cursor: pointer;
+			}
+			.uploader{
+				position: absolute;
+				bottom: 10px;
+				left: 0;
+				width: 30px;
+				border-radius: 20px;
+				opacity: 0;
+			}
+		}
 		.user-img-div{
 			position: absolute;
 			bottom: -40px;
@@ -70,43 +93,10 @@
 		@media screen and (max-width: 400px){
 			flex-direction:column;
 		}
-
-		.input-field{
-			width: 48%;
-			height: 60px;
-			background-color: var(--primary-color-layer3);
-			border-radius: 2px 2px 0 2px;
-			padding: 10px;
-			display: flex;
-			flex-direction:column;
-			gap:3px;
-			border-bottom: 2px solid var(--blue-color);
-			position: relative;
-
-			@media screen and (max-width: 400px){
-				width: 100%;
-			}
-
-			.input{
-				position: absolute;
-				bottom: 8px;
-				width: 100%;
-				padding: 5px;
-				background-color: transparent;
-				border: none;
-				outline: none;
-				color: var(--white-color);
-			}
-			.field-title{
-				position: absolute;
-				top: 10px;
-				left: 12px;
-				transition:300ms ease-in-out;
-			}
-			.active{
-				left: 25px;
-				color: var(--blue-color);
-			}
-		}
+	}
+	.apply{
+		width: 98%;
+		margin-top: 20px;
+		justify-content:flex-end;
 	}
 }

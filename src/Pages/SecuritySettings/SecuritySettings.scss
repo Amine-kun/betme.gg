@@ -1,0 +1,35 @@
+.security-main{
+	width: 100%;
+	align-items:center;
+	margin: 15px 0;
+
+		.instructs{
+			width: 50%;
+			margin-bottom: 20px;
+
+			@media screen and (max-width: 800px){
+				width: 100%;
+			}
+
+			.list{
+				margin-left: 30px;
+				opacity: 0.8;
+
+				.list-elem{
+					font-size: 0.8rem;
+				}
+			}
+		}
+
+		.inputs{
+		width: 100%;
+		flex-wrap:wrap;
+		gap: 10px;
+		align-items:center;
+	}
+	.apply{
+		width: 98%;
+		margin-top: 20px;
+		justify-content:flex-end;
+	}
+}
