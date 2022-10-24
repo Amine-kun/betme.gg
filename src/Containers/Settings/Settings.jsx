@@ -4,7 +4,9 @@ import './Settings.scss';
 
 import Navbar from '../../Components/Navbar/Navbar';
 import ProfileSettings from '../../Pages/ProfileSettings/ProfileSettings';
-import SecuritySettings from '../../Pages/SecuritySettings/SecuritySettings'
+import SecuritySettings from '../../Pages/SecuritySettings/SecuritySettings';
+import Billing from '../../Pages/Billing/Billing';
+import Support from '../../Pages/Support/Support';
 
 const tabs = ['Profile Settings', 'Security Settings', 'Billing', 'Support'];
 
@@ -56,6 +58,8 @@ const Settings = () => {
 						<Routes>
 							<Route path='/' element={<ProfileSettings/>}/>
 							<Route path='Security' element={<SecuritySettings/>}/>
+							<Route path='Billing' element={<Billing/>}/>
+							<Route path='Support' element={<Support/>}/>
 						</Routes>
 					</div>
 				</main>

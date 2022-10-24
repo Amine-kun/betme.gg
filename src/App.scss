@@ -72,6 +72,23 @@
 	cursor: pointer;
 	font-weight: bold;
 }
+.second-main-btn{
+	border:2px solid var(--blue-color) ;
+	background-color: transparent;
+	color: var(--white-color);
+	padding: 0.8rem 1.8rem;	
+	border-radius: var(--radius);
+	cursor: pointer;
+	font-weight: bold;
+	transition:100ms ease-in-out;
+
+	&:hover{
+		background:var(--blue-color);
+	}
+}
+.success-btn{
+	background: var(--green-color);
+}
 .icons{
 	color: var(--white-color);
 	margin-right: 10px;

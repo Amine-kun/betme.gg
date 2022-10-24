@@ -30,10 +30,10 @@ const SecuritySettings = () => {
 				<Cinput placeholder={"Re-enter Your New Password"} setHandler={setRePass} handler={rePass} type="password"/>
 				<Cinput placeholder={"Your Old password"} setHandler={setOldPass} handler={oldPass} type="password"/>
 
-				<span className="app-flex" style={{gap:'5px', justifyContent:'flex-start', width:'50%'}}>
-					<input type="checkbox" name="isSingout" id="isSignout"/>
-					<label htmlFor="isSignout">Do you want to Signout ? </label>
-				</span>
+				<label htmlFor="isSignout" className="app-flex checkbox" style={{justifyContent:'flex-start', width:'100%'}}>
+					<input type="checkbox" name="isSingout" id="isSignout" className="check-icon"/>
+					<span>Do you want to Signout ? </span>
+				</label>
 
 			</div>
 			<div className="apply app-flex">

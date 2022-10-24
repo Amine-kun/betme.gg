@@ -6,7 +6,7 @@
 	align-items:flex-start;
 
 	.container{
-		max-width: 70vw;
+		max-width: 1000px;
 		width: 100%;
 
 		@media screen and (max-width: 900px){
@@ -20,6 +20,7 @@
 			padding: 15px;
 			justify-content:flex-start;
 			align-items:flex-start;
+			gap:0;
 
 			@media screen and (max-width: 900px){
 				flex-direction:column;
@@ -28,7 +29,6 @@
 
 			.settings-sidebar{
 				width: 210px;
-				border-right: 1px solid var(--primary-color-layer3);
 				padding-right: 10px;
 				overflow-x:auto;
 
@@ -80,6 +80,14 @@
 			}
 			.settings-panel{
 				width: 100%;
+				border-left: 1px solid var(--primary-color-layer3);
+				padding-left: 15px;
+
+				@media screen and (max-width: 900px){
+					padding-left: 0px;
+					padding-top: 15px;
+					border: none;
+				}
 			}
 		}
 	}

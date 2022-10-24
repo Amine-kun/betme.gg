@@ -4,7 +4,7 @@
 	margin: 15px 0;
 
 		.instructs{
-			width: 50%;
+			width: 100%;
 			margin-bottom: 20px;
 
 			@media screen and (max-width: 800px){
@@ -26,6 +26,18 @@
 		flex-wrap:wrap;
 		gap: 10px;
 		align-items:center;
+
+		.checkbox{
+			padding: 15px;
+			transition:300ms ease-in-out;
+			border-radius: var(--radius);
+			cursor: pointer;
+			gap:20px 10px;
+
+			&:hover{
+				background-color: var(--primary-color-layer3);
+			}
+		}
 	}
 	.apply{
 		width: 98%;

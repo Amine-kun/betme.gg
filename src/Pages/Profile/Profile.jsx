@@ -8,7 +8,6 @@ import picture from '../../Assets/profile.jpg';
 import Overview from './Profile_subs/Overview/Overview';
 import Tournements from './Profile_subs/Tournements/Tournements';
 import Stats from './Profile_subs/Stats/Stats';
-import About from './Profile_subs/About/About';
 
 const tabs = ["Overview","Tournements","Stats","About"];
 
@@ -61,7 +60,6 @@ const Profile = () => {
 						<Route path="/" element={<Overview/>}/>
 						<Route path="/Tournements" element={<Tournements/>}/>
 						<Route path="/Stats" element={<Stats/>}/>
-						<Route path="/About" element={<About/>}/>
 					</Routes>
 				</div>
 

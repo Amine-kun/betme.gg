@@ -25,9 +25,13 @@ const Input = ({placeholder, handler, setHandler, type, input}) => {
 
 							<input className="input" type={showPass ? 'text' : type} onChange={(e)=>setHandler(e.target.value)}/>
 							
-							{!showPass
-								? <AiFillEye className="icon" onClick={()=> setShowPass(true)}/>
-								: <AiFillEyeInvisible className="icon" onClick={()=> setShowPass(false)}/>}
+							{type === 'password'
+								&&	<> 
+									{showPass
+										? <AiFillEye className="icon" onClick={()=> setShowPass(false)}/>
+										: <AiFillEyeInvisible className="icon" onClick={()=> setShowPass(true)}/>}
+									</>
+									}
 
 						</span>
 		</div>
