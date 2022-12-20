@@ -1,7 +1,8 @@
-import React , {useState, useEffect} from 'react';
+import React , {useState, useEffect, useContext} from 'react';
 import './Navbar.scss';
 import picture from '../../Assets/profile.jpg';
 import {useNavigate, useLocation, Link} from	'react-router-dom';
+import AuthContext from "../../context/AuthContext";
 
 import {IoNotifications} from 'react-icons/io5';
 import {MdArrowDropDown, MdArrowRight} from 'react-icons/md';
@@ -10,9 +11,10 @@ import {FaUserFriends} from 'react-icons/fa';
 const navTabs = ["Home", "Esports", "Events", "Updates"];
 
 const Navbar = ({showFriends, setShowFriends}) => {
+
 	const navigate = useNavigate();
 	const location = useLocation();
-
+	const { user, logoutUser } = useContext(AuthContext);
 	const [activeNav, setActiveNav] = useState("Home");
 	const [isNotification, setIsNotification] = useState(false);
 	const [userDrop, setUserDrop] = useState(false);
@@ -74,9 +76,9 @@ const Navbar = ({showFriends, setShowFriends}) => {
 							<Link to="/Help_Center" className="tab">
 								<h4>Help</h4>
 							</Link>
-							<Link to="/betme" className="tab">
+							<a className="tab pointer" onClick={logoutUser}>
 								<h4>Logout</h4>
-							</Link>
+							</a>
 						</div>
 					</div>
 				</div>

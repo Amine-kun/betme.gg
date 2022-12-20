@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import { w3cwebsocket as W3CWebSocket } from "websocket";
 import './Challenge.scss';
 
 import {files} from '../../Assets';
@@ -11,14 +12,39 @@ const gamesData = [{name:'League of legends', icon:files.lol, modes:['1V1','5V5'
 				   {name:'Streetfighter', icon:files.streetfighter, modes:['1V1', '3V3']},
 				   {name:'Valorant', icon:files.valo, modes:['1V1','5V5']}]
 
+
 const Challenge = (e) => {
 
 	 const [currentGame, setCurrentGame] = useState(gamesData[0].name);
 	 const [placedBet, setPlacedBet] = useState(10);
+	 const [status, setStatus] = useState(false);
+	 const [message, setMessage] = useState('Start Bet')
 
 	 const controlPlacedBet = (e) =>{
 	 		 e.target.value > 100 ? console.log('too high') :setPlacedBet(e.target.value);
+	 		 return 0
 	 		}
+
+	 const startGame = () =>{
+	 	if(!status){
+	 		var client = new W3CWebSocket('ws://localhost:8080');
+
+		 	client.onopen =(data) =>{
+		 		return setStatus(true);
+		 	}
+		 	client.onmessage = (event) =>{
+				 setMessage(event.data)
+			}
+			client.onerror = (data) =>{
+				if(data.type === 'error'){
+					return setMessage('Our system cannot detect our desktop program')
+				}
+			}
+	 	} else {
+	 		console.log('your are already in game')
+	 		return 1
+	 	}
+	 }
 
 	return (
 		<section className="bet_page app-flex-wrap">
@@ -111,8 +137,8 @@ const Challenge = (e) => {
 			</div>
 
 			<div className="btns app-flex">
-				<button className="main-btn">
-					Start Bet
+				<button className="main-btn" onClick={()=>startGame()}>
+					{message}
 				</button>
 				<button className="sub-btn">
 					Cancel

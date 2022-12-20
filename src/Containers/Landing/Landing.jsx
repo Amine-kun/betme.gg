@@ -1,6 +1,7 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import './Landing.scss';
 import '../../Assets/shapes.scss';
+import axios from 'axios';
 import {Link} from 'react-router-dom';
 
 import {files}  from '../../Assets';
@@ -10,6 +11,12 @@ import {Carousel, TesteCarousel} from '../../Components/Carousel/Carousel';
 import Footer from '../../Components/Footer/Footer';
 
 const Landing = () => {
+
+	// useEffect(() => {
+	// 	axios.get('http://localhost:8000/on_games/')
+	// 	.then(data=>console.log(data))	
+	// }, [])
+
 	return (
 		<main className="main">
 			<header className="landing-nav app-flex">
