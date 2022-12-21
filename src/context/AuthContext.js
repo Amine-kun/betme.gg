@@ -91,6 +91,7 @@ const AuthContext = createContext();
 
     const contextData = {
       user,
+      userData,
       setUser,
       authTokens,
       setAuthTokens,

@@ -14,7 +14,7 @@ const Navbar = ({showFriends, setShowFriends}) => {
 
 	const navigate = useNavigate();
 	const location = useLocation();
-	const { user, logoutUser } = useContext(AuthContext);
+	const { user, logoutUser, userData } = useContext(AuthContext);
 	const [activeNav, setActiveNav] = useState("Home");
 	const [isNotification, setIsNotification] = useState(false);
 	const [userDrop, setUserDrop] = useState(false);
@@ -58,7 +58,7 @@ const Navbar = ({showFriends, setShowFriends}) => {
 				<div className={`profile-tab app-flex ${(activeNav === 'Profile' || userDrop) && 'active'}`} onClick={()=> setUserDrop(!userDrop)}>
 					<img src={picture} alt="profile" className="p-p"/>
 					<div className="app-flex-wrap user" style={{gap:'2px'}}>
-						<h4 className="userName">Aminedesu</h4>
+						<h4 className="userName">{userData.username}</h4>
 						<h6 className="status">Online</h6>
 					</div>
 					{userDrop ? <MdArrowDropDown /> : <MdArrowRight />}
