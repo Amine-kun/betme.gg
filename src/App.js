@@ -19,11 +19,11 @@ function App() {
             <Route path="/userAuth/*" element={<UserAuth/>}/>
              
             
-            <Route exact path='/*' element={<PrivateRoute/>}>
-                  <Route exact path='/*' element={<Main/>}/>
+            <Route path='/*' element={<PrivateRoute/>}>
+                  <Route path='/*' element={<Main/>}/>
             </Route>
-            <Route exact path='/Settings/*' element={<PrivateRoute/>}>
-                  <Route exact path='/Settings/*' element={<Settings/>}/>
+            <Route path='/Settings/*' element={<PrivateRoute/>}>
+                  <Route path='/Settings/*' element={<Settings/>}/>
             </Route>
           </Routes>
         </AuthProvider>

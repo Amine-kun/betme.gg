@@ -18,9 +18,28 @@ const AuthContext = createContext();
         ? jwt_decode(localStorage.getItem("authTokens"))
         : null
     );
+    const [userData, setUserData] = useState(()=>
+      localStorage.getItem("userinfo")
+        ? JSON.parse(localStorage.getItem("userinfo"))
+        : null
+      );
+
     const [loading, setLoading] = useState(true);
 
     const navigate = useNavigate();
+
+    const getUserData = async (token)=>{
+      let options = {
+        method:'GET',
+        url : 'http://ec2-18-212-17-243.compute-1.amazonaws.com/api/user/',
+        headers:{'Content-Type':'application/json', Authorization :`JWT ${token}`},
+      }
+      axios.request(options)
+        .then((res)=>{
+          localStorage.setItem("userinfo", JSON.stringify(res.data.userData));
+          })
+        .catch((err)=>{console.log(err.response.data)}) 
+    }
 
     const loginUser = async (loginData) => {
       const response = await fetch("http://ec2-18-212-17-243.compute-1.amazonaws.com/api/token/", {
@@ -36,6 +55,7 @@ const AuthContext = createContext();
       const data = await response.json();
 
       if (response.status === 200) {
+        getUserData(data.access);
         setAuthTokens(data);
         setUser(jwt_decode(data.access));
         localStorage.setItem("authTokens", JSON.stringify(data));
@@ -63,6 +83,8 @@ const AuthContext = createContext();
     const logoutUser = () => {
       setAuthTokens(null);
       setUser(null);
+      setUserData(null);
+      localStorage.removeItem("userinfo");
       localStorage.removeItem("authTokens");
       navigate('/betme')
     };
