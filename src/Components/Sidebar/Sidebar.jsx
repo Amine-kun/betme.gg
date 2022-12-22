@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import './Sidebar.scss';
 import {files} from '../../Assets';
 import {useNavigate, useLocation } from 'react-router-dom';
+import {v4 as uuidv4} from 'uuid';
 
 import logo from '../../Assets/logo/fullLogo.png';
 import smallLogo from '../../Assets/logo/logo.png';
@@ -42,6 +43,26 @@ const Sidebar = () => {
 	const [activeGame, setActiveGame] = useState('');
 	const [shrink, setShrink] = useState(false);
 
+	const checkPartStatus=(path)=>{
+		const PartyStatus = localStorage.getItem("partystatus")
+        ? JSON.parse(localStorage.getItem("partystatus"))
+        : null;
+        
+			if(PartyStatus === null){
+					let id = uuidv4();
+					localStorage.setItem("partystatus", JSON.stringify({status:'creator', id:id}));
+					navigate(`/${path}/${id}`);
+			}
+
+			if(PartyStatus?.status === 'creator'){
+				navigate(`/${path}/${PartyStatus.id}`);
+			}
+
+			if(PartyStatus?.status === 'invited'){
+				navigate(`/${path}/${PartyStatus.id}`);
+			}
+	}
+
 	const onTabClick = (tab) =>{
 		if(tab.name === 'Games'){
 			setIsCateOpen(!isCateOpen);
@@ -51,6 +72,9 @@ const Sidebar = () => {
 			navigate('/');
 			setActiveTab(tab.name);
 			setIsCateOpen(false);
+
+		} else if(tab.name === 'Challenge'){
+				checkPartStatus(tab.name)
 		} else {
 			navigate(`/${tab.name}`);
 			 setActiveTab(tab.name);

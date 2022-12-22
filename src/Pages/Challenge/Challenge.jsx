@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { w3cwebsocket as W3CWebSocket } from "websocket";
 import './Challenge.scss';
 
@@ -18,7 +18,11 @@ const Challenge = (e) => {
 	 const [currentGame, setCurrentGame] = useState(gamesData[0].name);
 	 const [placedBet, setPlacedBet] = useState(10);
 	 const [status, setStatus] = useState(false);
-	 const [message, setMessage] = useState('Start Bet')
+	 const [message, setMessage] = useState('Start Bet');
+
+	 const PartyStatus = localStorage.getItem("partystatus")
+        ? JSON.parse(localStorage.getItem("partystatus"))
+        : null;
 
 	 const controlPlacedBet = (e) =>{
 	 		 e.target.value > 100 ? console.log('too high') :setPlacedBet(e.target.value);
@@ -45,6 +49,10 @@ const Challenge = (e) => {
 	 		return 1
 	 	}
 	 }
+
+	 useEffect(() => {
+	 	console.log('test')
+	 }, [])
 
 	return (
 		<section className="bet_page app-flex-wrap">
@@ -138,10 +146,10 @@ const Challenge = (e) => {
 
 			<div className="btns app-flex">
 				<button className="main-btn" onClick={()=>startGame()}>
-					{message}
+					{PartyStatus.status === 'creator' ? 'Start Game' : 'Ready'}
 				</button>
 				<button className="sub-btn">
-					Cancel
+					{PartyStatus.status === 'creator' ? 'Cancel' : 'Leave'}
 				</button>
 			</div>
 		</section>

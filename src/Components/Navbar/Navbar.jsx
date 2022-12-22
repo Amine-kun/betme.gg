@@ -14,7 +14,7 @@ const Navbar = ({showFriends, setShowFriends}) => {
 
 	const navigate = useNavigate();
 	const location = useLocation();
-	const { user, logoutUser, userData } = useContext(AuthContext);
+	const { logoutUser, userData } = useContext(AuthContext);
 	const [activeNav, setActiveNav] = useState("Home");
 	const [isNotification, setIsNotification] = useState(false);
 	const [userDrop, setUserDrop] = useState(false);
@@ -43,12 +43,12 @@ const Navbar = ({showFriends, setShowFriends}) => {
 			<section className="rightSide app-flex"> 					
 				<div className={`notification ${showFriends && 'active-tab'}`} onClick={()=> setShowFriends(true)}>
 					<FaUserFriends className='notification-icon'/>
-					<span className="red-dot app-flex">5</span>
+					<span className="red-dot app-flex">0</span>
 				</div>
 
 				<div className={`notification ${isNotification  && 'active-tab'}`} onClick={(e)=>setIsNotification(!isNotification)}>
 					<IoNotifications className='notification-icon'/>
-					<span className="red-dot app-flex">3</span>
+					<span className="red-dot app-flex">0</span>
 					<div className={`drop-notification app-flex ${isNotification && 'show-notification'}`} onClick={(e)=> e.stopPropagation()}>
 						<h6>You have no notifications at the moment.</h6>
 						<span className="arrow"></span>
@@ -66,7 +66,7 @@ const Navbar = ({showFriends, setShowFriends}) => {
 					<div className={`user-drop-down ${userDrop && 'show'}`} onClick={(e)=>{ e.stopPropagation(); setUserDrop(false)}}>
 						<div className="upper app-flex" onClick={()=>navigate('/Profile')}>
 							<img src={picture} alt="profile" className="p-p"/>
-							<h5>Aminedesu</h5>
+							<h5>{userData.username}</h5>
 						</div>
 						<div className="crossing-bar"></div>
 						<div className="drop-tabs app-flex-wrap">	

@@ -1,9 +1,11 @@
-import React,{useState} from 'react';
+import React,{useState, useContext, useEffect} from 'react';
 import {Routes, Route} from 'react-router-dom';
 import './Main.scss';
 import {MdOutlineClose} from 'react-icons/md';
 import {RiMessage3Fill} from 'react-icons/ri';
 import {IoPerson} from 'react-icons/io5';
+import AuthContext from "../../context/AuthContext";
+import { w3cwebsocket as W3CWebSocket } from "websocket";
 
 import Profile from '../../Pages/Profile/Profile';
 import Home from '../../Pages/Home/Home';
@@ -31,7 +33,24 @@ const friends = [{img: picture, status:true, name:'Aminedesu'},
 const Main = () => {
 
 	const [showFriends, setShowFriends] = useState(false);
+	const { userData } = useContext(AuthContext);
+	const client = new W3CWebSocket(`ws://localhost:8000/ws/notification/${userData.main_id}/`);
 
+	client.onmessage = (event) =>{
+				 console.log(event.data)
+			}
+	const click= ()=>{
+		let receive = 22;
+		const socket = new W3CWebSocket(`ws://localhost:8000/ws/notification/${receive}/`);
+		socket.onopen =()=>{
+				  		console.log("Connection with Django server Has been established");
+				  		socket.send(JSON.stringify({"sender":userData.main_id, "receiver":receive ,"message":'ttestt xd'}))
+				  	}
+		socket.onmessage = (event) =>{
+				 console.log('insocket', event.data)
+			}
+		
+	}
 	return (
 		<main className="main_page app-flex">
 					<Sidebar/>
@@ -43,7 +62,7 @@ const Main = () => {
 								</div>
 								<div className="container app-flex-wrap">
 									{friends.map((friend, i)=>(
-										<div className={`friend app-flex ${(i===0 || i%2 === 0) && 'bg-grey'}`} key={i}>
+										<div className={`friend app-flex ${(i===0 || i%2 === 0) && 'bg-grey'}`} key={i} onClick={()=>click()}>
 											<img src={friend.img} alt="friend-img" className="friend-img"/>
 											<span className={`status ${!friend.status && 'status-off'}`}></span>
 											<h4>{friend.name}</h4>
@@ -63,7 +82,7 @@ const Main = () => {
 							<Route path="/" element={<Home/>}/>
 							<Route path="/Profile/*" element={<Profile/>}/>
 							<Route path="/Lives" element={<Lives/>}/>
-							<Route path="/Challenge" element={<Challenge/>}/>
+							<Route path="/Challenge/*" element={<Challenge/>}/>
 							<Route path="/Tournements" element={<Tournements/>}/>
 							<Route path="/Messanger" element={<Chat/>}/>
 							<Route path="/Games/*" element={<GameOptions/>}/>
