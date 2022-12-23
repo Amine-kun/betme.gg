@@ -34,23 +34,14 @@ const Main = () => {
 
 	const [showFriends, setShowFriends] = useState(false);
 	const { userData } = useContext(AuthContext);
-	const client = new W3CWebSocket(`ws://localhost:8000/ws/notification/${userData.main_id}/`);
 
-	client.onmessage = (event) =>{
-				 console.log(event.data)
-			}
-	const click= ()=>{
-		let receive = 22;
-		const socket = new W3CWebSocket(`ws://localhost:8000/ws/notification/${receive}/`);
-		socket.onopen =()=>{
-				  		console.log("Connection with Django server Has been established");
-				  		socket.send(JSON.stringify({"sender":userData.main_id, "receiver":receive ,"message":'ttestt xd'}))
-				  	}
-		socket.onmessage = (event) =>{
-				 console.log('insocket', event.data)
-			}
-		
-	}
+ 	// useEffect(() => {
+ 	// 	const client = new W3CWebSocket(`ws://localhost:8000/ws/notification/${userData.main_id}/`);
+ 	// 	client.onmessage = (event) =>{
+	// 			 console.log(event.data)
+	// 		}
+ 	// }, [userData])
+
 	return (
 		<main className="main_page app-flex">
 					<Sidebar/>
@@ -62,7 +53,7 @@ const Main = () => {
 								</div>
 								<div className="container app-flex-wrap">
 									{friends.map((friend, i)=>(
-										<div className={`friend app-flex ${(i===0 || i%2 === 0) && 'bg-grey'}`} key={i} onClick={()=>click()}>
+										<div className={`friend app-flex ${(i===0 || i%2 === 0) && 'bg-grey'}`} key={i}>
 											<img src={friend.img} alt="friend-img" className="friend-img"/>
 											<span className={`status ${!friend.status && 'status-off'}`}></span>
 											<h4>{friend.name}</h4>
