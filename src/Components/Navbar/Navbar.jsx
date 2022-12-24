@@ -3,6 +3,7 @@ import './Navbar.scss';
 import picture from '../../Assets/profile.jpg';
 import {useNavigate, useLocation, Link} from	'react-router-dom';
 import AuthContext from "../../context/AuthContext";
+import useAxios from '../../utils/useAxios';
 
 import {IoNotifications} from 'react-icons/io5';
 import {MdArrowDropDown, MdArrowRight} from 'react-icons/md';
@@ -18,15 +19,28 @@ const Navbar = ({showFriends, setShowFriends}) => {
 	const [activeNav, setActiveNav] = useState("Home");
 	const [isNotification, setIsNotification] = useState(false);
 	const [userDrop, setUserDrop] = useState(false);
+	const [notifications, setNotifications] =useState([]);
+
+	const api = useAxios();
 
 	useEffect(() => {
 		if(location.pathname.split('/')[1] !== ''){
 				setActiveNav(location.pathname.split('/')[1]);
-			} else {
+		} else {
 				setActiveNav('Home');
 			}
+
+		const getNotifications = async () =>{
+			try{
+				const res = await api.get('http://localhost:8000/notifications/all/')
+				console.log(res)
+			} catch(e){
+				console.log(e)
+			}
+		}
+		getNotifications();
 			
-	}, [location.pathname])
+	}, [isNotification])
 	return (
 		<nav className="navbar-main app-flex">
 			{location.pathname.split('/')[1] === '' 
