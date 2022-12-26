@@ -42,7 +42,7 @@ const AuthContext = createContext();
     }
 
     const loginUser = async (loginData) => {
-      const response = await fetch("http://ec2-18-212-17-243.compute-1.amazonaws.com/api/token/", {
+      const response = await fetch("http://localhost:8000/api/token/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -69,7 +69,7 @@ const AuthContext = createContext();
     const registerUser = async (registerData) => {
       let options = {
         method:'POST',
-        url : 'http://ec2-18-212-17-243.compute-1.amazonaws.com/api/register/',
+        url : 'http://localhost:8000/api/register/',
         headers:{'Content-Type':'application/json'},
         data : registerData
       }
