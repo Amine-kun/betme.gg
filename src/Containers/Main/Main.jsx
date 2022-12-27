@@ -33,6 +33,7 @@ const friends = [{img: picture, status:true, name:'Aminedesu'},
 const Main = () => {
 
 	const [showFriends, setShowFriends] = useState(false);
+	const [friend, setFriend] = useState([]);
 	const { userData } = useContext(AuthContext);
 
  	// useEffect(() => {
@@ -52,17 +53,19 @@ const Main = () => {
 									<MdOutlineClose className="pointer" onClick={()=>setShowFriends(false)}/>
 								</div>
 								<div className="container app-flex-wrap">
-									{friends.map((friend, i)=>(
-										<div className={`friend app-flex ${(i===0 || i%2 === 0) && 'bg-grey'}`} key={i}>
-											<img src={friend.img} alt="friend-img" className="friend-img"/>
-											<span className={`status ${!friend.status && 'status-off'}`}></span>
-											<h4>{friend.name}</h4>
+									{friend.length < 1
+										? <p>You have no friends for the moment.</p>
+										:friends.map((friend, i)=>(
+											<div className={`friend app-flex ${(i===0 || i%2 === 0) && 'bg-grey'}`} key={i}>
+												<img src={friend.img} alt="friend-img" className="friend-img"/>
+												<span className={`status ${!friend.status && 'status-off'}`}></span>
+												<h4>{friend.name}</h4>
 
-											<span className="friend-icons app-flex">
-												<RiMessage3Fill className="pointer"/>
-												<IoPerson className="pointer"/>
-											</span>
-										</div>
+												<span className="friend-icons app-flex">
+													<RiMessage3Fill className="pointer"/>
+													<IoPerson className="pointer"/>
+												</span>
+											</div>
 									))}
 								</div>
 							</div>}

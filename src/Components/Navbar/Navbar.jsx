@@ -15,7 +15,7 @@ const Navbar = ({showFriends, setShowFriends}) => {
 
 	const navigate = useNavigate();
 	const location = useLocation();
-	const { logoutUser, userData, authTokens } = useContext(AuthContext);
+	const { logoutUser, userData } = useContext(AuthContext);
 
 	const [activeNav, setActiveNav] = useState("Home");
 	const [isNotification, setIsNotification] = useState(false);
@@ -67,10 +67,19 @@ const Navbar = ({showFriends, setShowFriends}) => {
 				<div className={`notification ${isNotification  && 'active-tab'}`} onClick={(e)=>setIsNotification(!isNotification)}>
 					<IoNotifications className='notification-icon'/>
 					<span className="red-dot app-flex">{notifications.length}</span>
-					<div className={`drop-notification app-flex ${isNotification && 'show-notification'}`} onClick={(e)=> e.stopPropagation()}>
+					<div className={`drop-notification app-flex-wrap ${isNotification && 'show-notification'}`} onClick={(e)=> e.stopPropagation()}>
 						
 						{loading && <h6>loading</h6>}
-						{!loading && notifications.map((notify, i)=><h6 key={i}>{notify.description}</h6>)}
+						{!loading && notifications.map((notify, i)=>(
+							<>
+								{notify.verb === 'Message' && 
+									<div key={i} className="single-notify ">
+										<div className="unread"></div>
+										<h6>{notify.description}</h6>
+									</div>
+								}
+							</>
+							))}
 						<span className="arrow"></span>
 					</div>
 				</div>
