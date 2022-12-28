@@ -1,6 +1,8 @@
 import React, {useState, useEffect} from 'react';
 import { w3cwebsocket as W3CWebSocket } from "websocket";
 import './Challenge.scss';
+import {useNavigate} from 'react-router-dom';
+import useAxios from '../../utils/useAxios';
 
 import {files} from '../../Assets';
 import picture from '../../Assets/profile.jpg';
@@ -13,12 +15,14 @@ const gamesData = [{name:'League of legends', icon:files.lol, modes:['1V1','5V5'
 				   {name:'Valorant', icon:files.valo, modes:['1V1','5V5']}]
 
 
-const Challenge = (e) => {
+const Challenge = ({e, userData}) => {
 
 	 const [currentGame, setCurrentGame] = useState(gamesData[0].name);
 	 const [placedBet, setPlacedBet] = useState(10);
 	 const [status, setStatus] = useState(false);
 	 const [message, setMessage] = useState('Start Bet');
+	 const navigate = useNavigate();
+	 const api = useAxios();
 
 	 const PartyStatus = localStorage.getItem("partystatus")
         ? JSON.parse(localStorage.getItem("partystatus"))
@@ -28,6 +32,16 @@ const Challenge = (e) => {
 	 		 e.target.value > 100 ? console.log('too high') :setPlacedBet(e.target.value);
 	 		 return 0
 	 		}
+
+	 const inviteFriend = (friendID)=>{
+ 		api.post('/api/send_notification/',{
+
+ 			receiver_id:friendID,
+ 			verb: PartyStatus.id,
+ 			message:'Amine has just challenged YOU!!!'
+
+ 		}).then((res)=>console.log(res.data)).catch((err)=>console.log('cannot sent invite to you friend'))
+ 	}
 
 	 const startGame = () =>{
 	 	if(!status){
@@ -50,8 +64,26 @@ const Challenge = (e) => {
 	 	}
 	 }
 
+	 const leaveGame = ()=>{
+
+	 	localStorage.removeItem("partystatus")
+	 	navigate('/');
+	 }
+
 	 useEffect(() => {
-	 	console.log('test')
+	 	let gameSocket = new W3CWebSocket(`ws://localhost:8000/ws/create-game/${PartyStatus.id}/`)
+
+	 	gameSocket.onopen = (event) =>{
+				 gameSocket.send(JSON.stringify({"user":userData.username}))
+			}
+
+		gameSocket.onmessage = (event) =>{
+				 console.log(event.data)
+			}
+
+		gameSocket.onerror = (event) =>{
+				console.log('socket error')
+			}
 	 }, [])
 
 	return (
@@ -122,19 +154,12 @@ const Challenge = (e) => {
 							<div className="players-container app-flex-wrap">
 								<span className="player app-flex" style={{backgroundColor:'var(--primary-color)'}}>
 									<img src={picture} alt="player-pp" className="player-pp pointer"/>
-									<h6 style={{marginRight:'auto'}} className="pointer">Aminedesu</h6>
+									<h6 style={{marginRight:'auto'}} className="pointer">You</h6>
 									<h6 className="status">Online</h6>
 									<h6 style={{marginLeft:'auto'}}>${placedBet}</h6>
 								</span>
 
-								<span className="player app-flex">
-									<img src={picture} alt="player-pp" className="player-pp"/>
-									<h6 style={{marginRight:'auto'}}>Aminedesu</h6>
-									<h6 className="status">Online</h6>
-									<h6 style={{marginLeft:'auto'}}>$60</h6>
-								</span>
-
-								<span className="player pointer app-flex" style={{backgroundColor:'var(--primary-color)'}}>
+								<span className="player pointer app-flex" style={{backgroundColor:'var(--primary-color)'}} onClick={()=>inviteFriend(28)}>
 									<IoIosAddCircle className="add-icon"/>
 									<h5>Add Player</h5>
 								</span>
@@ -148,7 +173,7 @@ const Challenge = (e) => {
 				<button className="main-btn" onClick={()=>startGame()}>
 					{PartyStatus.status === 'creator' ? 'Start Game' : 'Ready'}
 				</button>
-				<button className="sub-btn">
+				<button className="sub-btn" onClick={()=>leaveGame()}>
 					{PartyStatus.status === 'creator' ? 'Cancel' : 'Leave'}
 				</button>
 			</div>

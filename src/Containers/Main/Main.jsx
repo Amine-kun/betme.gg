@@ -76,7 +76,7 @@ const Main = () => {
 							<Route path="/" element={<Home/>}/>
 							<Route path="/Profile/*" element={<Profile/>}/>
 							<Route path="/Lives" element={<Lives/>}/>
-							<Route path="/Challenge/*" element={<Challenge/>}/>
+							<Route path="/Challenge/*" element={<Challenge userData={userData}/>}/>
 							<Route path="/Tournements" element={<Tournements/>}/>
 							<Route path="/Messanger" element={<Chat/>}/>
 							<Route path="/Games/*" element={<GameOptions/>}/>

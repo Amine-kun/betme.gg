@@ -31,7 +31,7 @@ const AuthContext = createContext();
     const getUserData = async (token)=>{
       let options = {
         method:'GET',
-        url : 'http://ec2-18-212-17-243.compute-1.amazonaws.com/api/user/',
+        url : 'http://localhost:8000/api/user/',
         headers:{'Content-Type':'application/json', Authorization :`JWT ${token}`},
       }
       axios.request(options)

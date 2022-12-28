@@ -25,6 +25,11 @@ const Navbar = ({showFriends, setShowFriends}) => {
 
 	const api = useAxios();
 
+	const acceptChallenge =(id)=>{
+		localStorage.setItem("partystatus", JSON.stringify({status:'invited', id:id}));
+		navigate(`/Challenge/${id}`)
+	}
+
 	useEffect(() => {
 		setInterval(async () =>{
 		try{
@@ -70,16 +75,23 @@ const Navbar = ({showFriends, setShowFriends}) => {
 					<div className={`drop-notification app-flex-wrap ${isNotification && 'show-notification'}`} onClick={(e)=> e.stopPropagation()}>
 						
 						{loading && <h6>loading</h6>}
-						{!loading && notifications.map((notify, i)=>(
-							<>
-								{notify.verb === 'Message' && 
-									<div key={i} className="single-notify ">
-										<div className="unread"></div>
-										<h6>{notify.description}</h6>
-									</div>
-								}
-							</>
-							))}
+						{!loading && notifications.length > 0
+							? notifications.map((notify, i)=>(
+								<>
+									{notify.verb !== 'FriendRequest' 
+										?	<div key={i} className="single-notify" onClick={()=>acceptChallenge(notify.verb)}>
+												<div className="unread"></div>
+												<h6>{notify.description}</h6>
+												<h6>Click to accept challenge.</h6>
+											</div>
+										: 	<div key={i} className="single-notify ">
+												<div className="unread"></div>
+												<h6>{notify.description}</h6>
+											</div>
+									}
+								</>
+							))
+							: <h6>You have no notifications at the moment</h6>}
 						<span className="arrow"></span>
 					</div>
 				</div>
