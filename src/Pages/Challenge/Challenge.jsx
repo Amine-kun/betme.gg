@@ -15,7 +15,7 @@ const gamesData = [{name:'League of legends', icon:files.lol, modes:['1V1','5V5'
 				   {name:'Valorant', icon:files.valo, modes:['1V1','5V5']}]
 
 
-const Challenge = ({e, userData}) => {
+const Challenge = ({e, userData, PartyStatus}) => {
 
 	 const [currentGame, setCurrentGame] = useState(gamesData[0].name);
 	 const [placedBet, setPlacedBet] = useState(10);
@@ -24,9 +24,7 @@ const Challenge = ({e, userData}) => {
 	 const navigate = useNavigate();
 	 const api = useAxios();
 
-	 const PartyStatus = localStorage.getItem("partystatus")
-        ? JSON.parse(localStorage.getItem("partystatus"))
-        : null;
+	 
 
 	 const controlPlacedBet = (e) =>{
 	 		 e.target.value > 100 ? console.log('too high') :setPlacedBet(e.target.value);
@@ -69,22 +67,6 @@ const Challenge = ({e, userData}) => {
 	 	localStorage.removeItem("partystatus")
 	 	navigate('/');
 	 }
-
-	 useEffect(() => {
-	 	let gameSocket = new W3CWebSocket(`ws://localhost:8000/ws/create-game/${PartyStatus.id}/`)
-
-	 	gameSocket.onopen = (event) =>{
-				 gameSocket.send(JSON.stringify({"user":userData.username}))
-			}
-
-		gameSocket.onmessage = (event) =>{
-				 console.log(event.data)
-			}
-
-		gameSocket.onerror = (event) =>{
-				console.log('socket error')
-			}
-	 }, [])
 
 	return (
 		<section className="bet_page app-flex-wrap">

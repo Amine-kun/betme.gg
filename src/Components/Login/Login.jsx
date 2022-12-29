@@ -16,7 +16,8 @@ const Login = () => {
 			const  logining = await loginUser(userCreds);
 			
 			if(logining){
-				navigate('/')
+				setStatus({status:'error', message:'You have been loged in ;D'});
+				setTimeout(()=>{setStatus({status:null, message:null})}, 1500)
 			} else {
 				setStatus({status:'error', message:'Username or/and Password are wrong.'});
 				setTimeout(()=>{setStatus({status:null, message:null})}, 1500)

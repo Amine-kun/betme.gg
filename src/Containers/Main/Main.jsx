@@ -1,10 +1,9 @@
-import React,{useState, useContext, useEffect} from 'react';
+import React,{useState, useEffect} from 'react';
 import {Routes, Route} from 'react-router-dom';
 import './Main.scss';
 import {MdOutlineClose} from 'react-icons/md';
 import {RiMessage3Fill} from 'react-icons/ri';
 import {IoPerson} from 'react-icons/io5';
-import AuthContext from "../../context/AuthContext";
 import { w3cwebsocket as W3CWebSocket } from "websocket";
 
 import Profile from '../../Pages/Profile/Profile';
@@ -32,21 +31,43 @@ const friends = [{img: picture, status:true, name:'Aminedesu'},
 
 const Main = () => {
 
+	const PartyStatus = localStorage.getItem("partystatus")
+        ? JSON.parse(localStorage.getItem("partystatus"))
+        : null;
+
+    const userData = localStorage.getItem("userinfo")
+		                      ? JSON.parse(localStorage.getItem("userinfo"))
+		                      : null 
+
 	const [showFriends, setShowFriends] = useState(false);
 	const [friend, setFriend] = useState([]);
-	const { userData } = useContext(AuthContext);
+	const [isOn, setIsOn] = useState(false);
 
- 	// useEffect(() => {
- 	// 	const client = new W3CWebSocket(`ws://localhost:8000/ws/notification/${userData.main_id}/`);
- 	// 	client.onmessage = (event) =>{
-	// 			 console.log(event.data)
-	// 		}
- 	// }, [userData])
+	const startListening = () =>{
+		setIsOn(true);
+	}
+
+	useEffect(() => {
+	 	if (PartyStatus !== null){
+	 		var gameSocket = new W3CWebSocket(`ws://localhost:8000/ws/create-game/${PartyStatus.id}/`);
+	 		gameSocket.onopen = (event) =>{
+					 gameSocket.send(JSON.stringify({"user":userData,"status":PartyStatus.status}))
+				}
+
+			gameSocket.onmessage = (event) =>{
+					 console.log(event.data)
+				}
+
+			gameSocket.onerror = (event) =>{
+					console.log('socket error')
+				}
+	 	}
+	 }, [isOn])
+
 
 	return (
 		<main className="main_page app-flex">
-					<Sidebar/>
-					
+					<Sidebar  startListening={startListening}/>					
 					{showFriends && 
 							<div className="friends_list app-flex-wrap">
 								<div className="friends-header app-flex">
@@ -71,12 +92,12 @@ const Main = () => {
 							</div>}
 
 					<section className="Queue">
-						<Navbar showFriends={showFriends} setShowFriends={setShowFriends}/>
+						<Navbar showFriends={showFriends} setShowFriends={setShowFriends} startListening={startListening}/>
 						<Routes>
 							<Route path="/" element={<Home/>}/>
 							<Route path="/Profile/*" element={<Profile/>}/>
 							<Route path="/Lives" element={<Lives/>}/>
-							<Route path="/Challenge/*" element={<Challenge userData={userData}/>}/>
+							<Route path="/Challenge/*" element={<Challenge userData={userData} PartyStatus={PartyStatus}/>}/>
 							<Route path="/Tournements" element={<Tournements/>}/>
 							<Route path="/Messanger" element={<Chat/>}/>
 							<Route path="/Games/*" element={<GameOptions/>}/>

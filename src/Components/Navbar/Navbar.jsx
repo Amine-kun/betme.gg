@@ -11,11 +11,11 @@ import {FaUserFriends} from 'react-icons/fa';
 
 const navTabs = ["Home", "Esports", "Events", "Updates"];
 
-const Navbar = ({showFriends, setShowFriends}) => {
+const Navbar = ({showFriends, setShowFriends, startListening}) => {
 
 	const navigate = useNavigate();
 	const location = useLocation();
-	const { logoutUser, userData } = useContext(AuthContext);
+	const { logoutUser } = useContext(AuthContext);
 
 	const [activeNav, setActiveNav] = useState("Home");
 	const [isNotification, setIsNotification] = useState(false);
@@ -27,8 +27,13 @@ const Navbar = ({showFriends, setShowFriends}) => {
 
 	const acceptChallenge =(id)=>{
 		localStorage.setItem("partystatus", JSON.stringify({status:'invited', id:id}));
+		startListening();
 		navigate(`/Challenge/${id}`)
 	}
+	
+	const userData = localStorage.getItem("userinfo")
+		                      ? JSON.parse(localStorage.getItem("userinfo"))
+		                      : null 
 
 	useEffect(() => {
 		setInterval(async () =>{
@@ -99,7 +104,7 @@ const Navbar = ({showFriends, setShowFriends}) => {
 				<div className={`profile-tab app-flex ${(activeNav === 'Profile' || userDrop) && 'active'}`} onClick={()=> setUserDrop(!userDrop)}>
 					<img src={picture} alt="profile" className="p-p"/>
 					<div className="app-flex-wrap user" style={{gap:'2px'}}>
-						<h4 className="userName">{'userData.username'}</h4>
+						<h4 className="userName">{userData?.username}</h4>
 						<h6 className="status">Online</h6>
 					</div>
 					{userDrop ? <MdArrowDropDown /> : <MdArrowRight />}
@@ -107,7 +112,7 @@ const Navbar = ({showFriends, setShowFriends}) => {
 					<div className={`user-drop-down ${userDrop && 'show'}`} onClick={(e)=>{ e.stopPropagation(); setUserDrop(false)}}>
 						<div className="upper app-flex" onClick={()=>navigate('/Profile')}>
 							<img src={picture} alt="profile" className="p-p"/>
-							<h5>{'userData.username'}</h5>
+							<h5>{userData?.username}</h5>
 						</div>
 						<div className="crossing-bar"></div>
 						<div className="drop-tabs app-flex-wrap">	

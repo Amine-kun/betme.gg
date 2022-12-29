@@ -33,7 +33,7 @@ const getWindowSize = () => {
   return {innerWidth, innerHeight};
 }
 
-const Sidebar = () => {
+const Sidebar = ({startListening}) => {
 	const location = useLocation();
 	const navigate = useNavigate(); 
 	const [windowSize, setWindowSize] = useState(getWindowSize());
@@ -51,6 +51,7 @@ const Sidebar = () => {
 			if(PartyStatus === null){
 					let id = uuidv4();
 					localStorage.setItem("partystatus", JSON.stringify({status:'creator', id:id}));
+					startListening();
 					navigate(`/${path}/${id}`);
 			}
 

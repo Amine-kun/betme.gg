@@ -37,6 +37,13 @@ const AuthContext = createContext();
       axios.request(options)
         .then((res)=>{
           localStorage.setItem("userinfo", JSON.stringify(res.data.userData));
+          setUserData(res.data.userData)
+          let some = localStorage.getItem("userinfo")
+                  ? JSON.parse(localStorage.getItem("userinfo"))
+                  : null
+          if(some?.main_id){
+            navigate('/')
+          }
           })
         .catch((err)=>{console.log(err.response.data)}) 
     }
@@ -55,11 +62,10 @@ const AuthContext = createContext();
       const data = await response.json();
 
       if (response.status === 200) {
-        getUserData(data.access);
+        getUserData(data.access)
         setAuthTokens(data);
         setUser(jwt_decode(data.access));
         localStorage.setItem("authTokens", JSON.stringify(data));
-        navigate("/");
         return true;
       } else {
         return false 
