@@ -1,6 +1,5 @@
 import React , {useState, useEffect, useContext} from 'react';
 import './Navbar.scss';
-import picture from '../../Assets/profile.jpg';
 import {useNavigate, useLocation, Link} from	'react-router-dom';
 import AuthContext from "../../context/AuthContext";
 import useAxios from '../../utils/useAxios';
@@ -11,7 +10,7 @@ import {FaUserFriends} from 'react-icons/fa';
 
 const navTabs = ["Home", "Esports", "Events", "Updates"];
 
-const Navbar = ({showFriends, setShowFriends, startListening}) => {
+const Navbar = ({showFriends, setShowFriends, startListening, PartyStatus}) => {
 
 	const navigate = useNavigate();
 	const location = useLocation();
@@ -25,10 +24,16 @@ const Navbar = ({showFriends, setShowFriends, startListening}) => {
 
 	const api = useAxios();
 
-	const acceptChallenge =(id)=>{
-		localStorage.setItem("partystatus", JSON.stringify({status:'invited', id:id}));
-		startListening();
-		navigate(`/Challenge/${id}`)
+	const acceptChallenge =(id, notificationId)=>{
+		if(PartyStatus.id){
+			const markAsRead = api.get(`/notifications/mark-as-read/${notificationId}/`);
+			localStorage.setItem("partystatus", JSON.stringify({status:'invited', id:id}));
+			setIsNotification(false)
+			startListening();
+			navigate(`/Challenge/${id}`)
+		} else {
+			console.log('You are already in a party, leave it to accept Challenge')
+		}
 	}
 	
 	const userData = localStorage.getItem("userinfo")
@@ -36,15 +41,19 @@ const Navbar = ({showFriends, setShowFriends, startListening}) => {
 		                      : null 
 
 	useEffect(() => {
-		setInterval(async () =>{
-		try{
-		     const res = await api.get('/notifications/all/');
-		     setNotifications(res.data)
-		     setLoading(false);
-		} catch(e){
-			return 'something went wrong'
+		let notificationPooler = setInterval(async () =>{
+				try{
+				     const res = await api.get('/notifications/unread/');
+				     setNotifications(res.data)
+				     setLoading(false);
+				} catch(e){
+					return 'something went wrong'
+				}
+			}, 5000);
+
+		return ()=>{
+			clearInterval(notificationPooler);
 		}
-	}, 5000);
 	}, [setIsNotification])
 
 	useEffect(() => {
@@ -84,7 +93,7 @@ const Navbar = ({showFriends, setShowFriends, startListening}) => {
 							? notifications.map((notify, i)=>(
 								<>
 									{notify.verb !== 'FriendRequest' 
-										?	<div key={i} className="single-notify" onClick={()=>acceptChallenge(notify.verb)}>
+										?	<div key={i} className="single-notify" onClick={()=>acceptChallenge(notify.verb, notify.id)}>
 												<div className="unread"></div>
 												<h6>{notify.description}</h6>
 												<h6>Click to accept challenge.</h6>
@@ -102,7 +111,7 @@ const Navbar = ({showFriends, setShowFriends, startListening}) => {
 				</div>
 				
 				<div className={`profile-tab app-flex ${(activeNav === 'Profile' || userDrop) && 'active'}`} onClick={()=> setUserDrop(!userDrop)}>
-					<img src={picture} alt="profile" className="p-p"/>
+					<img src={userData?.profile_picture} alt="profile" className="p-p"/>
 					<div className="app-flex-wrap user" style={{gap:'2px'}}>
 						<h4 className="userName">{userData?.username}</h4>
 						<h6 className="status">Online</h6>
@@ -111,7 +120,7 @@ const Navbar = ({showFriends, setShowFriends, startListening}) => {
 
 					<div className={`user-drop-down ${userDrop && 'show'}`} onClick={(e)=>{ e.stopPropagation(); setUserDrop(false)}}>
 						<div className="upper app-flex" onClick={()=>navigate('/Profile')}>
-							<img src={picture} alt="profile" className="p-p"/>
+							<img src={userData?.profile_picture} alt="profile" className="p-p"/>
 							<h5>{userData?.username}</h5>
 						</div>
 						<div className="crossing-bar"></div>

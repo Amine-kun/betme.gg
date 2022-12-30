@@ -42,6 +42,7 @@ const Main = () => {
 	const [showFriends, setShowFriends] = useState(false);
 	const [friend, setFriend] = useState([]);
 	const [isOn, setIsOn] = useState(false);
+	const [lobbyPlayers, setLobbyPlayers] = useState([]);
 
 	const startListening = () =>{
 		setIsOn(true);
@@ -55,7 +56,8 @@ const Main = () => {
 				}
 
 			gameSocket.onmessage = (event) =>{
-					 console.log(event.data)
+					let data = JSON.parse(event.data)
+					 setLobbyPlayers(data.players.players)
 				}
 
 			gameSocket.onerror = (event) =>{
@@ -92,12 +94,12 @@ const Main = () => {
 							</div>}
 
 					<section className="Queue">
-						<Navbar showFriends={showFriends} setShowFriends={setShowFriends} startListening={startListening}/>
+						<Navbar showFriends={showFriends} setShowFriends={setShowFriends} startListening={startListening} PartyStatus={PartyStatus}/>
 						<Routes>
 							<Route path="/" element={<Home/>}/>
 							<Route path="/Profile/*" element={<Profile/>}/>
 							<Route path="/Lives" element={<Lives/>}/>
-							<Route path="/Challenge/*" element={<Challenge userData={userData} PartyStatus={PartyStatus}/>}/>
+							<Route path="/Challenge/*" element={<Challenge userData={userData} PartyStatus={PartyStatus} lobbyPlayers={lobbyPlayers}/>}/>
 							<Route path="/Tournements" element={<Tournements/>}/>
 							<Route path="/Messanger" element={<Chat/>}/>
 							<Route path="/Games/*" element={<GameOptions/>}/>

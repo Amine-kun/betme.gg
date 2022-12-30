@@ -15,7 +15,7 @@ const gamesData = [{name:'League of legends', icon:files.lol, modes:['1V1','5V5'
 				   {name:'Valorant', icon:files.valo, modes:['1V1','5V5']}]
 
 
-const Challenge = ({e, userData, PartyStatus}) => {
+const Challenge = ({e, userData, PartyStatus, lobbyPlayers}) => {
 
 	 const [currentGame, setCurrentGame] = useState(gamesData[0].name);
 	 const [placedBet, setPlacedBet] = useState(10);
@@ -63,9 +63,15 @@ const Challenge = ({e, userData, PartyStatus}) => {
 	 }
 
 	 const leaveGame = ()=>{
+	 	if(PartyStatus.status==='creator'){
+	 		const updateLobbyStatus = api.post('/api/update_lobby/',{
+						 			status:'Canceled'
+						 		})
+	 	}
 
 	 	localStorage.removeItem("partystatus")
 	 	navigate('/');
+	 	window.location.reload();
 	 }
 
 	return (
@@ -134,14 +140,24 @@ const Challenge = ({e, userData, PartyStatus}) => {
 							<div className="crossing-bar adj"></div>
 
 							<div className="players-container app-flex-wrap">
-								<span className="player app-flex" style={{backgroundColor:'var(--primary-color)'}}>
-									<img src={picture} alt="player-pp" className="player-pp pointer"/>
-									<h6 style={{marginRight:'auto'}} className="pointer">You</h6>
-									<h6 className="status">Online</h6>
-									<h6 style={{marginLeft:'auto'}}>${placedBet}</h6>
-								</span>
+									<span className="player app-flex" style={{backgroundColor:'var(--primary-color)'}}>
+										<img src={userData.profile_picture} alt="player-pp" className="player-pp pointer"/>
+										<h6 style={{marginRight:'auto'}} className="pointer">You</h6>
+										<h6 className="status">Online</h6>
+										<h6 style={{marginLeft:'auto'}}>${placedBet}</h6>
+									</span>
 
-								<span className="player pointer app-flex" style={{backgroundColor:'var(--primary-color)'}} onClick={()=>inviteFriend(28)}>
+								{lobbyPlayers?.map((player,i)=>(
+										player.id !== userData.main_id && 
+											<span className="player app-flex" style={{backgroundColor:'var(--primary-color)'}} key={i}>
+												<img src={player.profile_picture} alt="player-pp" className="player-pp pointer"/>
+												<h6 style={{marginRight:'auto'}} className="pointer">{player.username}</h6>
+												<h6 className="status">Online</h6>
+												<h6 style={{marginLeft:'auto'}}>${placedBet}</h6>
+											</span>
+									))}
+
+								<span className="player pointer app-flex" style={{backgroundColor:'var(--primary-color)'}} onClick={()=>inviteFriend(29)}>
 									<IoIosAddCircle className="add-icon"/>
 									<h5>Add Player</h5>
 								</span>

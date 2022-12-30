@@ -91,6 +91,7 @@ const AuthContext = createContext();
       setUser(null);
       setUserData(null);
       localStorage.removeItem("userinfo");
+      localStorage.removeItem("partystatus");
       localStorage.removeItem("authTokens");
       navigate('/betme')
     };
