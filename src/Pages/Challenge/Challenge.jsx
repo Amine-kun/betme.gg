@@ -8,6 +8,7 @@ import {files} from '../../Assets';
 import picture from '../../Assets/profile.jpg';
 import {BsFillCircleFill} from 'react-icons/bs';
 import {IoIosAddCircle} from 'react-icons/io';
+import {MdOutlineClose} from 'react-icons/md';
 
 const gamesData = [{name:'League of legends', icon:files.lol, modes:['1V1','5V5','2v2 BOTLANE']},
 				   {name:'Apex', icon:files.apexWalp, modes:['1V1','TEAM VS TEAM','2v2']},
@@ -15,16 +16,23 @@ const gamesData = [{name:'League of legends', icon:files.lol, modes:['1V1','5V5'
 				   {name:'Valorant', icon:files.valo, modes:['1V1','5V5']}]
 
 
-const Challenge = ({e, userData, PartyStatus, lobbyPlayers}) => {
+const Challenge = ({e, userData, getParty, lobbyPlayers, ws}) => {
 
 	 const [currentGame, setCurrentGame] = useState(gamesData[0].name);
 	 const [placedBet, setPlacedBet] = useState(10);
 	 const [status, setStatus] = useState(false);
 	 const [message, setMessage] = useState('Start Bet');
+	 const [loading, setLoading] = useState(true);
+	 const [party, setParty] = useState(null);
+
 	 const navigate = useNavigate();
 	 const api = useAxios();
 
-	 
+	 useEffect(() => {
+	 	let getP= getParty();
+	 	setParty(getP);
+	 	setLoading(false);
+	 }, [])
 
 	 const controlPlacedBet = (e) =>{
 	 		 e.target.value > 100 ? console.log('too high') :setPlacedBet(e.target.value);
@@ -32,10 +40,11 @@ const Challenge = ({e, userData, PartyStatus, lobbyPlayers}) => {
 	 		}
 
 	 const inviteFriend = (friendID)=>{
+	 	console.log(party)
  		api.post('/api/send_notification/',{
 
  			receiver_id:friendID,
- 			verb: PartyStatus.id,
+ 			verb: party.id,
  			message:'Amine has just challenged YOU!!!'
 
  		}).then((res)=>console.log(res.data)).catch((err)=>console.log('cannot sent invite to you friend'))
@@ -49,33 +58,43 @@ const Challenge = ({e, userData, PartyStatus, lobbyPlayers}) => {
 		 		return setStatus(true);
 		 	}
 		 	client.onmessage = (event) =>{
-				 setMessage(event.data)
+				 return setMessage(event.data)
 			}
 			client.onerror = (data) =>{
 				if(data.type === 'error'){
 					return setMessage('Our system cannot detect our desktop program')
 				}
 			}
-	 	} else {
+	 	}else if(status){
+	 		return client.close();
+	 	} 
+	 	else {
 	 		console.log('your are already in game')
 	 		return 1
 	 	}
 	 }
 
 	 const leaveGame = ()=>{
-	 	if(PartyStatus.status==='creator'){
-	 		const updateLobbyStatus = api.post('/api/update_lobby/',{
-						 			status:'Canceled'
-						 		})
-	 	}
 
 	 	localStorage.removeItem("partystatus")
 	 	navigate('/');
-	 	window.location.reload();
+	 	ws.send(JSON.stringify({"verb":"close", "status":party.status, "user":userData}));
+	 	ws.close();
 	 }
 
 	return (
-		<section className="bet_page app-flex-wrap">
+		<>
+			{loading && <h3>Loading...</h3>}
+			{!loading && <section className="bet_page app-flex-wrap">
+				{status && 
+							<div className="friends_list app-flex-wrap">
+								<div className="friends-header app-flex-wrap">
+									<MdOutlineClose className="pointer" onClick={()=>startGame()}/>
+								</div>
+								<div className="container app-flex">
+									{message}
+								</div>
+							</div>}
 			
 			<div className="main_container app-flex">
 				
@@ -143,7 +162,7 @@ const Challenge = ({e, userData, PartyStatus, lobbyPlayers}) => {
 									<span className="player app-flex" style={{backgroundColor:'var(--primary-color)'}}>
 										<img src={userData.profile_picture} alt="player-pp" className="player-pp pointer"/>
 										<h6 style={{marginRight:'auto'}} className="pointer">You</h6>
-										<h6 className="status">Online</h6>
+										<h6 className="status">Ready</h6>
 										<h6 style={{marginLeft:'auto'}}>${placedBet}</h6>
 									</span>
 
@@ -152,7 +171,7 @@ const Challenge = ({e, userData, PartyStatus, lobbyPlayers}) => {
 											<span className="player app-flex" style={{backgroundColor:'var(--primary-color)'}} key={i}>
 												<img src={player.profile_picture} alt="player-pp" className="player-pp pointer"/>
 												<h6 style={{marginRight:'auto'}} className="pointer">{player.username}</h6>
-												<h6 className="status">Online</h6>
+												<h6 className="status">{player.state}</h6>
 												<h6 style={{marginLeft:'auto'}}>${placedBet}</h6>
 											</span>
 									))}
@@ -169,13 +188,14 @@ const Challenge = ({e, userData, PartyStatus, lobbyPlayers}) => {
 
 			<div className="btns app-flex">
 				<button className="main-btn" onClick={()=>startGame()}>
-					{PartyStatus.status === 'creator' ? 'Start Game' : 'Ready'}
+					{party?.status === 'creator' ? 'Start Game' : 'Ready'}
 				</button>
 				<button className="sub-btn" onClick={()=>leaveGame()}>
-					{PartyStatus.status === 'creator' ? 'Cancel' : 'Leave'}
+					{party?.status === 'creator' ? 'Cancel' : 'Leave'}
 				</button>
 			</div>
-		</section>
+		</section>}
+		</>
 	)
 }
 

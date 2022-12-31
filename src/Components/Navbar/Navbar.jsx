@@ -10,7 +10,7 @@ import {FaUserFriends} from 'react-icons/fa';
 
 const navTabs = ["Home", "Esports", "Events", "Updates"];
 
-const Navbar = ({showFriends, setShowFriends, startListening, PartyStatus}) => {
+const Navbar = ({showFriends, setShowFriends, startListening, getParty}) => {
 
 	const navigate = useNavigate();
 	const location = useLocation();
@@ -24,8 +24,9 @@ const Navbar = ({showFriends, setShowFriends, startListening, PartyStatus}) => {
 
 	const api = useAxios();
 
-	const acceptChallenge =(id, notificationId)=>{
-		if(PartyStatus.id){
+	const acceptChallenge =async(id, notificationId)=>{
+		let party = await getParty()
+		if(party  === null){
 			const markAsRead = api.get(`/notifications/mark-as-read/${notificationId}/`);
 			localStorage.setItem("partystatus", JSON.stringify({status:'invited', id:id}));
 			setIsNotification(false)

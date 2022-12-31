@@ -31,9 +31,12 @@ const friends = [{img: picture, status:true, name:'Aminedesu'},
 
 const Main = () => {
 
-	const PartyStatus = localStorage.getItem("partystatus")
+	const getParty =()=>{
+		const PartyStatus = localStorage.getItem("partystatus")
         ? JSON.parse(localStorage.getItem("partystatus"))
         : null;
+        return PartyStatus;
+	}
 
     const userData = localStorage.getItem("userinfo")
 		                      ? JSON.parse(localStorage.getItem("userinfo"))
@@ -43,16 +46,20 @@ const Main = () => {
 	const [friend, setFriend] = useState([]);
 	const [isOn, setIsOn] = useState(false);
 	const [lobbyPlayers, setLobbyPlayers] = useState([]);
+	const [ws, setWs] = useState(null);
 
 	const startListening = () =>{
-		setIsOn(true);
+		setIsOn(!isOn);
 	}
 
 	useEffect(() => {
-	 	if (PartyStatus !== null){
-	 		var gameSocket = new W3CWebSocket(`ws://localhost:8000/ws/create-game/${PartyStatus.id}/`);
+		let party = getParty();
+		console.log(party)
+	 	if (party !== null){
+	 		var gameSocket = new W3CWebSocket(`ws://localhost:8000/ws/create-game/${party.id}/`);
+	 		setWs(gameSocket);
 	 		gameSocket.onopen = (event) =>{
-					 gameSocket.send(JSON.stringify({"user":userData,"status":PartyStatus.status}))
+					 gameSocket.send(JSON.stringify({"verb":"open", "user":userData,"status":party.status}))
 				}
 
 			gameSocket.onmessage = (event) =>{
@@ -63,6 +70,11 @@ const Main = () => {
 			gameSocket.onerror = (event) =>{
 					console.log('socket error')
 				}
+			gameSocket.onclose =(event) =>{
+				console.log('closed')
+				setWs(null);
+				setFriend([]);
+			}
 	 	}
 	 }, [isOn])
 
@@ -94,12 +106,12 @@ const Main = () => {
 							</div>}
 
 					<section className="Queue">
-						<Navbar showFriends={showFriends} setShowFriends={setShowFriends} startListening={startListening} PartyStatus={PartyStatus}/>
+						<Navbar showFriends={showFriends} setShowFriends={setShowFriends} startListening={startListening} getParty={getParty}/>
 						<Routes>
 							<Route path="/" element={<Home/>}/>
 							<Route path="/Profile/*" element={<Profile/>}/>
 							<Route path="/Lives" element={<Lives/>}/>
-							<Route path="/Challenge/*" element={<Challenge userData={userData} PartyStatus={PartyStatus} lobbyPlayers={lobbyPlayers}/>}/>
+							<Route path="/Challenge/*" element={<Challenge userData={userData} getParty={getParty} lobbyPlayers={lobbyPlayers} ws={ws}/>}/>
 							<Route path="/Tournements" element={<Tournements/>}/>
 							<Route path="/Messanger" element={<Chat/>}/>
 							<Route path="/Games/*" element={<GameOptions/>}/>
