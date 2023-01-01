@@ -1,10 +1,11 @@
 import React,{useState, useEffect} from 'react';
-import {Routes, Route} from 'react-router-dom';
+import {Routes, Route, useNavigate} from 'react-router-dom';
 import './Main.scss';
 import {MdOutlineClose} from 'react-icons/md';
 import {RiMessage3Fill} from 'react-icons/ri';
 import {IoPerson} from 'react-icons/io5';
 import { w3cwebsocket as W3CWebSocket } from "websocket";
+import useAxios from '../../utils/useAxios';
 
 import Profile from '../../Pages/Profile/Profile';
 import Home from '../../Pages/Home/Home';
@@ -20,14 +21,14 @@ import Navbar from '../../Components/Navbar/Navbar';
 import picture from '../../Assets/profile.jpg';
 
 
-const friends = [{img: picture, status:true, name:'Aminedesu'},
-				 {img: picture, status:false, name:'Anass'},
-				 {img: picture, status:true, name:'ANWAR'},
-				 {img: picture, status:false, name:'Saad'},
-				 {img: picture, status:true, name:'Soukaina'},
-				 {img: picture, status:false, name:'Aminedesu2'},
-				 {img: picture, status:false, name:'Aminedesu3'},
-				 {img: picture, status:true, name:'Aminedesu4'}]
+// const friends = [{img: picture, status:true, name:'Aminedesu'},
+// 				 {img: picture, status:false, name:'Anass'},
+// 				 {img: picture, status:true, name:'ANWAR'},
+// 				 {img: picture, status:false, name:'Saad'},
+// 				 {img: picture, status:true, name:'Soukaina'},
+// 				 {img: picture, status:false, name:'Aminedesu2'},
+// 				 {img: picture, status:false, name:'Aminedesu3'},
+// 				 {img: picture, status:true, name:'Aminedesu4'}]
 
 const Main = () => {
 
@@ -43,18 +44,32 @@ const Main = () => {
 		                      : null 
 
 	const [showFriends, setShowFriends] = useState(false);
-	const [friend, setFriend] = useState([]);
+	const [friends, setFriends] = useState([]);
 	const [isOn, setIsOn] = useState(false);
 	const [lobbyPlayers, setLobbyPlayers] = useState([]);
 	const [ws, setWs] = useState(null);
+	const api = useAxios();
+	const navigate = useNavigate();
 
 	const startListening = () =>{
 		setIsOn(!isOn);
 	}
 
+	const inviteFriend = (friendID)=>{
+		let party = getParty();
+ 		if (party !== null){
+ 			api.post('/api/send_notification/',{
+
+ 			receiver_id:friendID,
+ 			verb: party.id,
+ 			message:'Amine has just challenged YOU!!!'
+
+ 		}).then((res)=>console.log(res.data)).catch((err)=>console.log('cannot sent invite to you friend'))
+ 		}
+ 	}
+
 	useEffect(() => {
 		let party = getParty();
-		console.log(party)
 	 	if (party !== null){
 	 		var gameSocket = new W3CWebSocket(`ws://localhost:8000/ws/create-game/${party.id}/`);
 	 		setWs(gameSocket);
@@ -71,12 +86,17 @@ const Main = () => {
 					console.log('socket error')
 				}
 			gameSocket.onclose =(event) =>{
-				console.log('closed')
 				setWs(null);
-				setFriend([]);
+				setLobbyPlayers([]);
 			}
 	 	}
 	 }, [isOn])
+
+	useEffect(()=>{
+		api.get(`/api/friends/?uid=${userData.id}`)
+			.then((res)=>setFriends(res.data))
+			.catch((err)=>console.log('cannot get friends'))
+	},[])
 
 
 	return (
@@ -88,17 +108,17 @@ const Main = () => {
 									<MdOutlineClose className="pointer" onClick={()=>setShowFriends(false)}/>
 								</div>
 								<div className="container app-flex-wrap">
-									{friend.length < 1
+									{friends.length < 1
 										? <p>You have no friends for the moment.</p>
 										:friends.map((friend, i)=>(
 											<div className={`friend app-flex ${(i===0 || i%2 === 0) && 'bg-grey'}`} key={i}>
 												<img src={friend.img} alt="friend-img" className="friend-img"/>
-												<span className={`status ${!friend.status && 'status-off'}`}></span>
+												<span className={`status ${!friend && 'status-off'}`}></span>
 												<h4>{friend.name}</h4>
 
 												<span className="friend-icons app-flex">
-													<RiMessage3Fill className="pointer"/>
-													<IoPerson className="pointer"/>
+													<RiMessage3Fill className="pointer" onClick={()=>navigate(`/Challenge/`)}/>
+													{ws !== null && <IoPerson className="pointer" onClick={()=>inviteFriend()}/>}
 												</span>
 											</div>
 									))}

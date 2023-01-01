@@ -39,15 +39,12 @@ const Challenge = ({e, userData, getParty, lobbyPlayers, ws}) => {
 	 		 return 0
 	 		}
 
-	 const inviteFriend = (friendID)=>{
-	 	console.log(party)
- 		api.post('/api/send_notification/',{
-
+ 	const addFriend = (friendID)=>{
+ 		api.post('api/send_notification/',{
  			receiver_id:friendID,
- 			verb: party.id,
- 			message:'Amine has just challenged YOU!!!'
-
- 		}).then((res)=>console.log(res.data)).catch((err)=>console.log('cannot sent invite to you friend'))
+ 			verb:'FriendRequest',
+ 			message:`${userData.username} has sent you a friend Request.`
+ 		}).then(res=>console.log(res.data)).catch(err=>console.log('cannot send a friend request.'))
  	}
 
 	 const startGame = () =>{
@@ -176,7 +173,7 @@ const Challenge = ({e, userData, getParty, lobbyPlayers, ws}) => {
 											</span>
 									))}
 
-								<span className="player pointer app-flex" style={{backgroundColor:'var(--primary-color)'}} onClick={()=>inviteFriend(29)}>
+								<span className="player pointer app-flex" style={{backgroundColor:'var(--primary-color)'}} onClick={()=>addFriend(29)}>
 									<IoIosAddCircle className="add-icon"/>
 									<h5>Add Player</h5>
 								</span>

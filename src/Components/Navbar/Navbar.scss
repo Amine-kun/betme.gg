@@ -59,11 +59,47 @@
 
 				.single-notify{
 					position: relative;
-					background-color: #13b1d9d4;
+					background-color: #d4d4d4d4;
 					width: 100%;
 					padding: 15px;
 					border-radius: var(--radius);
 					cursor: pointer;
+
+					&:hover{
+						background-color: #c5c3c3d4;
+					}
+
+					.cancel-icon{
+						position: absolute;
+						padding: 1px;
+						font-size: 1.2rem;
+						color: white;
+						border-radius: 5px;
+						top: 5px;
+						right: 5px;
+
+						&:hover{
+							background-color: #bdbdbd;
+						}
+
+					}
+					.accept_rej{
+						padding-top: 8px;
+						width: 100%;
+
+						.action-btn{
+							width: 50%;
+							padding: 6px 0;
+							border-radius: 5px; 
+						}
+						.accept{
+							
+							background-color: var(--blue-color);
+						}
+						.reject{
+							background-color: #c5c3c3d4;
+						}
+					}
 				}
 				.unread{
 					background-color: red;
@@ -74,9 +110,7 @@
 					width: 10px;
 					position: absolute;
 				}
-				.single-notify:hover{
-					background-color: var(--blue-color);
-				}
+	
 				.arrow{
 					background-color: var(--white-color);
 					position: absolute;

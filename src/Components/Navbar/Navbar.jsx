@@ -7,6 +7,7 @@ import useAxios from '../../utils/useAxios';
 import {IoNotifications} from 'react-icons/io5';
 import {MdArrowDropDown, MdArrowRight} from 'react-icons/md';
 import {FaUserFriends} from 'react-icons/fa';
+import {MdOutlineClose} from 'react-icons/md';
 
 const navTabs = ["Home", "Esports", "Events", "Updates"];
 
@@ -36,7 +37,20 @@ const Navbar = ({showFriends, setShowFriends, startListening, getParty}) => {
 			console.log('You are already in a party, leave it to accept Challenge')
 		}
 	}
+
+	const acceptFriend = (id) =>{
+		 api.post('/api/friends/',{id:id})
+		 	.then((res)=>console.log(res.data)).catch(err=>console.log(err));
+	}
 	
+	const deleteNotification= (id)=>{
+		let newnoti = notifications.filter((target)=>{
+			return target.id !== id;
+		})
+		setNotifications(newnoti);
+		const deleteNotify = api.delete(`/notifications/delete/${id}/`);
+	}
+
 	const userData = localStorage.getItem("userinfo")
 		                      ? JSON.parse(localStorage.getItem("userinfo"))
 		                      : null 
@@ -95,13 +109,20 @@ const Navbar = ({showFriends, setShowFriends, startListening, getParty}) => {
 								<>
 									{notify.verb !== 'FriendRequest' 
 										?	<div key={i} className="single-notify" onClick={()=>acceptChallenge(notify.verb, notify.id)}>
+												<MdOutlineClose className="cancel-icon" onClick={(e)=>{e.stopPropagation(); deleteNotification(notify.id)}}/>
 												<div className="unread"></div>
 												<h6>{notify.description}</h6>
 												<h6>Click to accept challenge.</h6>
 											</div>
-										: 	<div key={i} className="single-notify ">
-												<div className="unread"></div>
-												<h6>{notify.description}</h6>
+										: 	<div key={i} className="single-notify" onClick={()=>navigate(`/Profile/${notify.id}`)}>
+												<div className="full">
+													<div className="unread"></div>
+													<h6>{notify.description}</h6>
+												</div>
+												<div className="app-flex accept_rej">
+													<h6 className="action-btn accept app-flex" onClick={(e)=>{e.stopPropagation(); acceptFriend(notify.id)}}>Accept</h6>
+													<h6 className="action-btn reject app-flex" onClick={(e)=>{e.stopPropagation(); deleteNotification(notify.id)}}>Reject</h6>
+												</div>
 											</div>
 									}
 								</>
