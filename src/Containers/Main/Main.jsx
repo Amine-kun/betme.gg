@@ -21,27 +21,7 @@ import Navbar from '../../Components/Navbar/Navbar';
 import picture from '../../Assets/profile.jpg';
 
 
-// const friends = [{img: picture, status:true, name:'Aminedesu'},
-// 				 {img: picture, status:false, name:'Anass'},
-// 				 {img: picture, status:true, name:'ANWAR'},
-// 				 {img: picture, status:false, name:'Saad'},
-// 				 {img: picture, status:true, name:'Soukaina'},
-// 				 {img: picture, status:false, name:'Aminedesu2'},
-// 				 {img: picture, status:false, name:'Aminedesu3'},
-// 				 {img: picture, status:true, name:'Aminedesu4'}]
-
 const Main = () => {
-
-	const getParty =()=>{
-		const PartyStatus = localStorage.getItem("partystatus")
-        ? JSON.parse(localStorage.getItem("partystatus"))
-        : null;
-        return PartyStatus;
-	}
-
-    const userData = localStorage.getItem("userinfo")
-		                      ? JSON.parse(localStorage.getItem("userinfo"))
-		                      : null 
 
 	const [showFriends, setShowFriends] = useState(false);
 	const [friends, setFriends] = useState([]);
@@ -51,6 +31,18 @@ const Main = () => {
 	const api = useAxios();
 	const navigate = useNavigate();
 
+    const userData = localStorage.getItem("userinfo")
+		                      ? JSON.parse(localStorage.getItem("userinfo"))
+		                      : null 
+
+
+	const getParty =()=>{
+		const PartyStatus = localStorage.getItem("partystatus")
+        ? JSON.parse(localStorage.getItem("partystatus"))
+        : null;
+        return PartyStatus;
+	}
+	
 	const startListening = () =>{
 		setIsOn(!isOn);
 	}
@@ -93,10 +85,10 @@ const Main = () => {
 	 }, [isOn])
 
 	useEffect(()=>{
-		api.get(`/api/friends/?uid=${userData.id}`)
-			.then((res)=>setFriends(res.data))
+		api.get(`/api/friends/`)
+			.then((res)=>setFriends(res.data.data))
 			.catch((err)=>console.log('cannot get friends'))
-	},[])
+	},[showFriends])
 
 
 	return (
@@ -108,17 +100,17 @@ const Main = () => {
 									<MdOutlineClose className="pointer" onClick={()=>setShowFriends(false)}/>
 								</div>
 								<div className="container app-flex-wrap">
-									{friends.length < 1
+									{friends?.length < 1
 										? <p>You have no friends for the moment.</p>
-										:friends.map((friend, i)=>(
+										:friends?.map((friend, i)=>(
 											<div className={`friend app-flex ${(i===0 || i%2 === 0) && 'bg-grey'}`} key={i}>
-												<img src={friend.img} alt="friend-img" className="friend-img"/>
+												<img src={friend.profile_picture} alt="friend-img" className="friend-img"/>
 												<span className={`status ${!friend && 'status-off'}`}></span>
-												<h4>{friend.name}</h4>
+												<h4>{friend.username}</h4>
 
 												<span className="friend-icons app-flex">
-													<RiMessage3Fill className="pointer" onClick={()=>navigate(`/Challenge/`)}/>
-													{ws !== null && <IoPerson className="pointer" onClick={()=>inviteFriend()}/>}
+													<RiMessage3Fill className="pointer" onClick={()=>navigate(`/Messanger/`)}/>
+													{ws !== null && <IoPerson className="pointer" onClick={()=>inviteFriend(29)}/>}
 												</span>
 											</div>
 									))}
@@ -126,7 +118,7 @@ const Main = () => {
 							</div>}
 
 					<section className="Queue">
-						<Navbar showFriends={showFriends} setShowFriends={setShowFriends} startListening={startListening} getParty={getParty}/>
+						<Navbar friends={friends} showFriends={showFriends} setShowFriends={setShowFriends} startListening={startListening} getParty={getParty}/>
 						<Routes>
 							<Route path="/" element={<Home/>}/>
 							<Route path="/Profile/*" element={<Profile/>}/>

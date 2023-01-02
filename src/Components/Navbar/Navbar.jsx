@@ -11,7 +11,7 @@ import {MdOutlineClose} from 'react-icons/md';
 
 const navTabs = ["Home", "Esports", "Events", "Updates"];
 
-const Navbar = ({showFriends, setShowFriends, startListening, getParty}) => {
+const Navbar = ({showFriends, setShowFriends,friends, startListening, getParty}) => {
 
 	const navigate = useNavigate();
 	const location = useLocation();
@@ -25,10 +25,13 @@ const Navbar = ({showFriends, setShowFriends, startListening, getParty}) => {
 
 	const api = useAxios();
 
+	const read = (id)=>{
+		const markAsRead = api.get(`/notifications/mark-as-read/${id}/`);
+	} 
 	const acceptChallenge =async(id, notificationId)=>{
 		let party = await getParty()
 		if(party  === null){
-			const markAsRead = api.get(`/notifications/mark-as-read/${notificationId}/`);
+			read(notificationId);
 			localStorage.setItem("partystatus", JSON.stringify({status:'invited', id:id}));
 			setIsNotification(false)
 			startListening();
@@ -38,8 +41,10 @@ const Navbar = ({showFriends, setShowFriends, startListening, getParty}) => {
 		}
 	}
 
-	const acceptFriend = (id) =>{
-		 api.post('/api/friends/',{id:id})
+	const acceptFriend = (actorid, id) =>{
+
+		read(id);
+		 api.post('/api/friends/',{id:actorid})
 		 	.then((res)=>console.log(res.data)).catch(err=>console.log(err));
 	}
 	
@@ -95,7 +100,7 @@ const Navbar = ({showFriends, setShowFriends, startListening, getParty}) => {
 			<section className="rightSide app-flex"> 					
 				<div className={`notification ${showFriends && 'active-tab'}`} onClick={()=> setShowFriends(true)}>
 					<FaUserFriends className='notification-icon'/>
-					<span className="red-dot app-flex">0</span>
+					<span className="red-dot app-flex">{friends.length}</span>
 				</div>
 
 				<div className={`notification ${isNotification  && 'active-tab'}`} onClick={(e)=>setIsNotification(!isNotification)}>
@@ -106,8 +111,7 @@ const Navbar = ({showFriends, setShowFriends, startListening, getParty}) => {
 						{loading && <h6>loading</h6>}
 						{!loading && notifications.length > 0
 							? notifications.map((notify, i)=>(
-								<>
-									{notify.verb !== 'FriendRequest' 
+									notify.verb !== 'FriendRequest' 
 										?	<div key={i} className="single-notify" onClick={()=>acceptChallenge(notify.verb, notify.id)}>
 												<MdOutlineClose className="cancel-icon" onClick={(e)=>{e.stopPropagation(); deleteNotification(notify.id)}}/>
 												<div className="unread"></div>
@@ -120,12 +124,11 @@ const Navbar = ({showFriends, setShowFriends, startListening, getParty}) => {
 													<h6>{notify.description}</h6>
 												</div>
 												<div className="app-flex accept_rej">
-													<h6 className="action-btn accept app-flex" onClick={(e)=>{e.stopPropagation(); acceptFriend(notify.id)}}>Accept</h6>
+													<h6 className="action-btn accept app-flex" onClick={(e)=>{e.stopPropagation(); acceptFriend(notify.actor.id, notify.id)}}>Accept</h6>
 													<h6 className="action-btn reject app-flex" onClick={(e)=>{e.stopPropagation(); deleteNotification(notify.id)}}>Reject</h6>
 												</div>
 											</div>
-									}
-								</>
+									
 							))
 							: <h6>You have no notifications at the moment</h6>}
 						<span className="arrow"></span>
