@@ -3,7 +3,7 @@ import jwt_decode from "jwt-decode";
 import { useContext } from "react";
 import AuthContext from "../context/AuthContext";
 
-const baseURL = 'http://localhost:8000';
+const baseURL = 'http://165.232.108.134';
 
 const useAxios = () => {
   const { authTokens, setUser, setAuthTokens } = useContext(AuthContext);

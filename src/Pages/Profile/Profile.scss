@@ -35,15 +35,17 @@
 					height: 150px
 				}
 							.profile-picture{
-								height: auto;
+								height: 140px;
 								width: 140px;
 								border-radius: 200px;
 								position: absolute;
 								bottom: -65px;
 								left: 20px;
 								border: 7px solid var(--primary-color-layer2);
+								object-fit:cover;
 
 								@media screen and (max-width: 800px){
+									height: 110px;
 									width: 110px;
 									border: 5px solid var(--primary-color-layer2);
 									left: 50%;

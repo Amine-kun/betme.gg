@@ -1,0 +1,77 @@
+	 .friends_list{
+	 	position: absolute;
+	 	top:0;
+	 	left: 0;
+	 	height: 100vh;
+	 	width: 100vw;
+	 	background-color: #000000ab;
+	 	z-index: 6;
+	 	padding: 20px;
+	 	align-items:center;
+	 	gap:0;
+
+	 	.friends-header{
+	 		background-image: linear-gradient(45deg, var(--blue-color), var(--purple-color));
+	 		width: 350px; 
+	 		padding: 7px 7px 7px 7px ;
+	 		border-radius: 4px 4px 0 0;
+	 		font-size: 1.3rem;
+	 		justify-content:flex-end;
+
+	 		@media screen and (min-width: 1200px){
+	 			width: 500px;
+	 		}
+	 	}
+
+	 	.container{
+	 		background-color: var(--primary-color);
+	 		height: 50%;
+	 		width: 350px;
+	 		border-radius: var(--radius);
+	 		padding: 10px;
+	 		overflow: auto;
+	 		justify-content:flex-start;
+
+	 		@media screen and (min-width: 1200px){
+	 			width: 500px;
+	 		}
+
+	 		.friend{
+	 			width: 100%;
+	 			justify-content:flex-start;
+	 			padding: 5px 10px;
+	 			border-radius: var(--radius);
+	 			position: relative;
+
+	 			.status{
+			 		position: absolute;
+			 		left: 40px;
+			 		bottom: 6px;
+					height: 12px;
+			 		width: 12px;
+					background-color: var(--green-color);
+			 		border-radius: 50px;
+			 	 }
+			 	 .status-off{
+			 	 	background-color: var(--red-color);
+			 	 }
+
+	 			.friend-img{
+	 				border-radius: 100px;
+	 				height: 40px;
+	 				object-fit:cover;
+	 				width: 40px;
+	 			}
+
+	 			.friend-icons{
+	 				margin-left: auto;
+	 				gap:5px;
+	 				font-size: 1.3rem
+	 			}
+
+	 		}
+	 		.bg-grey{
+	 			background-color: var(--primary-color-layer3);
+	 		}
+	 	}
+	 }

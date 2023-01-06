@@ -4,6 +4,7 @@ import './Challenge.scss';
 import {useNavigate} from 'react-router-dom';
 import useAxios from '../../utils/useAxios';
 
+import Loading from '../../Components/Loading/Loading';
 import {files} from '../../Assets';
 import picture from '../../Assets/profile.jpg';
 import {BsFillCircleFill} from 'react-icons/bs';
@@ -40,7 +41,7 @@ const Challenge = ({e, userData, getParty, lobbyPlayers, ws}) => {
 	 		}
 
  	const addFriend = (friendID)=>{
- 		api.post('api/send_notification/',{
+ 		api.post('/api/send_notification/',{
  			receiver_id:friendID,
  			verb:'FriendRequest',
  			message:`${userData.username} has sent you a friend Request.`
@@ -81,7 +82,7 @@ const Challenge = ({e, userData, getParty, lobbyPlayers, ws}) => {
 
 	return (
 		<>
-			{loading && <h3>Loading...</h3>}
+			{loading && <Loading/>}
 			{!loading && <section className="bet_page app-flex-wrap">
 				{status && 
 							<div className="friends_list app-flex-wrap">

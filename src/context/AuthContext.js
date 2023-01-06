@@ -7,6 +7,8 @@ const AuthContext = createContext();
 
   export default AuthContext;
 
+const BASE_URL = 'http://165.232.108.134';
+
   export const AuthProvider = ({ children }) => {
     const [authTokens, setAuthTokens] = useState(() =>
       localStorage.getItem("authTokens")
@@ -31,7 +33,7 @@ const AuthContext = createContext();
     const getUserData = async (token)=>{
       let options = {
         method:'GET',
-        url : 'http://localhost:8000/api/user/',
+        url : `${BASE_URL}/api/user/`,
         headers:{'Content-Type':'application/json', Authorization :`JWT ${token}`},
       }
       axios.request(options)
@@ -49,7 +51,7 @@ const AuthContext = createContext();
     }
 
     const loginUser = async (loginData) => {
-      const response = await fetch("http://localhost:8000/api/token/", {
+      const response = await fetch(`${BASE_URL}/api/token/`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -75,7 +77,7 @@ const AuthContext = createContext();
     const registerUser = async (registerData) => {
       let options = {
         method:'POST',
-        url : 'http://localhost:8000/api/register/',
+        url : `${BASE_URL}/api/register/`,
         headers:{'Content-Type':'application/json'},
         data : registerData
       }

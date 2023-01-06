@@ -33,7 +33,7 @@ const getWindowSize = () => {
   return {innerWidth, innerHeight};
 }
 
-const Sidebar = ({startListening}) => {
+const Sidebar = ({startListening, userData}) => {
 	const location = useLocation();
 	const navigate = useNavigate(); 
 	const [windowSize, setWindowSize] = useState(getWindowSize());
@@ -68,6 +68,9 @@ const Sidebar = ({startListening}) => {
 		if(tab.name === 'Games'){
 			setIsCateOpen(!isCateOpen);
 			setActiveTab(tab.name);
+		}
+		else if(tab.name === 'Profile'){
+			navigate(`/Profile/${userData.main_id}`)
 		}
 		else if(tab.name === 'Home'){
 			navigate('/');
@@ -127,7 +130,7 @@ const Sidebar = ({startListening}) => {
 				<img src={smallLogo} className={shrink ? "smallLogo pointer" : "logo pointer remove"} alt="logo" />
 
 				<div className="tabs app-flex-wrap">
-
+						
 					{tabs.map((tab, i)=>(
 						<div className={`tab app-flex ${activeTab === tab.name && 'active'} ${shrink && 'shrinkTab'}`} onClick={()=> onTabClick(tab)} key={i}>
 							

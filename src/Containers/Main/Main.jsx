@@ -1,9 +1,6 @@
 import React,{useState, useEffect} from 'react';
 import {Routes, Route, useNavigate} from 'react-router-dom';
 import './Main.scss';
-import {MdOutlineClose} from 'react-icons/md';
-import {RiMessage3Fill} from 'react-icons/ri';
-import {IoPerson} from 'react-icons/io5';
 import { w3cwebsocket as W3CWebSocket } from "websocket";
 import useAxios from '../../utils/useAxios';
 
@@ -17,12 +14,15 @@ import GameOptions from '../../Pages/GameOptions/GameOptions';
 
 import Sidebar from '../../Components/Sidebar/Sidebar';
 import Navbar from '../../Components/Navbar/Navbar';
+import Friends from '../../Components/Friends/Friends';
+import Search from '../../Components/Search/Search';
 
 import picture from '../../Assets/profile.jpg';
 
 
 const Main = () => {
 
+	const [search, setSearch ] = useState(false);
 	const [showFriends, setShowFriends] = useState(false);
 	const [friends, setFriends] = useState([]);
 	const [isOn, setIsOn] = useState(false);
@@ -63,7 +63,7 @@ const Main = () => {
 	useEffect(() => {
 		let party = getParty();
 	 	if (party !== null){
-	 		var gameSocket = new W3CWebSocket(`ws://localhost:8000/ws/create-game/${party.id}/`);
+	 		var gameSocket = new W3CWebSocket(`ws://165.232.108.134/ws/create-game/${party.id}/`);
 	 		setWs(gameSocket);
 	 		gameSocket.onopen = (event) =>{
 					 gameSocket.send(JSON.stringify({"verb":"open", "user":userData,"status":party.status}))
@@ -93,35 +93,15 @@ const Main = () => {
 
 	return (
 		<main className="main_page app-flex">
-					<Sidebar  startListening={startListening}/>					
-					{showFriends && 
-							<div className="friends_list app-flex-wrap">
-								<div className="friends-header app-flex">
-									<MdOutlineClose className="pointer" onClick={()=>setShowFriends(false)}/>
-								</div>
-								<div className="container app-flex-wrap">
-									{friends?.length < 1
-										? <p>You have no friends for the moment.</p>
-										:friends?.map((friend, i)=>(
-											<div className={`friend app-flex ${(i===0 || i%2 === 0) && 'bg-grey'}`} key={i}>
-												<img src={friend.profile_picture} alt="friend-img" className="friend-img"/>
-												<span className={`status ${!friend && 'status-off'}`}></span>
-												<h4>{friend.username}</h4>
-
-												<span className="friend-icons app-flex">
-													<RiMessage3Fill className="pointer" onClick={()=>navigate(`/Messanger/`)}/>
-													{ws !== null && <IoPerson className="pointer" onClick={()=>inviteFriend(29)}/>}
-												</span>
-											</div>
-									))}
-								</div>
-							</div>}
+					<Sidebar  startListening={startListening} userData={userData}/>					
+					{showFriends && <Friends ws={ws} setShowFriends={setShowFriends} friends={friends} inviteFriend={inviteFriend}/>}
+					<Search search={search} setSearch={setSearch}/>
 
 					<section className="Queue">
-						<Navbar friends={friends} showFriends={showFriends} setShowFriends={setShowFriends} startListening={startListening} getParty={getParty}/>
+						<Navbar setSearch={setSearch} friends={friends} showFriends={showFriends} setShowFriends={setShowFriends} startListening={startListening} getParty={getParty}/>
 						<Routes>
 							<Route path="/" element={<Home/>}/>
-							<Route path="/Profile/*" element={<Profile/>}/>
+							<Route path="/Profile/*" element={<Profile userData={userData}/>}/>
 							<Route path="/Lives" element={<Lives/>}/>
 							<Route path="/Challenge/*" element={<Challenge userData={userData} getParty={getParty} lobbyPlayers={lobbyPlayers} ws={ws}/>}/>
 							<Route path="/Tournements" element={<Tournements/>}/>

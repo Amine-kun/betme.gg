@@ -145,18 +145,26 @@
 			position: relative;
 
 			.p-p{
-				height: auto;
-				width: 35px;
-				border-radius: 50px;
-			}
-			&::after{
+				position: relative;
+				height: 35px;
+			    width: 35px;
+			    border-radius: 50px;
+
+			    .p{
+			    	object-fit: cover;
+			    	border-radius: 50px;
+			    	height: 100%;
+			    	width: 100%;
+			    }
+
+			    &::after{
 					content: '';
 					background-color: var(--green-color);
 					height: 12px;
 					width: 12px;
 					border-radius: 50px;
-					bottom: 11px;
-					right: 150px;
+					bottom: 0px;
+					left: 25px;
 					position: absolute;
 
 					@media screen and (max-width: 800px){
@@ -164,6 +172,7 @@
 						bottom: 9px;
 					}
 				}
+			}
 			.user{
 				.status{
 					color: var(--green-color);

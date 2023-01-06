@@ -4,14 +4,16 @@ import {useNavigate, useLocation, Link} from	'react-router-dom';
 import AuthContext from "../../context/AuthContext";
 import useAxios from '../../utils/useAxios';
 
+import Loading from '../Loading/Loading';
 import {IoNotifications} from 'react-icons/io5';
 import {MdArrowDropDown, MdArrowRight} from 'react-icons/md';
 import {FaUserFriends} from 'react-icons/fa';
 import {MdOutlineClose} from 'react-icons/md';
+import {RiSearch2Fill} from 'react-icons/ri';
 
 const navTabs = ["Home", "Esports", "Events", "Updates"];
 
-const Navbar = ({showFriends, setShowFriends,friends, startListening, getParty}) => {
+const Navbar = ({showFriends, setShowFriends,friends, startListening, getParty, setSearch}) => {
 
 	const navigate = useNavigate();
 	const location = useLocation();
@@ -97,7 +99,11 @@ const Navbar = ({showFriends, setShowFriends,friends, startListening, getParty})
 					</h5>
 				}
 
-			<section className="rightSide app-flex"> 					
+			<section className="rightSide app-flex"> 
+				<div className="notification" onClick={()=>setSearch(true)}>
+					<RiSearch2Fill className='notification-icon'/>
+				</div>
+
 				<div className={`notification ${showFriends && 'active-tab'}`} onClick={()=> setShowFriends(true)}>
 					<FaUserFriends className='notification-icon'/>
 					<span className="red-dot app-flex">{friends.length}</span>
@@ -108,9 +114,10 @@ const Navbar = ({showFriends, setShowFriends,friends, startListening, getParty})
 					<span className="red-dot app-flex">{notifications.length}</span>
 					<div className={`drop-notification app-flex-wrap ${isNotification && 'show-notification'}`} onClick={(e)=> e.stopPropagation()}>
 						
-						{loading && <h6>loading</h6>}
-						{!loading && notifications.length > 0
-							? notifications.map((notify, i)=>(
+						{loading && <Loading/>}
+						{!loading && notifications.length < 1
+							? <h6>You have no notifications at the moment</h6>
+							: notifications.map((notify, i)=>(
 									notify.verb !== 'FriendRequest' 
 										?	<div key={i} className="single-notify" onClick={()=>acceptChallenge(notify.verb, notify.id)}>
 												<MdOutlineClose className="cancel-icon" onClick={(e)=>{e.stopPropagation(); deleteNotification(notify.id)}}/>
@@ -129,14 +136,15 @@ const Navbar = ({showFriends, setShowFriends,friends, startListening, getParty})
 												</div>
 											</div>
 									
-							))
-							: <h6>You have no notifications at the moment</h6>}
+							))}
 						<span className="arrow"></span>
 					</div>
 				</div>
 				
 				<div className={`profile-tab app-flex ${(activeNav === 'Profile' || userDrop) && 'active'}`} onClick={()=> setUserDrop(!userDrop)}>
-					<img src={userData?.profile_picture} alt="profile" className="p-p"/>
+					<div className="p-p">
+						<img src={userData?.profile_picture} alt="profile" className="p"/>
+					</div>
 					<div className="app-flex-wrap user" style={{gap:'2px'}}>
 						<h4 className="userName">{userData?.username}</h4>
 						<h6 className="status">Online</h6>
@@ -145,7 +153,7 @@ const Navbar = ({showFriends, setShowFriends,friends, startListening, getParty})
 
 					<div className={`user-drop-down ${userDrop && 'show'}`} onClick={(e)=>{ e.stopPropagation(); setUserDrop(false)}}>
 						<div className="upper app-flex" onClick={()=>navigate('/Profile')}>
-							<img src={userData?.profile_picture} alt="profile" className="p-p"/>
+							<img src={userData?.profile_picture} alt="profile" className="p-p" style={{objectFit:'cover'}}/>
 							<h5>{userData?.username}</h5>
 						</div>
 						<div className="crossing-bar"></div>
