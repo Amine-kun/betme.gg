@@ -37,6 +37,43 @@
 			font-weight: bold;
 		}
 	}
+	.result_container{
+		padding: 10px;
+		max-width: 400px;
+		border-radius: var(--radius);
+		width: 100%;
+		background-color: var(--primary-color-layer3);
+		text-align: center;
+
+
+		.result{
+			width: 100%;
+			background-color: var(--primary-color-layer2);
+			padding: 7px 15px;
+			justify-content:flex-start;
+
+			.picture{
+				height: 50px;
+				width: 50px;
+				object-fit:cover;
+				padding: 2px;
+				border:2px solid var(--blue-color);
+				border-radius: 100px;
+			}
+			.icon-side{
+				margin-left: auto;
+				margin-top: 4px;
+				.add-icon{
+					font-size: 1.5rem;
+					
+					&:hover{
+						color: var(--blue-color);
+						transition:0.2s ease-in-out;
+					}
+				}
+			}
+		}
+	}
 }
 
 .show-search{

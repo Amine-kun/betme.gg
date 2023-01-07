@@ -2,7 +2,6 @@ import React, {useState, useEffect} from 'react';
 import { w3cwebsocket as W3CWebSocket } from "websocket";
 import './Challenge.scss';
 import {useNavigate} from 'react-router-dom';
-import useAxios from '../../utils/useAxios';
 
 import Loading from '../../Components/Loading/Loading';
 import {files} from '../../Assets';
@@ -17,7 +16,7 @@ const gamesData = [{name:'League of legends', icon:files.lol, modes:['1V1','5V5'
 				   {name:'Valorant', icon:files.valo, modes:['1V1','5V5']}]
 
 
-const Challenge = ({e, userData, getParty, lobbyPlayers, ws}) => {
+const Challenge = ({setShowFriends,e, userData, getParty, lobbyPlayers, ws}) => {
 
 	 const [currentGame, setCurrentGame] = useState(gamesData[0].name);
 	 const [placedBet, setPlacedBet] = useState(10);
@@ -27,7 +26,6 @@ const Challenge = ({e, userData, getParty, lobbyPlayers, ws}) => {
 	 const [party, setParty] = useState(null);
 
 	 const navigate = useNavigate();
-	 const api = useAxios();
 
 	 useEffect(() => {
 	 	let getP= getParty();
@@ -39,14 +37,6 @@ const Challenge = ({e, userData, getParty, lobbyPlayers, ws}) => {
 	 		 e.target.value > 100 ? console.log('too high') :setPlacedBet(e.target.value);
 	 		 return 0
 	 		}
-
- 	const addFriend = (friendID)=>{
- 		api.post('/api/send_notification/',{
- 			receiver_id:friendID,
- 			verb:'FriendRequest',
- 			message:`${userData.username} has sent you a friend Request.`
- 		}).then(res=>console.log(res.data)).catch(err=>console.log('cannot send a friend request.'))
- 	}
 
 	 const startGame = () =>{
 	 	if(!status){
@@ -174,7 +164,7 @@ const Challenge = ({e, userData, getParty, lobbyPlayers, ws}) => {
 											</span>
 									))}
 
-								<span className="player pointer app-flex" style={{backgroundColor:'var(--primary-color)'}} onClick={()=>addFriend(29)}>
+								<span className="player pointer app-flex" style={{backgroundColor:'var(--primary-color)'}} onClick={()=>setShowFriends(true)}>
 									<IoIosAddCircle className="add-icon"/>
 									<h5>Add Player</h5>
 								</span>

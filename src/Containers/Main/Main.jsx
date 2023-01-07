@@ -71,6 +71,7 @@ const Main = () => {
 
 			gameSocket.onmessage = (event) =>{
 					let data = JSON.parse(event.data)
+					console.log(data.players)
 					 setLobbyPlayers(data.players.players)
 				}
 
@@ -95,7 +96,7 @@ const Main = () => {
 		<main className="main_page app-flex">
 					<Sidebar  startListening={startListening} userData={userData}/>					
 					{showFriends && <Friends ws={ws} setShowFriends={setShowFriends} friends={friends} inviteFriend={inviteFriend}/>}
-					<Search search={search} setSearch={setSearch}/>
+					<Search search={search} setSearch={setSearch} userData={userData}/>
 
 					<section className="Queue">
 						<Navbar setSearch={setSearch} friends={friends} showFriends={showFriends} setShowFriends={setShowFriends} startListening={startListening} getParty={getParty}/>
@@ -103,7 +104,7 @@ const Main = () => {
 							<Route path="/" element={<Home/>}/>
 							<Route path="/Profile/*" element={<Profile userData={userData}/>}/>
 							<Route path="/Lives" element={<Lives/>}/>
-							<Route path="/Challenge/*" element={<Challenge userData={userData} getParty={getParty} lobbyPlayers={lobbyPlayers} ws={ws}/>}/>
+							<Route path="/Challenge/*" element={<Challenge setShowFriends={setShowFriends} userData={userData} getParty={getParty} lobbyPlayers={lobbyPlayers} ws={ws}/>}/>
 							<Route path="/Tournements" element={<Tournements/>}/>
 							<Route path="/Messanger" element={<Chat/>}/>
 							<Route path="/Games/*" element={<GameOptions/>}/>
