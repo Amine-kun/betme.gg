@@ -6,9 +6,12 @@ import {useNavigate} from 'react-router-dom';
 import Loading from '../../Components/Loading/Loading';
 import {files} from '../../Assets';
 import picture from '../../Assets/profile.jpg';
+import {AiOutlineLoading3Quarters} from 'react-icons/ai';
+import {BiErrorAlt} from 'react-icons/bi';
 import {BsFillCircleFill} from 'react-icons/bs';
 import {IoIosAddCircle} from 'react-icons/io';
-import {MdOutlineClose} from 'react-icons/md';
+import {MdOutlineClose, MdDoneAll} from 'react-icons/md';
+import {HiOutlineEmojiSad} from 'react-icons/hi';
 
 const gamesData = [{name:'League of legends', icon:files.lol, modes:['1V1','5V5','2v2 BOTLANE']},
 				   {name:'Apex', icon:files.apexWalp, modes:['1V1','TEAM VS TEAM','2v2']},
@@ -21,9 +24,10 @@ const Challenge = ({setShowFriends,e, userData, getParty, lobbyPlayers, ws}) => 
 	 const [currentGame, setCurrentGame] = useState(gamesData[0].name);
 	 const [placedBet, setPlacedBet] = useState(10);
 	 const [status, setStatus] = useState(false);
-	 const [message, setMessage] = useState('Start Bet');
+	 const [message, setMessage] = useState('start a bet ...');
 	 const [loading, setLoading] = useState(true);
 	 const [party, setParty] = useState(null);
+	 const [betProgress, setBetProgress] = useState('init');
 
 	 const navigate = useNavigate();
 
@@ -40,13 +44,31 @@ const Challenge = ({setShowFriends,e, userData, getParty, lobbyPlayers, ws}) => 
 
 	 const startGame = () =>{
 	 	if(!status){
-	 		var client = new W3CWebSocket('ws://localhost:8080');
+	 		var client = new W3CWebSocket('ws://localhost:8080/?user=saad&game=12345&players=2');
 
 		 	client.onopen =(data) =>{
 		 		return setStatus(true);
 		 	}
 		 	client.onmessage = (event) =>{
-				 return setMessage(event.data)
+				 if(event.data === 'WIN'){
+				 	setBetProgress('win');
+				 	setMessage('GG, You have Won.');
+				 }
+				 if(event.data === 'LOSE'){
+				 	setBetProgress('lose');
+				 	setMessage('You have Lost. HARD LUCK next game :)');
+				 }
+				 if(event.data === 'CANCEL_GAME'){
+				 	setBetProgress('canceled');
+				 	setMessage('There has been an Error while creating your game, therefore the current match has been declined')
+				 }
+				 if(event.data){
+				 	setBetProgress('suspecious');
+				 	setMessage('A suspecious behavious has been detected, Game Aborted.')
+				 }else{
+				 	setBetProgress('init');
+				 	setMessage(event.data)
+				 }
 			}
 			client.onerror = (data) =>{
 				if(data.type === 'error'){
@@ -77,10 +99,21 @@ const Challenge = ({setShowFriends,e, userData, getParty, lobbyPlayers, ws}) => 
 				{status && 
 							<div className="friends_list app-flex-wrap">
 								<div className="friends-header app-flex-wrap">
-									<MdOutlineClose className="pointer" onClick={()=>startGame()}/>
+									<MdOutlineClose className="pointer" onClick={()=>setStatus(false)}/>
 								</div>
-								<div className="container app-flex">
-									{message}
+								<div className="container msg-container full app-flex-wrap">
+									{betProgress === 'init' && <AiOutlineLoading3Quarters className="loading-icon"/>}
+									{betProgress === 'win' && <MdDoneAll className="progress-icon" style={{color:'var(--blue-color)'}}/>}
+									{betProgress === 'lose' && <HiOutlineEmojiSad className="progress-icon" style={{color:'var(--red-color)'}}/>}
+									{(betProgress === 'suspecious' || betProgress === 'canceled') && <BiErrorAlt className="progress-icon" style={{color:'var(--red-color)'}}/>}
+									
+									{betProgress === 'win' || betProgress === 'lose'
+									 ?	<>
+									 	{betProgress === 'win' && <p>{message} <b style={{color:'var(--green-color)'}}>(+ {placedBet} AP)</b></p>}
+										{betProgress === 'lose' && <p>{message} <b style={{color:'var(--red-color)'}}>(- {placedBet} AP)</b></p>}
+										</>
+									 : <p>{message}</p>
+										}
 								</div>
 							</div>}
 			

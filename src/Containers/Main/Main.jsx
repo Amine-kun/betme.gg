@@ -54,7 +54,7 @@ const Main = () => {
 
  			receiver_id:friendID,
  			verb: party.id,
- 			message:'Amine has just challenged YOU!!!'
+ 			message:`${userData.username} Wants to play against you!`
 
  		}).then((res)=>console.log(res.data)).catch((err)=>console.log('cannot sent invite to you friend'))
  		}

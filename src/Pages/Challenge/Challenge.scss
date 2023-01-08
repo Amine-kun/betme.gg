@@ -185,3 +185,16 @@
 		height: 15%;
 	}
 }
+
+.msg-container{
+	max-height: 150px;
+	height: 100%;
+	width: 100%;
+	background-color: var(--primary-color);
+	justify-content: center !important;
+	align-items: center;
+
+	.progress-icon{
+		font-size: 1.7rem;
+	}
+}
