@@ -16,7 +16,7 @@ const Friends = ({ws, setShowFriends ,friends ,inviteFriend}) => {
 									{friends?.length < 1
 										? <p>You have no friends for the moment.</p>
 										:friends?.map((friend, i)=>(
-											<div className={`friend pointer app-flex ${(i===0 || i%2 === 0) && 'bg-grey'}`} key={i} onClick={()=>navigate(`/Profile/${friend.id}`)}>
+											<div className={`friend pointer app-flex ${(i===0 || i%2 === 0) && 'bg-grey'}`} key={i} onClick={()=>{navigate(`/Profile/${friend.id}`); setShowFriends(false)}}>
 												<img src={friend.profile_picture} alt="friend-img" className="friend-img"/>
 												<span className={`status ${!friend && 'status-off'}`}></span>
 												<h4>{friend.username}</h4>

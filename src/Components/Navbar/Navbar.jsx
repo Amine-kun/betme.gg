@@ -44,10 +44,16 @@ const Navbar = ({showFriends, setShowFriends,friends, startListening, getParty, 
 	}
 
 	const acceptFriend = (actorid, id) =>{
-
+		let isSent = false;
 		read(id);
-		 api.post('/api/friends/',{id:actorid})
-		 	.then((res)=>console.log(res.data)).catch(err=>console.log(err));
+		if(isSent){
+			isSent = true;
+			api.post('/api/friends/',{id:actorid})
+		 		.then((res)=>console.log(res.data)).catch(err=>console.log(err));
+		} else {
+			console.log('aleady accepted')
+		}
+		
 	}
 	
 	const deleteNotification= (id)=>{

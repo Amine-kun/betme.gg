@@ -26,6 +26,14 @@ const Profile = ({userData, friends}) => {
 	const [profileData, setProfileData] = useState(null)
 	const [isFriend, setIsFriend] = useState(false);
 
+	const addFriend = (friendID)=>{
+ 		api.post('/api/send_notification/',{
+ 			receiver_id:friendID,
+ 			verb:'FriendRequest',
+ 			message:`${userData.username} has sent you a friend Request.`
+ 		}).then(res=>console.log(res.data)).catch(err=>console.log('cannot send a friend request.'))
+ 	}
+
 	const handleUnfriend = ()=>{
 		setIsFriend(false);
 		api.delete(`/api/friends?uid=${path}`)
@@ -59,6 +67,9 @@ const Profile = ({userData, friends}) => {
 		for (let i=0; i<friends.length ; i++){
 			if(friends[i].id === parseInt(path)){
 				setIsFriend(true);
+				return 1;
+			} else {
+				setIsFriend(false);
 				return 1;
 			}
 		}
