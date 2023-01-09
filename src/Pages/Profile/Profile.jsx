@@ -5,6 +5,7 @@ import {Link, Routes, Route, useNavigate, useLocation} from 'react-router-dom';
 import {files} from '../../Assets';
 import picture from '../../Assets/profile.jpg';
 import useAxios from '../../utils/useAxios';
+import {BsFillPersonDashFill} from 'react-icons/bs';
 
 import Loading from '../../Components/Loading/Loading';
 import Overview from './Profile_subs/Overview/Overview';
@@ -13,17 +14,28 @@ import Stats from './Profile_subs/Stats/Stats';
 
 const tabs = ["Overview","Tournements","Stats","About"];
 
-const Profile = ({userData}) => {
+const Profile = ({userData, friends}) => {
 
 	const location = useLocation();
+	const path = location.pathname.split("/")[2];
 	const navigate = useNavigate();
+	const api = useAxios()
+
 	const [activeBtn, setActiveBtn] = useState('Overview');
 	const [loading, setLoading] = useState(true);
 	const [profileData, setProfileData] = useState(null)
-	const api = useAxios()
+	const [isFriend, setIsFriend] = useState(false);
 
-	useEffect(() => {
-		var path = location.pathname.split("/")[2];
+	const handleUnfriend = ()=>{
+		setIsFriend(false);
+		api.delete(`/api/friends?uid=${path}`)
+			.then((res)=>{
+				console.log(res.data)
+			})
+			.catch((res)=> console.log('cant delete friend'))
+	}
+
+	const handlePath = () =>{
 		if(path === 'Tournements' || path === 'Stats' || path === 'About'){
 			setActiveBtn(path);
 		} else{
@@ -32,7 +44,6 @@ const Profile = ({userData}) => {
 
 		if(parseInt(path) === userData.main_id ){
 			setProfileData(userData)
-			console.log('user')
 			setLoading(false)
 		}else {
 			api.get(`/api/profile/?uid=${path}`)
@@ -42,8 +53,21 @@ const Profile = ({userData}) => {
 			})
 			.catch(err=>console.log('cannot get profile'))
 		}
+	}
 
-	}, [location])
+	const checkIfFriend = ()=>{
+		for (let i=0; i<friends.length ; i++){
+			if(friends[i].id === parseInt(path)){
+				setIsFriend(true);
+				return 1;
+			}
+		}
+	}
+
+	useEffect(() => {
+		handlePath();
+		checkIfFriend();
+	}, [location, friends])
 
 	return (
 		<>
@@ -61,9 +85,23 @@ const Profile = ({userData}) => {
 								<h3>{profileData?.username}</h3>
 								<h5 className="user-title">{profileData?.bio}</h5>
 							</div>
-							<Link to="/Settings" className="settings">
-								<button className="main-btn">Settings</button>
-							</Link>  
+							{parseInt(path) === userData.main_id  
+								&& <Link to="/Settings" className="settings">
+										<button className="main-btn">Settings</button>
+									</Link>  } 
+							{parseInt(path) !== userData.main_id && !isFriend
+								 && <span className="settings">
+										<button className="main-btn">Add Friend</button>
+								   </span>}
+
+							{parseInt(path) !== userData.main_id && isFriend
+								&& <span className="settings" onClick={()=>handleUnfriend()}>
+										<button className="main-btn app-flex" style={{gap:'10px'}}>
+											<BsFillPersonDashFill style={{fontSize:'1.1rem', marginBottom:'2px'}}/>
+											Unfriend
+										</button>
+								   </span>
+							}
 						</div>
 					</div>
 					<span className="bar" style={{cursor:'default'}}></span>

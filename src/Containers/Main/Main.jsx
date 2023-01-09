@@ -102,7 +102,7 @@ const Main = () => {
 						<Navbar setSearch={setSearch} friends={friends} showFriends={showFriends} setShowFriends={setShowFriends} startListening={startListening} getParty={getParty}/>
 						<Routes>
 							<Route path="/" element={<Home/>}/>
-							<Route path="/Profile/*" element={<Profile userData={userData}/>}/>
+							<Route path="/Profile/*" element={<Profile userData={userData} friends={friends}/>}/>
 							<Route path="/Lives" element={<Lives/>}/>
 							<Route path="/Challenge/*" element={<Challenge setShowFriends={setShowFriends} userData={userData} getParty={getParty} lobbyPlayers={lobbyPlayers} ws={ws}/>}/>
 							<Route path="/Tournements" element={<Tournements/>}/>

@@ -3,6 +3,7 @@ import './Friends.scss';
 import {useNavigate} from 'react-router-dom';
 import {MdOutlineClose} from 'react-icons/md';
 import {RiMessage3Fill} from 'react-icons/ri';
+import {BiSend} from 'react-icons/bi';
 
 const Friends = ({ws, setShowFriends ,friends ,inviteFriend}) => {
 	const navigate = useNavigate()
@@ -22,7 +23,12 @@ const Friends = ({ws, setShowFriends ,friends ,inviteFriend}) => {
 
 												<span className="friend-icons app-flex">
 													<RiMessage3Fill className="pointer" onClick={(e)=>{e.stopPropagation();navigate(`/Messanger/`)}}/>
-													{ws !== null && <h5 className="pointer" onClick={(e)=>{e.stopPropagation();inviteFriend(friend.id)}}>Invite</h5>}
+													{ws !== null && <button className="sub-btn invite app-flex" onClick={(e)=>{e.stopPropagation();inviteFriend(friend.id)}}>
+																		<BiSend/> 
+																		<h5 className="pointer">
+																			Invite
+																		</h5>
+																	</button>}
 												</span>
 											</div>
 									))}

@@ -65,8 +65,21 @@
 
 	 			.friend-icons{
 	 				margin-left: auto;
-	 				gap:5px;
-	 				font-size: 1.3rem
+	 				gap:8px;
+	 				font-size: 1.3rem;
+
+	 				.invite{
+	 					gap:5px;
+	 					background-color: var(--white-color);
+	 					padding: 5px;
+	 					border-radius: 5px;
+	 					color: var(--primary-color);
+	 				
+	 					&:hover{
+	 						background-color: var(--blue-color);
+	 						color:var(--primary-color);
+	 					}
+	 				}
 	 			}
 
 	 		}
