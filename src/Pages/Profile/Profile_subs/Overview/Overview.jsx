@@ -12,6 +12,7 @@ import Statistics from '../../../../Components/Statistics/Statistics';
 const Overview = () => {
 
 		const [showMore, setShowMore] = useState(false);
+		const [playerHistory, setPlayerHistory] = useState([])
 
 	return (
 		<section className="overview app-flex">
@@ -71,17 +72,21 @@ const Overview = () => {
 					<span className="crossing-bar"></span>
 
 						<GamesTable showMore={showMore} setShowMore={setShowMore}>
-							{[1,2,3,4,5,6,7].map((game, i)=>
+							{playerHistory.length >0 
+								? <>
+									{[1,2,3,4,5,6,7].map((game, i)=>
 									 i < 4 && (i === 0 || i % 2 === 0 
 														? <GameState bg={'var(--primary-color-layer3)'} key={i}/>
 														: <GameState key={i}/>) 
 								)}
-							{showMore && [1,2,3,4,5,6,7].map((game, i)=>
-									i > 4 && (i % 2 !== 0 
-														? <GameState bg={'var(--primary-color-layer3)'} key={i}/>
-														: <GameState key={i}/>) 
- 
-								)}
+								{showMore && [1,2,3,4,5,6,7].map((game, i)=>
+										i > 4 && (i % 2 !== 0 
+															? <GameState bg={'var(--primary-color-layer3)'} key={i}/>
+															: <GameState key={i}/>) 
+	 
+									)}
+								  </>
+								: <span className="full app-flex"><h5>You have no games to show.</h5></span>	}
 						</GamesTable>
 						
 				</div>

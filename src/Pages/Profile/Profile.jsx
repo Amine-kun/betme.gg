@@ -93,7 +93,7 @@ const Profile = ({userData, friends}) => {
 						</div>
 						<div className="user-props app-flex">
 							<div className="user-name app-flex-wrap">
-								<h3>{profileData?.username}</h3>
+								<h3>{profileData.username.charAt(0).toUpperCase() + profileData.username.slice(1)}</h3>
 								<h5 className="user-title">{profileData?.bio}</h5>
 							</div>
 							{parseInt(path) === userData.main_id  

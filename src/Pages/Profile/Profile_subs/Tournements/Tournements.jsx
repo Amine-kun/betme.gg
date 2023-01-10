@@ -6,6 +6,7 @@ import GamesTable, {GameState} from '../../../../Components/GamesTable/GamesTabl
 const Tournements = () => {
 
 	const [showMore, setShowMore] = useState(false);
+	const [playerTournaments, setPlayerTournamenets] = useState([]);
 
 	return (
 		<section className="tounaments app-flex-wrap">
@@ -22,17 +23,21 @@ const Tournements = () => {
 					
 					<span className="crossing-bar"></span>
 						<GamesTable showMore={showMore} setShowMore={setShowMore}>
-							{[1,2,3,4,5,6,7].map((game, i)=>
+							{playerTournaments.length > 0
+								? <>
+									{[1,2,3,4,5,6,7].map((game, i)=>
 									 i < 4 && (i === 0 || i % 2 === 0 
 														? <GameState bg={'var(--primary-color-layer3)'} isFinished={true} status={"win"} key={i}/>
 														: <GameState isFinished={true} status={"lose"} key={i}/>) 
 								)}
-							{showMore && [1,2,3,4,5,6,7].map((game, i)=>
-									i > 4 && (i % 2 !== 0 
-														? <GameState bg={'var(--primary-color-layer3)'} isFinished={true} status={"win"} key={i}/>
-														: <GameState isFinished={true} status={"lose"} key={i}/>) 
- 
-								)}
+								{showMore && [1,2,3,4,5,6,7].map((game, i)=>
+										i > 4 && (i % 2 !== 0 
+															? <GameState bg={'var(--primary-color-layer3)'} isFinished={true} status={"win"} key={i}/>
+															: <GameState isFinished={true} status={"lose"} key={i}/>) 
+	 
+									)}
+								  </>
+								: <span className="full app-flex"><h5>You haven't enroled in any tournament just yet.</h5></span>}
 						</GamesTable>
 		</section>
 	)

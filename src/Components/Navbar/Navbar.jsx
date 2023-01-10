@@ -152,7 +152,7 @@ const Navbar = ({showFriends, setShowFriends,friends, startListening, getParty, 
 						<img src={userData?.profile_picture} alt="profile" className="p"/>
 					</div>
 					<div className="app-flex-wrap user" style={{gap:'2px'}}>
-						<h4 className="userName">{userData?.username}</h4>
+						<h4 className="userName">{userData.username.charAt(0).toUpperCase() + userData.username.slice(1)}</h4>
 						<h6 className="status">Online</h6>
 					</div>
 					{userDrop ? <MdArrowDropDown /> : <MdArrowRight />}
@@ -160,7 +160,7 @@ const Navbar = ({showFriends, setShowFriends,friends, startListening, getParty, 
 					<div className={`user-drop-down ${userDrop && 'show'}`} onClick={(e)=>{ e.stopPropagation(); setUserDrop(false)}}>
 						<div className="upper app-flex" onClick={()=>navigate('/Profile')}>
 							<img src={userData?.profile_picture} alt="profile" className="p-p" style={{objectFit:'cover'}}/>
-							<h5>{userData?.username}</h5>
+							<h5>{userData.username.charAt(0).toUpperCase() + userData.username.slice(1)}</h5>
 						</div>
 						<div className="crossing-bar"></div>
 						<div className="drop-tabs app-flex-wrap">	

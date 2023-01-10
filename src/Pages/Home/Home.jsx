@@ -1,6 +1,7 @@
-import React, {useState } from 'react';
+import React, {useState, useEffect} from 'react';
 import {useNavigate} from 'react-router-dom';
 import './Home.scss';
+import useAxios from '../../utils/useAxios';
 import {IoMdArrowDropdown} from 'react-icons/io';
 
 import Carousel, {CarouselItem} from '../../Components/Carousel2/Carousel2';
@@ -20,10 +21,23 @@ const games = [{name:'League of Legends', icon:files.League},
 const Home = () => {
 
 	const navigate = useNavigate();
+	const api = useAxios();
+
 	const [moreGames, setMoreGames] = useState(false);
 	const [tableNav, setTableNav] = useState('1V1 GAMES');
 	const [showTab, setShowTab] = useState(false);
 	const [showMore, setShowMore] = useState(false);
+	const [points, setPoints] = useState(0);
+
+	const [liveGames, setLiveGames] = useState([]);
+
+	useEffect(() => {
+		api.get(`/api/player_points/`)
+			.then(res=>{
+				setPoints(res.data.data)
+			})
+			.catch(err=>console.log('cannot calculate user points'))
+	}, [])
 
 	return (
 		<section className="home app-flex-wrap">
@@ -38,14 +52,14 @@ const Home = () => {
 					 	 <img src={files.trophy} alt="balance" className="trophy"/>
 						 <div className="details">
 							<h5>Trophies Earned:</h5>
-							<h2>12</h2>
+							<h2>0</h2>
 						</div>
 					</div>
 					<div className="state">
 						<img src={files.balance} alt="balance" className="balance"/>
 						<div className="details">
-							<h5>Your Balance:</h5>
-							<h2>$1080</h2>
+							<h5>Your Points:</h5>
+							<h2>{points} AP</h2>
 						</div>
 					</div>
 				</div>
@@ -106,17 +120,21 @@ const Home = () => {
 					</div>
 					<span className="crossing-bar"></span>
 					<GamesTable showMore={showMore} setShowMore={setShowMore}>
-							{[1,2,3,4,5,6,7].map((game, i)=>
-									 i < 4 && (i === 0 || i % 2 === 0 
-														? <GameState bg={'var(--primary-color-layer3)'} key={i}/>
-														: <GameState key={i}/>) 
-								)}
-							{showMore && [1,2,3,4,5,6,7].map((game, i)=>
-									i > 4 && (i % 2 !== 0 
-														? <GameState bg={'var(--primary-color-layer3)'} key={i}/>
-														: <GameState key={i}/>) 
- 
-								)}
+							{liveGames.length > 0 
+								?	<>
+										{[1,2,3,4,5,6,7].map((game, i)=>
+										 i < 4 && (i === 0 || i % 2 === 0 
+															? <GameState bg={'var(--primary-color-layer3)'} key={i}/>
+															: <GameState key={i}/>) 
+									)}
+									{showMore && [1,2,3,4,5,6,7].map((game, i)=>
+											i > 4 && (i % 2 !== 0 
+																? <GameState bg={'var(--primary-color-layer3)'} key={i}/>
+																: <GameState key={i}/>) 
+		 
+										)}
+									</>
+							 	: <span className="full app-flex"><h5>There are no Live Games at the moment</h5></span>}
 					</GamesTable>
 
 				</div>

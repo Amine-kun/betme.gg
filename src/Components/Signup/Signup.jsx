@@ -20,12 +20,12 @@ const Signup = () => {
 											  country:null,
 											  birthday:null})
 
-	const handleUserRegister = () =>{
+	const handleUserRegister = async () =>{
 		let {username, first_name, last_name, email, password, phone, country, birthday} = userData;
 
 		if(username && first_name && last_name && email && password && phone && country && birthday){
 				
-			const register = registerUser(userData);
+			const register = await registerUser(userData);
 			if(register === true){
 				  setStatus({status:'success', message:'User have been created!'});
 		          setTimeout(()=>{setStatus({status:null, message:null})}, 1000)
@@ -50,7 +50,8 @@ const Signup = () => {
 
 			<form className="app-flex-wrap inputs">
 
-				{status.status === 'error' && <p style={{color:'red', fontWeight:'bold'}}>{status.message}</p>}
+				{status.status === 'error' && <p style={{color:'var(--red-color)', fontWeight:'bold'}}>{status.message}</p>}
+				{status.status === 'success' && <p style={{color:'var(--green-color)', fontWeight:'bold'}}>{status.message}</p>}
 
 				<div className="app-flex" style={{gap:'10px'}}>
 					<input type="text" placeholder="Firstname" className="input" onChange={(e)=>setUserData({...userData, first_name:e.target.value})}/>

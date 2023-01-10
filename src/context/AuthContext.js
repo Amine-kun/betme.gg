@@ -81,11 +81,14 @@ const BASE_URL = 'http://165.232.108.134';
         headers:{'Content-Type':'application/json'},
         data : registerData
       }
-      axios.request(options)
-        .then((res)=>{
-          return true
-          })
-        .catch((err)=>{return false})
+      const create = await axios.request(options);
+
+      if(create.status === 200){
+        return true;
+      } else {
+        return false
+      }
+        
     };
 
     const logoutUser = () => {
