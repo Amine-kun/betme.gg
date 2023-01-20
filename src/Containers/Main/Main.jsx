@@ -71,7 +71,6 @@ const Main = () => {
 
 			gameSocket.onmessage = (event) =>{
 					let data = JSON.parse(event.data)
-					console.log(data.players)
 					 setLobbyPlayers(data.players.players)
 				}
 

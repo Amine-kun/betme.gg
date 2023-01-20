@@ -22,6 +22,7 @@ const gamesData = [{name:'League of legends', icon:files.lol, modes:['1V1','5V5'
 const Challenge = ({setShowFriends,e, userData, getParty, lobbyPlayers, ws}) => {
 
 	 const [currentGame, setCurrentGame] = useState(gamesData[0].name);
+	 const [mode, setMode] = useState(null);
 	 const [placedBet, setPlacedBet] = useState(10);
 	 const [status, setStatus] = useState(false);
 	 const [message, setMessage] = useState('start a bet ...');
@@ -42,9 +43,14 @@ const Challenge = ({setShowFriends,e, userData, getParty, lobbyPlayers, ws}) => 
 	 		 return 0
 	 		}
 
-	 const startGame = () =>{
+	 const startBet = ()=>{
 	 	if(!status){
-	 		var client = new W3CWebSocket('ws://localhost:8080/?user=saad&game=12345&players=2');
+	 		setStatus(true);
+	 		setBetProgress('init');
+	 		setMessage('start a bet ...');
+
+	 		console.log(parseInt(mode[0])+parseInt(mode[2]));
+	 		var client = new W3CWebSocket(`ws://localhost:8080/?user=${userData.username}&game=${party.id}&players=${2}`);
 
 		 	client.onopen =(data) =>{
 		 		return setStatus(true);
@@ -52,27 +58,29 @@ const Challenge = ({setShowFriends,e, userData, getParty, lobbyPlayers, ws}) => 
 		 	client.onmessage = (event) =>{
 				 if(event.data === 'WIN'){
 				 	setBetProgress('win');
-				 	setMessage('GG, You have Won.');
+				 	return setMessage('GG, You have Won.');
 				 }
-				 if(event.data === 'LOSE'){
+				 else if(event.data === 'LOSE'){
 				 	setBetProgress('lose');
-				 	setMessage('You have Lost. HARD LUCK next game :)');
+				 	return setMessage('You have Lost. HARD LUCK next game :)');
 				 }
-				 if(event.data === 'CANCEL_GAME'){
+				 else if(event.data === 'CANCEL_GAME'){
 				 	setBetProgress('canceled');
-				 	setMessage('There has been an Error while creating your game, therefore the current match has been declined')
+				 	return setMessage('There has been an Error while creating your game, therefore the current match has been declined')
 				 }
-				 if(event.data){
+				 else if(event.data === 'SUS'){
 				 	setBetProgress('suspecious');
-				 	setMessage('A suspecious behavious has been detected, Game Aborted.')
+				 	return setMessage('A suspecious behavious has been detected, Game Aborted.')
 				 }else{
 				 	setBetProgress('init');
-				 	setMessage(event.data)
+				 	return setMessage(event.data)
 				 }
 			}
 			client.onerror = (data) =>{
 				if(data.type === 'error'){
-					return setMessage('Our system cannot detect our desktop program')
+					setMessage('Our system cannot detect our desktop program');
+					setBetProgress('canceled')
+					return setTimeout(()=>{setStatus(false)},2000)
 				}
 			}
 	 	}else if(status){
@@ -81,6 +89,19 @@ const Challenge = ({setShowFriends,e, userData, getParty, lobbyPlayers, ws}) => 
 	 	else {
 	 		console.log('your are already in game')
 	 		return 1
+	 	}
+	 }
+
+	 const startGame = () =>{
+	 	if(mode !== null && mode !== 'Select mode'){
+	 		startBet();
+	 		return 1
+	 	} else {
+	 		setStatus(true);
+	 		setBetProgress('canceled')
+	 		setMessage('Select a mode first')
+
+	 		setTimeout(()=>{setStatus(false)}, 1500)
 	 	}
 	 }
 
@@ -142,8 +163,8 @@ const Challenge = ({setShowFriends,e, userData, getParty, lobbyPlayers, ws}) => 
 					</div>
 					<div className="app-flex select_container">
 						<h4 className="def">Game Mode : </h4>
-						<select className="selector">	
-								
+						<select className="selector" onChange={(e)=>setMode(e.target.value)}>	
+							 <option>Select mode</option>
 							 {gamesData.map((game)=>(
 							 	 game.name === currentGame 
 							 	 	&& game.modes.map((mode, i)=>(
