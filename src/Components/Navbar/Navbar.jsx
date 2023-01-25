@@ -30,11 +30,19 @@ const Navbar = ({showFriends, setShowFriends,friends, startListening, getParty, 
 	const read = (id)=>{
 		const markAsRead = api.get(`/notifications/mark-as-read/${id}/`);
 	} 
-	const acceptChallenge =async(id, notificationId)=>{
+	const acceptChallenge =async(id, notificationId, side)=>{
 		let party = await getParty()
 		if(party  === null){
+			let team;
+
+			if(side[side.length-6] === 't'){
+				team = 'B';
+			} else {
+				team = 'A';
+			}
+
 			read(notificationId);
-			localStorage.setItem("partystatus", JSON.stringify({status:'invited', id:id}));
+			localStorage.setItem("partystatus", JSON.stringify({status:'invited', id:id, team:team}));
 			setIsNotification(false)
 			startListening();
 			navigate(`/Challenge/${id}`)
@@ -110,7 +118,7 @@ const Navbar = ({showFriends, setShowFriends,friends, startListening, getParty, 
 					<RiSearch2Fill className='notification-icon'/>
 				</div>
 
-				<div className={`notification ${showFriends && 'active-tab'}`} onClick={()=> setShowFriends(true)}>
+				<div className={`notification ${showFriends.status && 'active-tab'}`} onClick={()=> setShowFriends({status:true,team:'A'})}>
 					<FaUserFriends className='notification-icon'/>
 					<span className="red-dot app-flex">{friends.length}</span>
 				</div>
@@ -125,7 +133,7 @@ const Navbar = ({showFriends, setShowFriends,friends, startListening, getParty, 
 							? <h6>You have no notifications at the moment</h6>
 							: notifications.map((notify, i)=>(
 									notify.verb !== 'FriendRequest' 
-										?	<div key={i} className="single-notify" onClick={()=>acceptChallenge(notify.verb, notify.id)}>
+										?	<div key={i} className="single-notify" onClick={()=>acceptChallenge(notify.verb, notify.id, notify.message)}>
 												<MdOutlineClose className="cancel-icon" onClick={(e)=>{e.stopPropagation(); deleteNotification(notify.id)}}/>
 												<div className="unread"></div>
 												<h6>{notify.description}</h6>

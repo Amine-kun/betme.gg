@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import { w3cwebsocket as W3CWebSocket } from "websocket";
 import './Challenge.scss';
 import {useNavigate} from 'react-router-dom';
+import useAxios from '../../utils/useAxios';
 
 import Loading from '../../Components/Loading/Loading';
 import {files} from '../../Assets';
@@ -25,11 +26,13 @@ const Challenge = ({setShowFriends,e, userData, getParty, lobbyPlayers, ws}) => 
 	 const [mode, setMode] = useState(null);
 	 const [placedBet, setPlacedBet] = useState(10);
 	 const [status, setStatus] = useState(false);
+
 	 const [message, setMessage] = useState('start a bet ...');
 	 const [loading, setLoading] = useState(true);
 	 const [party, setParty] = useState(null);
 	 const [betProgress, setBetProgress] = useState('init');
 
+	 const api = useAxios();
 	 const navigate = useNavigate();
 
 	 useEffect(() => {
@@ -49,8 +52,7 @@ const Challenge = ({setShowFriends,e, userData, getParty, lobbyPlayers, ws}) => 
 	 		setBetProgress('init');
 	 		setMessage('start a bet ...');
 
-	 		console.log(parseInt(mode[0])+parseInt(mode[2]));
-	 		var client = new W3CWebSocket(`ws://localhost:8080/?user=${userData.username}&game=${party.id}&players=${2}`);
+	 		var client = new W3CWebSocket(`ws://localhost:8080/?user=${userData.username}&game=${party.id}&players=${parseInt(mode[0])+parseInt(mode[2])}`);
 
 		 	client.onopen =(data) =>{
 		 		return setStatus(true);
@@ -58,6 +60,17 @@ const Challenge = ({setShowFriends,e, userData, getParty, lobbyPlayers, ws}) => 
 		 	client.onmessage = (event) =>{
 				 if(event.data === 'WIN'){
 				 	setBetProgress('win');
+
+				 	if(party.status === 'creatore'){
+				 		api.post('api/match/',{
+					 		placedBet:placedBet,
+					 		game:currentGame,
+					 		mode:mode,
+					 		players:lobbyPlayers,
+					 		result:event.timstamp,
+					 	}).then(res=>console.log('saved')).catch(err=>console.log(err))
+				 	}
+
 				 	return setMessage('GG, You have Won.');
 				 }
 				 else if(event.data === 'LOSE'){
@@ -179,7 +192,7 @@ const Challenge = ({setShowFriends,e, userData, getParty, lobbyPlayers, ws}) => 
 						<div className="app-flex select_container">
 							<h4 className="def">Placed Bet : </h4>
 							<span className="input selector app-flex">	
-								<h5>$</h5>
+								<h5>AP</h5>
 								<input type="number" className="bet" value={placedBet} onChange={(e)=> controlPlacedBet(e)}/>
 							</span>
 						</div>
@@ -201,15 +214,16 @@ const Challenge = ({setShowFriends,e, userData, getParty, lobbyPlayers, ws}) => 
 							<div className="crossing-bar adj"></div>
 
 							<div className="players-container app-flex-wrap">
+								{part.team === 'A' && 
 									<span className="player app-flex" style={{backgroundColor:'var(--primary-color)'}}>
 										<img src={userData.profile_picture} alt="player-pp" className="player-pp pointer"/>
 										<h6 style={{marginRight:'auto'}} className="pointer">You</h6>
 										<h6 className="status">Ready</h6>
 										<h6 style={{marginLeft:'auto'}}>${placedBet}</h6>
-									</span>
+									</span>}
 
 								{lobbyPlayers?.map((player,i)=>(
-										player.id !== userData.main_id && 
+										player.id !== userData.main_id && player.team === 'A' &&
 											<span className="player app-flex" style={{backgroundColor:'var(--primary-color)'}} key={i}>
 												<img src={player.profile_picture} alt="player-pp" className="player-pp pointer"/>
 												<h6 style={{marginRight:'auto'}} className="pointer">{player.username}</h6>
@@ -218,11 +232,39 @@ const Challenge = ({setShowFriends,e, userData, getParty, lobbyPlayers, ws}) => 
 											</span>
 									))}
 
-								<span className="player pointer app-flex" style={{backgroundColor:'var(--primary-color)'}} onClick={()=>setShowFriends(true)}>
+								<span className="player pointer app-flex" style={{backgroundColor:'var(--primary-color)'}} onClick={()=>setShowFriends({status:true,team:'A'})}>
 									<IoIosAddCircle className="add-icon"/>
-									<h5>Add Player</h5>
+									<h5>Add Player to Team A</h5>
 								</span>
-							</div>	
+							</div>
+							<div className="players-container app-flex-wrap">
+								{part.team === 'B' && 
+									<span className="player app-flex" style={{backgroundColor:'var(--primary-color)'}}>
+										<img src={userData.profile_picture} alt="player-pp" className="player-pp pointer"/>
+										<h6 style={{marginRight:'auto'}} className="pointer">You</h6>
+										<h6 className="status">Ready</h6>
+										<h6 style={{marginLeft:'auto'}}>${placedBet}</h6>
+									</span>}
+
+								{lobbyPlayers.length > 1
+									? lobbyPlayers?.map((player,i)=>(
+										player.id !== userData.main_id && player.team === 'B' &&
+											<span className="player app-flex" style={{backgroundColor:'var(--primary-color)'}} key={i}>
+												<img src={player.profile_picture} alt="player-pp" className="player-pp pointer"/>
+												<h6 style={{marginRight:'auto'}} className="pointer">{player.username}</h6>
+												<h6 className="status">{player.state}</h6>
+												<h6 style={{marginLeft:'auto'}}>${placedBet}</h6>
+											</span>
+									)) 
+									: <span className="player app-flex" style={{backgroundColor:'var(--primary-color)', marginTop:'10px'}}>
+											<h6>No players in team B</h6>
+										</span>}
+
+								<span className="player pointer app-flex" style={{backgroundColor:'var(--primary-color)'}} onClick={()=>setShowFriends({status:true,team:'B'})}>
+									<IoIosAddCircle className="add-icon"/>
+									<h5>Add Player to Team B</h5>
+								</span>
+							</div>
 						</div>
 					</div>
 				</div>

@@ -23,8 +23,9 @@ import picture from '../../Assets/profile.jpg';
 const Main = () => {
 
 	const [search, setSearch ] = useState(false);
-	const [showFriends, setShowFriends] = useState(false);
+	const [showFriends, setShowFriends] = useState({status:false,team:'A'});
 	const [friends, setFriends] = useState([]);
+	const [team, setTeam] = useState(null);
 	const [isOn, setIsOn] = useState(false);
 	const [lobbyPlayers, setLobbyPlayers] = useState([]);
 	const [ws, setWs] = useState(null);
@@ -54,7 +55,7 @@ const Main = () => {
 
  			receiver_id:friendID,
  			verb: party.id,
- 			message:`${userData.username} Wants to play against you!`
+ 			message:`${userData.username} Wants to play ${showFriends.team === 'A' ? 'with' : 'against'} you!`
 
  		}).then((res)=>console.log(res.data)).catch((err)=>console.log('cannot sent invite to you friend'))
  		}
@@ -66,7 +67,7 @@ const Main = () => {
 	 		var gameSocket = new W3CWebSocket(`ws://165.232.108.134/ws/create-game/${party.id}/`);
 	 		setWs(gameSocket);
 	 		gameSocket.onopen = (event) =>{
-					 gameSocket.send(JSON.stringify({"verb":"open", "user":userData,"status":party.status}))
+					 gameSocket.send(JSON.stringify({"verb":"open", "user":userData,"status":party.status, "team":party.team}))
 				}
 
 			gameSocket.onmessage = (event) =>{
@@ -94,7 +95,7 @@ const Main = () => {
 	return (
 		<main className="main_page app-flex">
 					<Sidebar  startListening={startListening} userData={userData}/>					
-					{showFriends && <Friends ws={ws} setShowFriends={setShowFriends} friends={friends} inviteFriend={inviteFriend}/>}
+					{showFriends.status && <Friends ws={ws} setShowFriends={setShowFriends} friends={friends} inviteFriend={inviteFriend}/>}
 					<Search search={search} setSearch={setSearch} userData={userData}/>
 
 					<section className="Queue">
