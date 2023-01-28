@@ -54,7 +54,7 @@ const Navbar = ({showFriends, setShowFriends,friends, startListening, getParty, 
 	const acceptFriend = (actorid, id) =>{
 		let isSent = false;
 		read(id);
-		if(isSent){
+		if(!isSent){
 			isSent = true;
 			api.post('/api/friends/',{id:actorid})
 		 		.then((res)=>console.log(res.data)).catch(err=>console.log(err));
@@ -133,7 +133,7 @@ const Navbar = ({showFriends, setShowFriends,friends, startListening, getParty, 
 							? <h6>You have no notifications at the moment</h6>
 							: notifications.map((notify, i)=>(
 									notify.verb !== 'FriendRequest' 
-										?	<div key={i} className="single-notify" onClick={()=>acceptChallenge(notify.verb, notify.id, notify.message)}>
+										?	<div key={i} className="single-notify" onClick={()=>acceptChallenge(notify.verb, notify.id, notify.description)}>
 												<MdOutlineClose className="cancel-icon" onClick={(e)=>{e.stopPropagation(); deleteNotification(notify.id)}}/>
 												<div className="unread"></div>
 												<h6>{notify.description}</h6>

@@ -61,13 +61,14 @@ const Challenge = ({setShowFriends,e, userData, getParty, lobbyPlayers, ws}) => 
 				 if(event.data === 'WIN'){
 				 	setBetProgress('win');
 
-				 	if(party.status === 'creatore'){
+				 	if(party.status === 'creator'){
 				 		api.post('api/match/',{
 					 		placedBet:placedBet,
 					 		game:currentGame,
 					 		mode:mode,
 					 		players:lobbyPlayers,
-					 		result:event.timstamp,
+					 		result:'A',
+					 		timestamp:event.timestamp
 					 	}).then(res=>console.log('saved')).catch(err=>console.log(err))
 				 	}
 
@@ -75,6 +76,17 @@ const Challenge = ({setShowFriends,e, userData, getParty, lobbyPlayers, ws}) => 
 				 }
 				 else if(event.data === 'LOSE'){
 				 	setBetProgress('lose');
+
+				 	if(party.status === 'creator'){
+				 		api.post('api/match/',{
+					 		placedBet:placedBet,
+					 		game:currentGame,
+					 		mode:mode,
+					 		players:lobbyPlayers,
+					 		result:'B',
+					 		timestamp:event.timestamp
+					 	}).then(res=>console.log('saved')).catch(err=>console.log(err))
+				 	}
 				 	return setMessage('You have Lost. HARD LUCK next game :)');
 				 }
 				 else if(event.data === 'CANCEL_GAME'){
@@ -122,7 +134,7 @@ const Challenge = ({setShowFriends,e, userData, getParty, lobbyPlayers, ws}) => 
 
 	 	localStorage.removeItem("partystatus")
 	 	navigate('/');
-	 	ws.send(JSON.stringify({"verb":"close", "status":party.status, "user":userData}));
+	 	ws.send(JSON.stringify({"verb":"close", "status":party.status, "user":userData, "team":party.team}));
 	 	ws.close();
 	 }
 
@@ -214,7 +226,7 @@ const Challenge = ({setShowFriends,e, userData, getParty, lobbyPlayers, ws}) => 
 							<div className="crossing-bar adj"></div>
 
 							<div className="players-container app-flex-wrap">
-								{part.team === 'A' && 
+								{party.team === 'A' && 
 									<span className="player app-flex" style={{backgroundColor:'var(--primary-color)'}}>
 										<img src={userData.profile_picture} alt="player-pp" className="player-pp pointer"/>
 										<h6 style={{marginRight:'auto'}} className="pointer">You</h6>
@@ -238,7 +250,7 @@ const Challenge = ({setShowFriends,e, userData, getParty, lobbyPlayers, ws}) => 
 								</span>
 							</div>
 							<div className="players-container app-flex-wrap">
-								{part.team === 'B' && 
+								{party.team === 'B' && 
 									<span className="player app-flex" style={{backgroundColor:'var(--primary-color)'}}>
 										<img src={userData.profile_picture} alt="player-pp" className="player-pp pointer"/>
 										<h6 style={{marginRight:'auto'}} className="pointer">You</h6>
@@ -256,7 +268,7 @@ const Challenge = ({setShowFriends,e, userData, getParty, lobbyPlayers, ws}) => 
 												<h6 style={{marginLeft:'auto'}}>${placedBet}</h6>
 											</span>
 									)) 
-									: <span className="player app-flex" style={{backgroundColor:'var(--primary-color)', marginTop:'10px'}}>
+									: <span className="player app-flex" style={{backgroundColor:'var(--primary-color)'}}>
 											<h6>No players in team B</h6>
 										</span>}
 

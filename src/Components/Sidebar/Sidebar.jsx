@@ -50,7 +50,7 @@ const Sidebar = ({startListening, userData}) => {
         
 			if(PartyStatus === null){
 					let id = uuidv4();
-					localStorage.setItem("partystatus", JSON.stringify({status:'creator', id:id}));
+					localStorage.setItem("partystatus", JSON.stringify({status:'creator',team:'A', id:id}));
 					startListening();
 					navigate(`/${path}/${id}`);
 			}

@@ -14,7 +14,7 @@ import Stats from './Profile_subs/Stats/Stats';
 
 const tabs = ["Overview","Tournements","Stats","About"];
 
-const Profile = ({userData, friends}) => {
+const Profile = ({userData, friends, getParty}) => {
 
 	const location = useLocation();
 	const path = location.pathname.split("/")[2];
@@ -129,7 +129,7 @@ const Profile = ({userData, friends}) => {
 
 					<div className='Pages__container'>
 						<Routes>
-							<Route path="/*" element={<Overview/>}/>
+							<Route path="/*" element={<Overview getParty={getParty}/>}/>
 							<Route path="/Tournements" element={<Tournements/>}/>
 							<Route path="/Stats" element={<Stats/>}/>
 						</Routes>

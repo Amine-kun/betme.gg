@@ -64,7 +64,7 @@ const Main = () => {
 	useEffect(() => {
 		let party = getParty();
 	 	if (party !== null){
-	 		var gameSocket = new W3CWebSocket(`ws://165.232.108.134/ws/create-game/${party.id}/`);
+	 		var gameSocket = new W3CWebSocket(`wss://www.api-arcadia.me/ws/create-game/${party.id}/`);
 	 		setWs(gameSocket);
 	 		gameSocket.onopen = (event) =>{
 					 gameSocket.send(JSON.stringify({"verb":"open", "user":userData,"status":party.status, "team":party.team}))
@@ -102,7 +102,7 @@ const Main = () => {
 						<Navbar setSearch={setSearch} friends={friends} showFriends={showFriends} setShowFriends={setShowFriends} startListening={startListening} getParty={getParty}/>
 						<Routes>
 							<Route path="/" element={<Home/>}/>
-							<Route path="/Profile/*" element={<Profile userData={userData} friends={friends}/>}/>
+							<Route path="/Profile/*" element={<Profile userData={userData} friends={friends} getParty={getParty}/>}/>
 							<Route path="/Lives" element={<Lives/>}/>
 							<Route path="/Challenge/*" element={<Challenge setShowFriends={setShowFriends} userData={userData} getParty={getParty} lobbyPlayers={lobbyPlayers} ws={ws}/>}/>
 							<Route path="/Tournements" element={<Tournements/>}/>

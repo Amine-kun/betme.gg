@@ -7,7 +7,7 @@ const AuthContext = createContext();
 
   export default AuthContext;
 
-const BASE_URL = 'http://165.232.108.134';
+const BASE_URL = 'https://www.api-arcadia.me';
 
   export const AuthProvider = ({ children }) => {
     const [authTokens, setAuthTokens] = useState(() =>
