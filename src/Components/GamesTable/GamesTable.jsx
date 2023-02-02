@@ -1,6 +1,7 @@
 import React,{useState, useEffect} from 'react';
 import './GamesTable.scss';
 import './GameState.scss';
+import {useLocation} from 'react-router-dom';
 
 import {files} from '../../Assets';
 import profile from '../../Assets/profile.jpg';
@@ -10,6 +11,9 @@ export const GameState = ({bg, isFinished, game}) => {
 	const [players, setPlayers] = useState({winner:null, loser:null})
 	const [status, setStatus] = useState(null);
 	const [loading, setLoading] = useState(false);
+
+	const location = useLocation();
+	const path = location.pathname.split("/")[2];
 
 	const getUser =()=>{
 		const user = localStorage.getItem("userinfo")
@@ -33,7 +37,8 @@ export const GameState = ({bg, isFinished, game}) => {
 				loser.push(players[i])
 			}
 
-			if(players[i].username === get_user.username ){
+			if(players[i].id === parseInt(path)){
+
 				if(players[i].team === game.result){
 					setStatus('win')
 				} else {
@@ -49,7 +54,7 @@ export const GameState = ({bg, isFinished, game}) => {
 			setPlayers({winner:null, loser:null});
 			setLoading(true);
 		}
-	}, [])
+	}, [path])
 
 
 	return (
