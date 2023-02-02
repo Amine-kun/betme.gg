@@ -1,7 +1,7 @@
 
 import React, {useState, useEffect} from 'react';
 import './Overview.scss';
-import useAxios from '../../../utils/useAxios';
+import useAxios from '../../../../utils/useAxios';
 
 import {RiArrowUpSLine,RiArrowDownSLine} from 'react-icons/ri';
 import {GiTrophy} from 'react-icons/gi';
@@ -10,7 +10,7 @@ import GamesTable, {GameState} from '../../../../Components/GamesTable/GamesTabl
 import Achievements from '../../../../Components/Achievements/Achievements';
 import Statistics from '../../../../Components/Statistics/Statistics';
 
-const Overview = (getParty) => {
+const Overview = ({path}) => {
 
 		const api = useAxios();
 
@@ -18,8 +18,8 @@ const Overview = (getParty) => {
 		const [playerHistory, setPlayerHistory] = useState([])
 
 		useEffect(() => {
-			api.get('/api/match/')
-				.then(res=>setPlayerHistory(res.data.data))
+			api.get(`/api/match?uid=${path}`)
+				.then(res=>{setPlayerHistory(res.data.data)})
 				.catch(err=>console.log('cannot get player match history'))
 		}, [])
 
@@ -81,17 +81,17 @@ const Overview = (getParty) => {
 					<span className="crossing-bar"></span>
 
 						<GamesTable showMore={showMore} setShowMore={setShowMore}>
-							{playerHistory.length >0 
+							{playerHistory !== 'none' && playerHistory.length >0 
 								? <>
-									{[1,2,3,4,5,6,7].map((game, i)=>
+									{playerHistory.map((game, i)=>
 									 i < 4 && (i === 0 || i % 2 === 0 
-														? <GameState bg={'var(--primary-color-layer3)'} key={i}getParty={getParty}  game={game}/>
-														: <GameState key={i} getParty={getParty} game={game}/>) 
+														? <GameState bg={'var(--primary-color-layer3)'} key={i}  game={game} isFinished={true}/>
+														: <GameState key={i} game={game} isFinished={true}/>) 
 								)}
-								{showMore && [1,2,3,4,5,6,7].map((game, i)=>
+								{showMore && playerHistory.map((game, i)=>
 										i > 4 && (i % 2 !== 0 
-															? <GameState bg={'var(--primary-color-layer3)'} key={i} getParty={getParty} game={game}/>
-															: <GameState key={i} getParty={getParty} game={game}/>) 
+															? <GameState bg={'var(--primary-color-layer3)'} key={i} game={game} isFinished={true}/>
+															: <GameState key={i} game={game} isFinished={true}/>) 
 	 
 									)}
 								  </>

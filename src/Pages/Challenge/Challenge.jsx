@@ -62,13 +62,13 @@ const Challenge = ({setShowFriends,e, userData, getParty, lobbyPlayers, ws}) => 
 				 	setBetProgress('win');
 
 				 	if(party.status === 'creator'){
-				 		api.post('api/match/',{
+				 		api.post('/api/match/',{
 					 		placedBet:placedBet,
 					 		game:currentGame,
 					 		mode:mode,
 					 		players:lobbyPlayers,
 					 		result:'A',
-					 		timestamp:event.timestamp
+					 		timestamp:15
 					 	}).then(res=>console.log('saved')).catch(err=>console.log(err))
 				 	}
 
@@ -78,7 +78,7 @@ const Challenge = ({setShowFriends,e, userData, getParty, lobbyPlayers, ws}) => 
 				 	setBetProgress('lose');
 
 				 	if(party.status === 'creator'){
-				 		api.post('api/match/',{
+				 		api.post('/api/match/',{
 					 		placedBet:placedBet,
 					 		game:currentGame,
 					 		mode:mode,
