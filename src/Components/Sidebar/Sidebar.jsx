@@ -108,7 +108,12 @@ const Sidebar = ({startListening, userData}) => {
 	}, [windowSize]);
 
 	useEffect(() => {
-			if(location.pathname.split('/')[1] !== ''){
+			if(location.pathname.split('/')[1] === 'Profile'){
+				if(location.pathname.split('/')[2] === userData.main_id){
+					setActiveTab(location.pathname.split('/')[1])
+				} 
+			}
+			else if(location.pathname.split('/')[1] !== ''){
 				setActiveTab(location.pathname.split('/')[1]);
 			} else {
 				setActiveTab('Home');
