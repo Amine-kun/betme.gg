@@ -69,7 +69,7 @@ const GameOptions = () => {
 								<h6 style={{marginLeft:'auto'}}>Timer</h6>
 							</div>
 							<span className="crossing-bar"></span>
-							<GamesTable showMore={showMore} setShowMore={setShowMore}>
+							{/*<GamesTable showMore={showMore} setShowMore={setShowMore}>
 									{[1,2,3,4,5,6,7].map((game, i)=>
 											 i < 4 && (i === 0 || i % 2 === 0 
 																? <GameState bg={'var(--primary-color-layer3)'} key={i}/>
@@ -81,7 +81,7 @@ const GameOptions = () => {
 																: <GameState key={i}/>) 
 		 
 										)}
-							</GamesTable>
+							</GamesTable>*/}
 
 						</div>
 					</div>

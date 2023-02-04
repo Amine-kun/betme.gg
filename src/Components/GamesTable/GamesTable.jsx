@@ -4,7 +4,6 @@ import './GameState.scss';
 import {useLocation} from 'react-router-dom';
 
 import {files} from '../../Assets';
-import profile from '../../Assets/profile.jpg';
 
 export const GameState = ({bg, isFinished, game}) => {
 

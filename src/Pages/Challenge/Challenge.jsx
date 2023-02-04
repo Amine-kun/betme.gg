@@ -6,7 +6,6 @@ import useAxios from '../../utils/useAxios';
 
 import Loading from '../../Components/Loading/Loading';
 import {files} from '../../Assets';
-import picture from '../../Assets/profile.jpg';
 import {AiOutlineLoading3Quarters} from 'react-icons/ai';
 import {BiErrorAlt} from 'react-icons/bi';
 import {BsFillCircleFill} from 'react-icons/bs';
@@ -204,7 +203,7 @@ const Challenge = ({setShowFriends,e, userData, getParty, lobbyPlayers, ws}) => 
 						<div className="app-flex select_container">
 							<h4 className="def">Placed Bet : </h4>
 							<span className="input selector app-flex">	
-								<h5>AP</h5>
+								<h5>SP</h5>
 								<input type="number" className="bet" value={placedBet} onChange={(e)=> controlPlacedBet(e)}/>
 							</span>
 						</div>
@@ -231,7 +230,7 @@ const Challenge = ({setShowFriends,e, userData, getParty, lobbyPlayers, ws}) => 
 										<img src={userData.profile_picture} alt="player-pp" className="player-pp pointer"/>
 										<h6 style={{marginRight:'auto'}} className="pointer">You</h6>
 										<h6 className="status">Ready</h6>
-										<h6 style={{marginLeft:'auto'}}>${placedBet}</h6>
+										<h6 style={{marginLeft:'auto'}}>SP {placedBet}</h6>
 									</span>}
 
 								{lobbyPlayers?.map((player,i)=>(
@@ -240,7 +239,7 @@ const Challenge = ({setShowFriends,e, userData, getParty, lobbyPlayers, ws}) => 
 												<img src={player.profile_picture} alt="player-pp" className="player-pp pointer"/>
 												<h6 style={{marginRight:'auto'}} className="pointer">{player.username}</h6>
 												<h6 className="status">{player.state}</h6>
-												<h6 style={{marginLeft:'auto'}}>${placedBet}</h6>
+												<h6 style={{marginLeft:'auto'}}>SP {placedBet}</h6>
 											</span>
 									))}
 
@@ -255,7 +254,7 @@ const Challenge = ({setShowFriends,e, userData, getParty, lobbyPlayers, ws}) => 
 										<img src={userData.profile_picture} alt="player-pp" className="player-pp pointer"/>
 										<h6 style={{marginRight:'auto'}} className="pointer">You</h6>
 										<h6 className="status">Ready</h6>
-										<h6 style={{marginLeft:'auto'}}>${placedBet}</h6>
+										<h6 style={{marginLeft:'auto'}}>SP {placedBet}</h6>
 									</span>}
 
 								{lobbyPlayers.length > 1
@@ -265,7 +264,7 @@ const Challenge = ({setShowFriends,e, userData, getParty, lobbyPlayers, ws}) => 
 												<img src={player.profile_picture} alt="player-pp" className="player-pp pointer"/>
 												<h6 style={{marginRight:'auto'}} className="pointer">{player.username}</h6>
 												<h6 className="status">{player.state}</h6>
-												<h6 style={{marginLeft:'auto'}}>${placedBet}</h6>
+												<h6 style={{marginLeft:'auto'}}>SP {placedBet}</h6>
 											</span>
 									)) 
 									: <span className="player app-flex" style={{backgroundColor:'var(--primary-color)'}}>

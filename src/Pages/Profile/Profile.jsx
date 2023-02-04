@@ -3,7 +3,6 @@ import React, {useState, useEffect} from 'react';
 import './Profile.scss';
 import {Link, Routes, Route, useNavigate, useLocation} from 'react-router-dom';
 import {files} from '../../Assets';
-import picture from '../../Assets/profile.jpg';
 import useAxios from '../../utils/useAxios';
 import {BsFillPersonDashFill} from 'react-icons/bs';
 
@@ -52,12 +51,10 @@ const Profile = ({userData, friends}) => {
 
 		if(parseInt(path) === userData.main_id ){
 			setProfileData(userData)
-			setLoading(false)
 		}else {
 			api.get(`/api/profile/?uid=${path}`)
 			.then(res=>{
 				setProfileData(res.data)
-				setLoading(false)
 			})
 			.catch(err=>console.log('cannot get profile'))
 		}
@@ -76,8 +73,10 @@ const Profile = ({userData, friends}) => {
 	}
 
 	useEffect(() => {
+		setLoading(true);
 		handlePath();
 		checkIfFriend();
+		setTimeout(()=>{setLoading(false)}, 500)
 	}, [location, friends])
 
 	return (
@@ -101,7 +100,7 @@ const Profile = ({userData, friends}) => {
 										<button className="main-btn">Settings</button>
 									</Link>  } 
 							{parseInt(path) !== userData.main_id && !isFriend
-								 && <span className="settings">
+								 && <span className="settings" onClick={()=>addFriend(path)}>
 										<button className="main-btn">Add Friend</button>
 								   </span>}
 

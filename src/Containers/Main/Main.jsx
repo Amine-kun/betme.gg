@@ -1,5 +1,5 @@
 import React,{useState, useEffect} from 'react';
-import {Routes, Route, useNavigate} from 'react-router-dom';
+import {Routes, Route} from 'react-router-dom';
 import './Main.scss';
 import { w3cwebsocket as W3CWebSocket } from "websocket";
 import useAxios from '../../utils/useAxios';
@@ -17,20 +17,16 @@ import Navbar from '../../Components/Navbar/Navbar';
 import Friends from '../../Components/Friends/Friends';
 import Search from '../../Components/Search/Search';
 
-import picture from '../../Assets/profile.jpg';
-
 
 const Main = () => {
 
 	const [search, setSearch ] = useState(false);
 	const [showFriends, setShowFriends] = useState({status:false,team:'A'});
 	const [friends, setFriends] = useState([]);
-	const [team, setTeam] = useState(null);
 	const [isOn, setIsOn] = useState(false);
 	const [lobbyPlayers, setLobbyPlayers] = useState([]);
 	const [ws, setWs] = useState(null);
 	const api = useAxios();
-	const navigate = useNavigate();
 
     const userData = localStorage.getItem("userinfo")
 		                      ? JSON.parse(localStorage.getItem("userinfo"))
@@ -106,7 +102,7 @@ const Main = () => {
 							<Route path="/Lives" element={<Lives/>}/>
 							<Route path="/Challenge/*" element={<Challenge setShowFriends={setShowFriends} userData={userData} getParty={getParty} lobbyPlayers={lobbyPlayers} ws={ws}/>}/>
 							<Route path="/Tournements" element={<Tournements/>}/>
-							<Route path="/Messanger" element={<Chat/>}/>
+							<Route path="/Messanger" element={<><p>Coming soon...</p></>}/>
 							<Route path="/Games/*" element={<GameOptions/>}/>
 						</Routes>
 					</section>
