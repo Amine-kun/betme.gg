@@ -40,21 +40,54 @@ const Challenge = ({setShowFriends,e, userData, getParty, lobbyPlayers, ws}) => 
 	 	setLoading(false);
 	 }, [])
 
+	 useEffect(()=>{
+	 	// if(ws !== null){
+	 	// 	const data = {currentGame:currentGame, mode:mode, placedBet:placedBet}
+		//  		ws.send(JSON.stringify({"verb":"mode", "user":userData, "team":party.team, "data":data}))
+
+		//  		ws.onmessage=(event)=>{
+		// 	 	if(event.data === 'START'){
+		// 	 		// let validate = checkPLayersValidity();
+			 		
+		// 	 		// if(validate.status === 'pass'){
+		// 	 		// 	startBet();
+		// 	 		// } else {
+		// 	 		// 	console.log(validate.reason)
+		// 	 		// }
+
+		// 	 		startBet();
+		// 	 	}
+		// 	 }
+	 	// }
+
+	 },[placedBet, currentGame,mode])
+
 	 const controlPlacedBet = (e) =>{
 	 		 e.target.value > 100 ? console.log('too high') :setPlacedBet(e.target.value);
 	 		 return 0
 	 		}
 
+	 const checkPLayersValidity = () =>{
+	 	const res = api.post(`api/validation/`,{
+	 		gameId : party.id,
+	 		placedBet : placedBet
+	 	});
+	 	const result = res.json();
+	 	return result.data
+	 }
+
 	 const startBet = ()=>{
 	 	if(!status){
 	 		setStatus(true);
+
 	 		setBetProgress('init');
 	 		setMessage('start a bet ...');
 
 	 		var client = new W3CWebSocket(`ws://localhost:8080/?user=${userData.username}&game=${party.id}&players=${parseInt(mode[0])+parseInt(mode[2])}`);
 
 		 	client.onopen =(data) =>{
-		 		return setStatus(true);
+		 		setStatus(true);
+		 		return setMessage('Validating players...')
 		 	}
 		 	client.onmessage = (event) =>{
 				 if(event.data === 'WIN'){
@@ -69,6 +102,8 @@ const Challenge = ({setShowFriends,e, userData, getParty, lobbyPlayers, ws}) => 
 					 		result:'A',
 					 		timestamp:15
 					 	}).then(res=>console.log('saved')).catch(err=>console.log(err))
+				 		
+				 		ws.send(JSON.stringify({"verb":"finish", "status":party.status, "user":userData, "team":party.team}));
 				 	}
 
 				 	return setMessage('GG, You have Won.');
@@ -85,7 +120,10 @@ const Challenge = ({setShowFriends,e, userData, getParty, lobbyPlayers, ws}) => 
 					 		result:'B',
 					 		timestamp:event.timestamp
 					 	}).then(res=>console.log('saved')).catch(err=>console.log(err))
+				 		
+				 		ws.send(JSON.stringify({"verb":"finish", "status":party.status, "user":userData, "team":party.team}));
 				 	}
+
 				 	return setMessage('You have Lost. HARD LUCK next game :)');
 				 }
 				 else if(event.data === 'CANCEL_GAME'){
@@ -93,8 +131,8 @@ const Challenge = ({setShowFriends,e, userData, getParty, lobbyPlayers, ws}) => 
 				 	return setMessage('There has been an Error while creating your game, therefore the current match has been declined')
 				 }
 				 else if(event.data === 'SUS'){
-				 	setBetProgress('suspecious');
-				 	return setMessage('A suspecious behavious has been detected, Game Aborted.')
+				 	setBetProgress('suspicious');
+				 	return setMessage('A suspicious behaviors has been detected, Game Aborted.')
 				 }else{
 				 	setBetProgress('init');
 				 	return setMessage(event.data)
@@ -118,7 +156,18 @@ const Challenge = ({setShowFriends,e, userData, getParty, lobbyPlayers, ws}) => 
 
 	 const startGame = () =>{
 	 	if(mode !== null && mode !== 'Select mode'){
-	 		startBet();
+	 		if(party.status === 'invited'){
+		 		ws.send(JSON.stringify({"verb":"update", "status":party.status, "user":userData, "team":party.team}));
+		 		setStatus(true);
+		 		setBetProgress('init')
+		 		setMessage('Waiting for the owner to launch...');
+		 	} 
+
+		 	if(party.status === 'creator'){
+		 		ws.send(JSON.stringify({"verb":"start", "status":party.status, "user":userData, "team":party.team}));
+		 		startBet();
+		 	}
+		 	
 	 		return 1
 	 	} else {
 	 		setStatus(true);
@@ -175,43 +224,86 @@ const Challenge = ({setShowFriends,e, userData, getParty, lobbyPlayers, ws}) => 
 					))}
 				
 				<div className="game_sets app-flex-wrap">
-					<div className="app-flex select_container">
-						<h4 className="def">Select Game : </h4>
-						<select className="selector" onChange={(e)=>setCurrentGame(e.target.value)}>	
-							
-							{gamesData.map((game, i)=>(
-								<option key={i}>{game.name}</option>
-										))}
-
-						</select>
-					</div>
-					<div className="app-flex select_container">
-						<h4 className="def">Game Mode : </h4>
-						<select className="selector" onChange={(e)=>setMode(e.target.value)}>	
-							 <option>Select mode</option>
-							 {gamesData.map((game)=>(
-							 	 game.name === currentGame 
-							 	 	&& game.modes.map((mode, i)=>(
-							 	 		<option key={i}>{mode}</option>
-							 	 		))
-							 	))}
-							
-						</select>
-					</div>
+					{party.status === 'creator' && 
+								<>
+									<div className="app-flex select_container">
+											<h4 className="def">Select Game : </h4>
+											<select className="selector" onChange={(e)=>setCurrentGame(e.target.value)}>	
+												
+												{gamesData.map((game, i)=>(
+													<option key={i}>{game.name}</option>
+															))}
 					
-					<div className="amount select_container">
-						<div className="app-flex select_container">
-							<h4 className="def">Placed Bet : </h4>
-							<span className="input selector app-flex">	
-								<h5>SP</h5>
-								<input type="number" className="bet" value={placedBet} onChange={(e)=> controlPlacedBet(e)}/>
-							</span>
-						</div>
-						<span className="warn app-flex">
-							<BsFillCircleFill className="warn-icon" />
-							<h6 className="warn-text">The bet should be equal for both parties, any bet differences will cause an abort for the current bet, GL HF :D!</h6>
-						</span>
-					</div>
+											</select>
+										</div>
+										<div className="app-flex select_container">
+											<h4 className="def">Game Mode : </h4>
+											<select className="selector" onChange={(e)=>setMode(e.target.value)}>	
+												 <option>Select mode</option>
+												 {gamesData.map((game)=>(
+												 	 game.name === currentGame 
+												 	 	&& game.modes.map((mode, i)=>(
+												 	 		<option key={i}>{mode}</option>
+												 	 		))
+												 	))}
+												
+											</select>
+										</div>
+										
+										<div className="amount select_container">
+											<div className="app-flex select_container">
+												<h4 className="def">Placed Bet : </h4>
+												<span className="input selector app-flex">	
+													<h5>SP</h5>
+													<input type="number" className="bet" value={placedBet} onChange={(e)=> controlPlacedBet(e)}/>
+												</span>
+											</div>
+											<span className="warn app-flex">
+												<BsFillCircleFill className="warn-icon" />
+												<h6 className="warn-text">The bet should be equal for both parties, any bet differences will cause an abort for the current bet, GL HF :D!</h6>
+											</span>
+										</div>
+								</>}
+					{party.status === 'invited' && 
+								<>
+								 	<div className="app-flex select_container">
+											<h4 className="def">Select Game : </h4>
+											<select className="selector" onChange={(e)=>setCurrentGame(e.target.value)}>	
+												
+												{gamesData.map((game, i)=>(
+													<option key={i}>{game.name}</option>
+															))}
+					
+											</select>
+										</div>
+										<div className="app-flex select_container">
+											<h4 className="def">Game Mode : </h4>
+											<select className="selector" onChange={(e)=>setMode(e.target.value)}>	
+												 <option>Select mode</option>
+												 {gamesData.map((game)=>(
+												 	 game.name === currentGame 
+												 	 	&& game.modes.map((mode, i)=>(
+												 	 		<option key={i}>{mode}</option>
+												 	 		))
+												 	))}
+												
+											</select>
+										</div>
+										
+										<div className="amount select_container">
+											<div className="app-flex select_container">
+												<h4 className="def">Placed Bet : </h4>
+												<span className="input selector app-flex">	
+													<h5>SP</h5>
+													<input type="number" className="bet" value={placedBet} onChange={(e)=> controlPlacedBet(e)}/>
+												</span>
+											</div>
+											<span className="warn app-flex">
+												<BsFillCircleFill className="warn-icon" />
+												<h6 className="warn-text">The bet should be equal for both parties, any bet differences will cause an abort for the current bet, GL HF :D!</h6>
+											</span>
+										</div>
+								</>}
 
 					<div className="players select_container app-flex">
 						<h4 className="def">Players : </h4>
@@ -249,20 +341,12 @@ const Challenge = ({setShowFriends,e, userData, getParty, lobbyPlayers, ws}) => 
 								</span>
 							</div>
 							<div className="players-container app-flex-wrap">
-								{party.team === 'B' && 
-									<span className="player app-flex" style={{backgroundColor:'var(--primary-color)'}}>
-										<img src={userData.profile_picture} alt="player-pp" className="player-pp pointer"/>
-										<h6 style={{marginRight:'auto'}} className="pointer">You</h6>
-										<h6 className="status">Ready</h6>
-										<h6 style={{marginLeft:'auto'}}>SP {placedBet}</h6>
-									</span>}
-
 								{lobbyPlayers.length > 1
 									? lobbyPlayers?.map((player,i)=>(
-										player.id !== userData.main_id && player.team === 'B' &&
+										 player.team === 'B' &&
 											<span className="player app-flex" style={{backgroundColor:'var(--primary-color)'}} key={i}>
 												<img src={player.profile_picture} alt="player-pp" className="player-pp pointer"/>
-												<h6 style={{marginRight:'auto'}} className="pointer">{player.username}</h6>
+												<h6 style={{marginRight:'auto'}} className="pointer">{player.id === userData.main_id && player.team === 'B' ? 'You' : player.username}</h6>
 												<h6 className="status">{player.state}</h6>
 												<h6 style={{marginLeft:'auto'}}>SP {placedBet}</h6>
 											</span>
