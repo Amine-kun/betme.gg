@@ -26,6 +26,7 @@ const Main = () => {
 	const [isOn, setIsOn] = useState(false);
 	const [lobbyPlayers, setLobbyPlayers] = useState([]);
 	const [ws, setWs] = useState(null);
+	const [gameStatus, setGameStatus] = useState(null);
 	const api = useAxios();
 
     const userData = localStorage.getItem("userinfo")
@@ -69,6 +70,12 @@ const Main = () => {
 			gameSocket.onmessage = (event) =>{
 					let data = JSON.parse(event.data)
 					 setLobbyPlayers(data.players.players)
+					 
+					 if(data.status === 'start'){
+					 	setGameStatus('start');
+					 }
+					 console.log(data)
+
 				}
 
 			gameSocket.onerror = (event) =>{
@@ -100,7 +107,7 @@ const Main = () => {
 							<Route path="/" element={<Home/>}/>
 							<Route path="/Profile/*" element={<Profile userData={userData} friends={friends} />}/>
 							<Route path="/Lives" element={<Lives/>}/>
-							<Route path="/Challenge/*" element={<Challenge setShowFriends={setShowFriends} userData={userData} getParty={getParty} lobbyPlayers={lobbyPlayers} ws={ws}/>}/>
+							<Route path="/Challenge/*" element={<Challenge gameStatus={gameStatus} setShowFriends={setShowFriends} userData={userData} getParty={getParty} lobbyPlayers={lobbyPlayers} ws={ws}/>}/>
 							<Route path="/Tournements" element={<Tournements/>}/>
 							<Route path="/Messanger" element={<><p>Coming soon...</p></>}/>
 							<Route path="/Games/*" element={<GameOptions/>}/>

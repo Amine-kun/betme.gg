@@ -19,12 +19,13 @@ const gamesData = [{name:'League of legends', icon:files.lol, modes:['1V1','5V5'
 				   {name:'Valorant', icon:files.valo, modes:['1V1','5V5']}]
 
 
-const Challenge = ({setShowFriends,e, userData, getParty, lobbyPlayers, ws}) => {
+const Challenge = ({setShowFriends,e, userData, getParty, lobbyPlayers, ws, gameStatus}) => {
 
 	 const [currentGame, setCurrentGame] = useState(gamesData[0].name);
 	 const [mode, setMode] = useState(null);
 	 const [placedBet, setPlacedBet] = useState(10);
 	 const [status, setStatus] = useState(false);
+	 const [isOpen, setIsOpen] = useState(false);
 
 	 const [message, setMessage] = useState('start a bet ...');
 	 const [loading, setLoading] = useState(true);
@@ -41,26 +42,22 @@ const Challenge = ({setShowFriends,e, userData, getParty, lobbyPlayers, ws}) => 
 	 }, [])
 
 	 useEffect(()=>{
-	 	// if(ws !== null){
-	 	// 	const data = {currentGame:currentGame, mode:mode, placedBet:placedBet}
-		//  		ws.send(JSON.stringify({"verb":"mode", "user":userData, "team":party.team, "data":data}))
+	 	if(gameStatus === 'start'){
+	 		// const data = {currentGame:currentGame, mode:mode, placedBet:placedBet}
+		 	// 	ws.send(JSON.stringify({"verb":"mode", "user":userData, "team":party.team, "data":data}))
 
-		//  		ws.onmessage=(event)=>{
-		// 	 	if(event.data === 'START'){
-		// 	 		// let validate = checkPLayersValidity();
+			 		// let validate = checkPLayersValidity();
 			 		
-		// 	 		// if(validate.status === 'pass'){
-		// 	 		// 	startBet();
-		// 	 		// } else {
-		// 	 		// 	console.log(validate.reason)
-		// 	 		// }
+			 		// if(validate.status === 'pass'){
+			 		// 	startBet();
+			 		// } else {
+			 		// 	console.log(validate.reason)
+			 		// }
 
-		// 	 		startBet();
-		// 	 	}
-		// 	 }
-	 	// }
+			 		startBet();
+	 	}
 
-	 },[placedBet, currentGame,mode])
+	 },[placedBet, currentGame, mode, gameStatus])
 
 	 const controlPlacedBet = (e) =>{
 	 		 e.target.value > 100 ? console.log('too high') :setPlacedBet(e.target.value);
@@ -77,7 +74,7 @@ const Challenge = ({setShowFriends,e, userData, getParty, lobbyPlayers, ws}) => 
 	 }
 
 	 const startBet = ()=>{
-	 	if(!status){
+	 	if(!isOpen){
 	 		setStatus(true);
 
 	 		setBetProgress('init');
@@ -145,7 +142,7 @@ const Challenge = ({setShowFriends,e, userData, getParty, lobbyPlayers, ws}) => 
 					return setTimeout(()=>{setStatus(false)},2000)
 				}
 			}
-	 	}else if(status){
+	 	}else if(isOpen){
 	 		return client.close();
 	 	} 
 	 	else {
@@ -164,6 +161,7 @@ const Challenge = ({setShowFriends,e, userData, getParty, lobbyPlayers, ws}) => 
 		 	} 
 
 		 	if(party.status === 'creator'){
+		 		console.log('test')
 		 		ws.send(JSON.stringify({"verb":"start", "status":party.status, "user":userData, "team":party.team}));
 		 		startBet();
 		 	}
