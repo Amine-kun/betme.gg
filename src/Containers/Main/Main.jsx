@@ -27,6 +27,7 @@ const Main = () => {
 	const [lobbyPlayers, setLobbyPlayers] = useState([]);
 	const [ws, setWs] = useState(null);
 	const [gameStatus, setGameStatus] = useState(null);
+	const [updateData, setUpdateData] = useState({game:'League of legends', mode:'Select mode', bet:10})
 	const api = useAxios();
 
     const userData = localStorage.getItem("userinfo")
@@ -64,7 +65,7 @@ const Main = () => {
 	 		var gameSocket = new W3CWebSocket(`wss://www.api-arcadia.me/ws/create-game/${party.id}/`);
 	 		setWs(gameSocket);
 	 		gameSocket.onopen = (event) =>{
-					 gameSocket.send(JSON.stringify({"verb":"open", "user":userData,"status":party.status, "team":party.team}))
+					 gameSocket.send(JSON.stringify({"verb":"open", "user":userData,"status":party.status, "team":party.team, "data":"init"}))
 				}
 
 			gameSocket.onmessage = (event) =>{
@@ -74,7 +75,10 @@ const Main = () => {
 					 if(data.status === 'start'){
 					 	setGameStatus('start');
 					 }
-					 console.log(data)
+					 if(data.status === 'mode'){
+					 	console.log(data.mode)
+					 	setUpdateData({game:data.mode.currentGame, bet:data.mode.placedBet, mode:data.mode.mode})
+					 }
 
 				}
 
@@ -107,7 +111,7 @@ const Main = () => {
 							<Route path="/" element={<Home/>}/>
 							<Route path="/Profile/*" element={<Profile userData={userData} friends={friends} />}/>
 							<Route path="/Lives" element={<Lives/>}/>
-							<Route path="/Challenge/*" element={<Challenge gameStatus={gameStatus} setShowFriends={setShowFriends} userData={userData} getParty={getParty} lobbyPlayers={lobbyPlayers} ws={ws}/>}/>
+							<Route path="/Challenge/*" element={<Challenge updateData={updateData} gameStatus={gameStatus} setShowFriends={setShowFriends} userData={userData} getParty={getParty} lobbyPlayers={lobbyPlayers} ws={ws}/>}/>
 							<Route path="/Tournements" element={<Tournements/>}/>
 							<Route path="/Messanger" element={<><p>Coming soon...</p></>}/>
 							<Route path="/Games/*" element={<GameOptions/>}/>

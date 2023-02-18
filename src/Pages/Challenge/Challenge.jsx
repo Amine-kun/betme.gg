@@ -19,11 +19,11 @@ const gamesData = [{name:'League of legends', icon:files.lol, modes:['1V1','5V5'
 				   {name:'Valorant', icon:files.valo, modes:['1V1','5V5']}]
 
 
-const Challenge = ({setShowFriends,e, userData, getParty, lobbyPlayers, ws, gameStatus}) => {
+const Challenge = ({updateData, setShowFriends, e, userData, getParty, lobbyPlayers, ws, gameStatus}) => {
 
-	 const [currentGame, setCurrentGame] = useState(gamesData[0].name);
-	 const [mode, setMode] = useState(null);
-	 const [placedBet, setPlacedBet] = useState(10);
+	 const [currentGame, setCurrentGame] = useState(updateData.game);
+	 const [mode, setMode] = useState(updateData.mode);
+	 const [placedBet, setPlacedBet] = useState(updateData.bet);
 	 const [status, setStatus] = useState(false);
 	 const [isOpen, setIsOpen] = useState(false);
 
@@ -42,19 +42,20 @@ const Challenge = ({setShowFriends,e, userData, getParty, lobbyPlayers, ws, game
 	 }, [])
 
 	 useEffect(()=>{
+	 	setCurrentGame(updateData.game);
+	 	setMode(updateData.mode);
+	 	setPlacedBet(updateData.bet);
+	 },[updateData])
+
+	 useEffect(()=>{
 	 	if(gameStatus === 'start'){
-	 		// const data = {currentGame:currentGame, mode:mode, placedBet:placedBet}
-		 	// 	ws.send(JSON.stringify({"verb":"mode", "user":userData, "team":party.team, "data":data}))
-
-			 		// let validate = checkPLayersValidity();
-			 		
-			 		// if(validate.status === 'pass'){
-			 		// 	startBet();
-			 		// } else {
-			 		// 	console.log(validate.reason)
-			 		// }
-
 			 		startBet();
+	 	}
+
+	 	if(ws !== null){
+	 		const data = {currentGame:currentGame, mode:mode, placedBet:placedBet}
+			ws.send(JSON.stringify({"verb":"mode", "user":userData, "team":party.team, "data":data}))
+
 	 	}
 
 	 },[placedBet, currentGame, mode, gameStatus])
@@ -100,7 +101,7 @@ const Challenge = ({setShowFriends,e, userData, getParty, lobbyPlayers, ws, game
 					 		timestamp:15
 					 	}).then(res=>console.log('saved')).catch(err=>console.log(err))
 				 		
-				 		ws.send(JSON.stringify({"verb":"finish", "status":party.status, "user":userData, "team":party.team}));
+				 		ws.send(JSON.stringify({"verb":"finish", "status":party.status, "user":userData, "team":party.team, "data":"end"}));
 				 	}
 
 				 	return setMessage('GG, You have Won.');
@@ -118,7 +119,7 @@ const Challenge = ({setShowFriends,e, userData, getParty, lobbyPlayers, ws, game
 					 		timestamp:event.timestamp
 					 	}).then(res=>console.log('saved')).catch(err=>console.log(err))
 				 		
-				 		ws.send(JSON.stringify({"verb":"finish", "status":party.status, "user":userData, "team":party.team}));
+				 		ws.send(JSON.stringify({"verb":"finish", "status":party.status, "user":userData, "team":party.team, "data":"end"}));
 				 	}
 
 				 	return setMessage('You have Lost. HARD LUCK next game :)');
@@ -154,7 +155,7 @@ const Challenge = ({setShowFriends,e, userData, getParty, lobbyPlayers, ws, game
 	 const startGame = () =>{
 	 	if(mode !== null && mode !== 'Select mode'){
 	 		if(party.status === 'invited'){
-		 		ws.send(JSON.stringify({"verb":"update", "status":party.status, "user":userData, "team":party.team}));
+		 		ws.send(JSON.stringify({"verb":"update", "status":party.status, "user":userData, "team":party.team, "data":"update"}));
 		 		setStatus(true);
 		 		setBetProgress('init')
 		 		setMessage('Waiting for the owner to launch...');
@@ -162,7 +163,7 @@ const Challenge = ({setShowFriends,e, userData, getParty, lobbyPlayers, ws, game
 
 		 	if(party.status === 'creator'){
 		 		console.log('test')
-		 		ws.send(JSON.stringify({"verb":"start", "status":party.status, "user":userData, "team":party.team}));
+		 		ws.send(JSON.stringify({"verb":"start", "status":party.status, "user":userData, "team":party.team, "data":"start"}));
 		 		startBet();
 		 	}
 		 	
@@ -180,7 +181,7 @@ const Challenge = ({setShowFriends,e, userData, getParty, lobbyPlayers, ws, game
 
 	 	localStorage.removeItem("partystatus")
 	 	navigate('/');
-	 	ws.send(JSON.stringify({"verb":"close", "status":party.status, "user":userData, "team":party.team}));
+	 	ws.send(JSON.stringify({"verb":"close", "status":party.status, "user":userData, "team":party.team, "data":"leave"}));
 	 	ws.close();
 	 }
 
@@ -266,7 +267,7 @@ const Challenge = ({setShowFriends,e, userData, getParty, lobbyPlayers, ws, game
 								<>
 								 	<div className="app-flex select_container">
 											<h4 className="def">Select Game : </h4>
-											<select className="selector" onChange={(e)=>setCurrentGame(e.target.value)}>	
+											<select className="selector" value={currentGame} onChange={(e)=>setCurrentGame(e.target.value)}>	
 												
 												{gamesData.map((game, i)=>(
 													<option key={i}>{game.name}</option>
@@ -276,7 +277,7 @@ const Challenge = ({setShowFriends,e, userData, getParty, lobbyPlayers, ws, game
 										</div>
 										<div className="app-flex select_container">
 											<h4 className="def">Game Mode : </h4>
-											<select className="selector" onChange={(e)=>setMode(e.target.value)}>	
+											<select className="selector" value={mode} onChange={(e)=>setMode(e.target.value)}>	
 												 <option>Select mode</option>
 												 {gamesData.map((game)=>(
 												 	 game.name === currentGame 
