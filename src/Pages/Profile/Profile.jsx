@@ -128,7 +128,7 @@ const Profile = ({userData, friends}) => {
 
 					<div className='Pages__container'>
 						<Routes>
-							<Route path="/*" element={<Overview path={path}/>}/>
+							<Route path="/*" element={<Overview path={path} userData={userData}/>}/>
 							<Route path="/Tournements" element={<Tournements/>}/>
 							<Route path="/Stats" element={<Stats/>}/>
 						</Routes>

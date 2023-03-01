@@ -10,17 +10,44 @@ import GamesTable, {GameState} from '../../../../Components/GamesTable/GamesTabl
 import Achievements from '../../../../Components/Achievements/Achievements';
 import Statistics from '../../../../Components/Statistics/Statistics';
 
-const Overview = ({path}) => {
+const Overview = ({path, userData}) => {
 
 		const api = useAxios();
 
 		const [showMore, setShowMore] = useState(false);
+		const [ttlPoints, setTtlPoints] = useState(0);
+		const [wons, setWons] = useState(0);
+		const [losts, setLosts] = useState(0);
 		const [playerHistory, setPlayerHistory] = useState([])
 
 		useEffect(() => {
 			api.get(`/api/match?uid=${path}`)
-				.then(res=>{setPlayerHistory(res.data.data)})
+				.then(res=>{
+					let data= res.data.data;
+					let wins=0;
+					let loses=0;
+					setPlayerHistory(data);
+
+					for(let i=0; i<data.length; i++){
+						for(let j=0; j<data[i].players.length; j++){
+							if(data[i].players[j].id === parseInt(path)){
+								if(data[i].players[j].team === data[i].result){
+									wins = wins + data[i].placedBet;
+
+								} else{
+									loses = loses + data[i].placedBet;
+								}
+							} 
+						}
+					}
+					setWons(wins);
+					setLosts(loses);
+				})
 				.catch(err=>console.log('cannot get player match history'))
+
+			api.get('/api/player_points/')
+				.then((res)=>setTtlPoints(res.data.data))
+				.catch(()=>console.log('cannot get your'))
 		}, [])
 
 	return (
@@ -30,19 +57,19 @@ const Overview = ({path}) => {
 
 					<div className="balance palet app-flex-wrap">
 						<div className="section__header">
-							<h4>Arcadia Points</h4>
+							<h4>Squid Points</h4>
 						</div>
 						<div className="total">
-							<h1>0 AP</h1>
+							<h1>{wons-losts} AP</h1>
 						</div>
 						<div className="summary app-flex">
 							<span className="up app-flex" style={{gap:'3px'}}>
 								<RiArrowUpSLine style={{color:'var(--green-color)', fontSize:'1.2rem'}}/>
-								<h6>0 AP</h6>
+								<h6>{wons} AP</h6>
 							</span>
 							<span className="down app-flex" style={{gap:'3px'}}>
 								<RiArrowDownSLine style={{color:'var(--red-color)', fontSize:'1.2rem'}}/>
-								<h6>0 AP</h6>
+								<h6>{losts} AP</h6>
 							</span>
 						</div>
 					</div>

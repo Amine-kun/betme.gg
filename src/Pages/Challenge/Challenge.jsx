@@ -52,9 +52,9 @@ const Challenge = ({updateData, setShowFriends, e, userData, getParty, lobbyPlay
 			 		startBet();
 	 	}
 
-	 	if(ws !== null){
+	 	if(ws !== null && party !== null){
 	 		const data = {currentGame:currentGame, mode:mode, placedBet:placedBet}
-			ws.send(JSON.stringify({"verb":"mode", "user":userData, "team":party.team, "data":data}))
+			ws.send(JSON.stringify({"verb":"mode", "user":userData, "team":party?.team, "data":data}))
 
 	 	}
 
@@ -89,7 +89,7 @@ const Challenge = ({updateData, setShowFriends, e, userData, getParty, lobbyPlay
 		 	client.onmessage = (event) =>{
 				 if(event.data === 'WIN'){
 				 	setBetProgress('win');
-
+				 	
 				 	if(party.status === 'creator'){
 				 		api.post('/api/match/',{
 					 		placedBet:placedBet,
@@ -269,7 +269,7 @@ const Challenge = ({updateData, setShowFriends, e, userData, getParty, lobbyPlay
 											</div>
 											<span className="warn app-flex">
 												<BsFillCircleFill className="warn-icon" />
-												<h6 className="warn-text">The bet should be equal for both parties, any bet differences will cause an abort for the current bet, GL HF :D!</h6>
+												<h6 className="warn-text">Only the party owner is able to change the settings, GG HF ! </h6>
 											</span>
 										</div>
 								</>}
