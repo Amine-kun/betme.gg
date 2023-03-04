@@ -3,6 +3,7 @@ import { w3cwebsocket as W3CWebSocket } from "websocket";
 import './Challenge.scss';
 import {useNavigate} from 'react-router-dom';
 import useAxios from '../../utils/useAxios';
+import {useSelector} from 'react-icons';
 
 import Loading from '../../Components/Loading/Loading';
 import {files} from '../../Assets';
@@ -34,8 +35,10 @@ const Challenge = ({updateData, setShowFriends, e, userData, getParty, lobbyPlay
 
 	 const api = useAxios();
 	 const navigate = useNavigate();
+	 const games = useSelector(state=>state.games.games)
 
 	 useEffect(() => {
+	 	console.log('games',games)
 	 	let getP= getParty();
 	 	setParty(getP);
 	 	setLoading(false);

@@ -37,6 +37,12 @@ const Home = () => {
 				setPoints(res.data.data)
 			})
 			.catch(err=>console.log('cannot calculate user points'))
+
+		api.get('/api/liveGames')
+			.then(res=>{
+				console.log(res.data)
+			})
+			.catch(err=>console.log('cannot get live games'))
 	}, [])
 
 	return (
