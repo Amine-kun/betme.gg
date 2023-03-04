@@ -2,9 +2,9 @@ import React, {useState,useEffect} from 'react';
 import './Landing.scss';
 import '../../Assets/shapes.scss';
 import {Link} from 'react-router-dom';
-import useAxios from '../../utils/useAxios';
 import {useDispatch} from 'react-redux';
 import {setGames} from '../../Redux/games';
+import axios from 'axios';
 
 import {files}  from '../../Assets';
 import logo from "../../Assets/logo/fullLogo.png";
@@ -14,18 +14,19 @@ import Footer from '../../Components/Footer/Footer';
 
 const Landing = () => {
 	const [supportedGames, setSupportedGames]= useState([]);
-	const api = useAxios();
 
 	const dispatch = useDispatch();
 
 	useEffect(() => {
-		api.get('/api/on_games/')
-		.then(data=>{
-			console.log(data);
-			setSupportedGames(data);
-			dispatch(setGames({data}))
-		})	
-		.catch(err=>console.log(err))
+
+		axios.get('https://www.api-arcadia.me/api/on_games/')
+			.then(res=>{
+					const data=res.data
+					console.log(res.data)
+					setSupportedGames(data);
+					dispatch(setGames({data}))
+			})
+			.catch(err=>console.log(err))
 	}, [])
 
 	return (

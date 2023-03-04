@@ -1,5 +1,5 @@
 import {configureStore} from '@reduxjs/toolkit';
-import cartReducer from './games';
+import gamesReducer from './games';
 
 export default configureStore({
 	reducer : {

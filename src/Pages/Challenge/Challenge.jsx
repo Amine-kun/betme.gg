@@ -3,7 +3,7 @@ import { w3cwebsocket as W3CWebSocket } from "websocket";
 import './Challenge.scss';
 import {useNavigate} from 'react-router-dom';
 import useAxios from '../../utils/useAxios';
-import {useSelector} from 'react-icons';
+import {useSelector} from 'react-redux';
 
 import Loading from '../../Components/Loading/Loading';
 import {files} from '../../Assets';

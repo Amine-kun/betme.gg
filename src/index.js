@@ -10,9 +10,9 @@ import reducer from './Redux/reducer'
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <Router>
-    <Provider reducer={reducer}>
+    <Provider store={reducer}>
       <App />
-    <Provider/>
+    </Provider>
   </Router>
 );
 

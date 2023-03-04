@@ -7,7 +7,7 @@ const gameSlice = createSlice({
 	},
 	reducers:{
 		setGames:(state, action)=>{
-			state.games = action.payload.games;
+			state.games = action.payload.data;
 		}
 	},
 });
