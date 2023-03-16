@@ -2,6 +2,7 @@ import React,{useState, useEffect} from 'react';
 import './GamesTable.scss';
 import './GameState.scss';
 import {useLocation} from 'react-router-dom';
+import {useSelector} from 'react-redux';
 
 import {files} from '../../Assets';
 
@@ -10,6 +11,10 @@ export const GameState = ({bg, isFinished, game}) => {
 	const [players, setPlayers] = useState({winner:null, loser:null})
 	const [status, setStatus] = useState(null);
 	const [loading, setLoading] = useState(false);
+	const games = useSelector(state=>state.games.games)
+	const selectGame = games.filter(g=>{
+		return g.id === game.game_info
+	})
 
 	const location = useLocation();
 	const path = location.pathname.split("/")[2];
@@ -61,7 +66,7 @@ export const GameState = ({bg, isFinished, game}) => {
 		{!players.winner && <p>waiting ....</p>}
 		{players.winner && 
 			<div className="gamestate_main app-flex" style={{backgroundColor:bg}}>	
-				<img src={files.League} alt="game" className="game-icon"/>
+				<img src={selectGame[0].icon} alt="game" className="game-icon"/>
 				
 				<div className="players app-flex">
 					<div className="player app-flex">

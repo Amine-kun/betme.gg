@@ -27,7 +27,7 @@ const Main = () => {
 	const [lobbyPlayers, setLobbyPlayers] = useState([]);
 	const [ws, setWs] = useState(null);
 	const [gameStatus, setGameStatus] = useState(null);
-	const [updateData, setUpdateData] = useState({game:'League of legends', mode:'Select mode', bet:10})
+	const [updateData, setUpdateData] = useState({id:2, game:'Valorant', mode:'Select mode', bet:10})
 	const api = useAxios();
 
     const userData = localStorage.getItem("userinfo")
@@ -65,7 +65,7 @@ const Main = () => {
 	 		var gameSocket = new W3CWebSocket(`wss://www.api-arcadia.me/ws/create-game/${party.id}/`);
 	 		setWs(gameSocket);
 	 		gameSocket.onopen = (event) =>{
-					 gameSocket.send(JSON.stringify({"verb":"open", "user":userData,"status":party.status, "team":party.team, "data":"init"}))
+					 gameSocket.send(JSON.stringify({"verb":"open", "user":userData,"status":party.status, "team":party.team, "data":"init", "game":updateData.id}))
 				}
 
 			gameSocket.onmessage = (event) =>{
@@ -76,7 +76,6 @@ const Main = () => {
 					 	setGameStatus('start');
 					 }
 					 if(data.status === 'mode'){
-					 	console.log(data.mode)
 					 	setUpdateData({game:data.mode.currentGame, bet:data.mode.placedBet, mode:data.mode.mode})
 					 }
 

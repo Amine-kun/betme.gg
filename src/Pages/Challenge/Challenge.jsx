@@ -23,6 +23,7 @@ const gamesData = [{name:'League of legends', icon:files.lol, modes:['1V1','5V5'
 const Challenge = ({updateData, setShowFriends, e, userData, getParty, lobbyPlayers, ws, gameStatus}) => {
 
 	 const [currentGame, setCurrentGame] = useState(updateData.game);
+	 const [gameId, setGameId] = useState(updateData.id)
 	 const [mode, setMode] = useState(updateData.mode);
 	 const [placedBet, setPlacedBet] = useState(updateData.bet);
 	 const [status, setStatus] = useState(false);
@@ -37,8 +38,9 @@ const Challenge = ({updateData, setShowFriends, e, userData, getParty, lobbyPlay
 	 const navigate = useNavigate();
 	 const games = useSelector(state=>state.games.games)
 
+
 	 useEffect(() => {
-	 	console.log('games',games)
+	 	console.log(games);
 	 	let getP= getParty();
 	 	setParty(getP);
 	 	setLoading(false);
@@ -83,7 +85,7 @@ const Challenge = ({updateData, setShowFriends, e, userData, getParty, lobbyPlay
 	 		setBetProgress('init');
 	 		setMessage('start a bet ...');
 
-	 		var client = new W3CWebSocket(`ws://localhost:8080/?user=${userData.username}&game=${party.id}&players=${parseInt(mode[0])+parseInt(mode[2])}`);
+	 		var client = new W3CWebSocket(`ws://localhost:8080/?user=${userData.username}&game=${party?.id}&players=${parseInt(mode[0])+parseInt(mode[2])}`);
 
 		 	client.onopen =(data) =>{
 		 		setStatus(true);
@@ -97,6 +99,7 @@ const Challenge = ({updateData, setShowFriends, e, userData, getParty, lobbyPlay
 				 		api.post('/api/match/',{
 					 		placedBet:placedBet,
 					 		game:currentGame,
+					 		game_info:gameId,
 					 		mode:mode,
 					 		players:lobbyPlayers,
 					 		result:'A',
@@ -115,6 +118,7 @@ const Challenge = ({updateData, setShowFriends, e, userData, getParty, lobbyPlay
 				 		api.post('/api/match/',{
 					 		placedBet:placedBet,
 					 		game:currentGame,
+					 		game_info:gameId,
 					 		mode:mode,
 					 		players:lobbyPlayers,
 					 		result:'B',
@@ -155,6 +159,7 @@ const Challenge = ({updateData, setShowFriends, e, userData, getParty, lobbyPlay
 	 }
 
 	 const startGame = async () =>{
+	 	
 	 	if(mode !== null && mode !== 'Select mode'){
 	 		if(party.status === 'invited'){
 		 		ws.send(JSON.stringify({"verb":"update", "status":party.status, "user":userData, "team":party.team, "data":"update"}));
@@ -175,7 +180,11 @@ const Challenge = ({updateData, setShowFriends, e, userData, getParty, lobbyPlay
 			 		setMessage(validate.reason);
 
 		 		}else{
-		 			ws.send(JSON.stringify({"verb":"start", "status":party.status, "user":userData, "team":party.team, "data":"start"}));
+		 			let targetGame = games.filter(game=>{
+		 				return game.game === currentGame
+		 			})
+		 			setGameId(targetGame[0].id)
+		 			ws.send(JSON.stringify({"verb":"start", "status":party.status, "user":userData, "team":party.team, "data":"start", "game":targetGame[0].id}));
 		 			startBet();
 		 		}
 		 	}
@@ -225,13 +234,13 @@ const Challenge = ({updateData, setShowFriends, e, userData, getParty, lobbyPlay
 			
 			<div className="main_container app-flex">
 				
-				{gamesData.map((game, i)=>(
-					game.name === currentGame
+				{games.map((game, i)=>(
+					game.game === currentGame
 						 && 
 						 <div className='game' key={i}>
-						 	<img src={game.icon} alt="game-walpaper" className="game-walp"/>
+						 	<img src={game.bg} alt="game-walpaper" className="game-walp"/>
 						 	<div className="overlay"></div>
-						 	<h3 className="name">{game.name}</h3>
+						 	<h3 className="name">{game.game}</h3>
 						</div>
 					))}
 				
@@ -242,8 +251,8 @@ const Challenge = ({updateData, setShowFriends, e, userData, getParty, lobbyPlay
 											<h4 className="def">Select Game : </h4>
 											<select className="selector" onChange={(e)=>setCurrentGame(e.target.value)}>	
 												
-												{gamesData.map((game, i)=>(
-													<option key={i}>{game.name}</option>
+												{games.map((game, i)=>(
+													<option key={i}>{game.game}</option>
 															))}
 					
 											</select>
@@ -252,8 +261,8 @@ const Challenge = ({updateData, setShowFriends, e, userData, getParty, lobbyPlay
 											<h4 className="def">Game Mode : </h4>
 											<select className="selector" onChange={(e)=>setMode(e.target.value)}>	
 												 <option>Select mode</option>
-												 {gamesData.map((game)=>(
-												 	 game.name === currentGame 
+												 {games.map((game)=>(
+												 	 game.game === currentGame 
 												 	 	&& game.modes.map((mode, i)=>(
 												 	 		<option key={i}>{mode}</option>
 												 	 		))
@@ -344,7 +353,7 @@ const Challenge = ({updateData, setShowFriends, e, userData, getParty, lobbyPlay
 								</span>
 							</div>
 							<div className="players-container app-flex-wrap">
-								{lobbyPlayers.length > 1
+								{lobbyPlayers?.length > 1
 									? lobbyPlayers?.map((player,i)=>(
 										 player.team === 'B' &&
 											<span className="player app-flex" style={{backgroundColor:'var(--primary-color)'}} key={i}>
