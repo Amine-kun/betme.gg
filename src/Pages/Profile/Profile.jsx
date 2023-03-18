@@ -11,7 +11,8 @@ import Overview from './Profile_subs/Overview/Overview';
 import Tournements from './Profile_subs/Tournements/Tournements';
 import Stats from './Profile_subs/Stats/Stats';
 
-const tabs = ["Overview","Tournements","Stats","About"];
+// const tabs = ["Overview","Tournements","Stats","About"];
+const tabs = ["Overview"];
 
 const Profile = ({userData, friends}) => {
 

@@ -66,7 +66,7 @@ export const GameState = ({bg, isFinished, game}) => {
 		{!players.winner && <p>waiting ....</p>}
 		{players.winner && 
 			<div className="gamestate_main app-flex" style={{backgroundColor:bg}}>	
-				<img src={selectGame[0].icon} alt="game" className="game-icon"/>
+				<img src={selectGame[0]?.icon} alt="game" className="game-icon"/>
 				
 				<div className="players app-flex">
 					<div className="player app-flex">

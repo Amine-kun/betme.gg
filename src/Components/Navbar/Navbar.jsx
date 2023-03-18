@@ -11,7 +11,8 @@ import {FaUserFriends} from 'react-icons/fa';
 import {MdOutlineClose} from 'react-icons/md';
 import {RiSearch2Fill} from 'react-icons/ri';
 
-const navTabs = ["Home", "Esports", "Events", "Updates"];
+// const navTabs = ["Home", "Esports", "Events", "Updates"];
+const navTabs = ["Home"];
 
 const Navbar = ({showFriends, setShowFriends,friends, startListening, getParty, setSearch}) => {
 

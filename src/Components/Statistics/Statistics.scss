@@ -29,7 +29,6 @@
                               stroke: var(--red-color);
                             }
                             &:nth-child(2){
-                                 stroke-dashoffset: calc(438 - (3.7 * 87 ));
                                  stroke:var(--green-color);
                             }
 
