@@ -3,25 +3,18 @@ import {useNavigate} from 'react-router-dom';
 import './Home.scss';
 import useAxios from '../../utils/useAxios';
 import {IoMdArrowDropdown} from 'react-icons/io';
+import {useSelector} from 'react-redux';
 
 import Carousel, {CarouselItem} from '../../Components/Carousel2/Carousel2';
 import GamesTable, {GameState} from '../../Components/GamesTable/GamesTable';
 import {files} from '../../Assets';
 
-const games = [{name:'League of Legends', icon:files.League},
-			   {name:'Apex Legends', icon:files.Apex},
-			   {name:'Fortnite', icon:files.fortnite},
-			   {name:'Rainbow Six Siege', icon:files.Rainbow},
-			   {name:'CS:GO', icon:files.Csgo},
-			   {name:'League of Legends', icon:files.League},
-			   {name:'League of Legends', icon:files.League},
-			   {name:'League of Legends', icon:files.League},
-			   {name:'League of Legends', icon:files.League}];
 
 const Home = () => {
 
 	const navigate = useNavigate();
 	const api = useAxios();
+	const games = useSelector(state=>state.games.games)
 
 	const [moreGames, setMoreGames] = useState(false);
 	const [tableNav, setTableNav] = useState('1V1 GAMES');
@@ -77,17 +70,17 @@ const Home = () => {
 				<div className="games_container app-flex">
 					{games.map((game, i)=>{
 						 return i <= 5 &&
-								<div className="game app-flex" key={i} onClick={()=>navigate(`/Games/${game.name}`)}>
+								<div className="game app-flex" key={i} onClick={()=>navigate(`/Games/${game.game}`)}>
 									<img src={game.icon} alt="game" className="game-icon"/>
-									<p className="p-text">{game.name}</p>
+									<p className="p-text">{game.game}</p>
 								</div>
 						} )}
 					{moreGames && 
 						games.map((game, i)=>{
 							 return i > 5 &&
-									<div className="game app-flex" key={i} onClick={()=>navigate(`/Games/${game.name}`)}>
+									<div className="game app-flex" key={i} onClick={()=>navigate(`/Games/${game.game}`)}>
 										<img src={game.icon} alt="game" className="game-icon"/>
-										<p className="p-text">{game.name}</p>
+										<p className="p-text">{game.game}</p>
 									</div>
 							} )
 						}

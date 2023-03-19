@@ -36,7 +36,7 @@ const Navbar = ({showFriends, setShowFriends,friends, startListening, getParty, 
 		if(party  === null){
 			let team;
 
-			if(side[side.length-6] === 't'){
+			if(side[side?.length-6] === 't'){
 				team = 'B';
 			} else {
 				team = 'A';
@@ -115,46 +115,49 @@ const Navbar = ({showFriends, setShowFriends,friends, startListening, getParty, 
 				}
 
 			<section className="rightSide app-flex"> 
-				<div className="notification" onClick={()=>setSearch(true)}>
-					<RiSearch2Fill className='notification-icon'/>
-				</div>
+				{location.pathname.split('/')[1] != 'Settings' && 
+					<>
+					<div className="notification" onClick={()=>setSearch(true)}>
+						<RiSearch2Fill className='notification-icon'/>
+					</div>
 
-				<div className={`notification ${showFriends.status && 'active-tab'}`} onClick={()=> setShowFriends({status:true,team:'A'})}>
-					<FaUserFriends className='notification-icon'/>
-					<span className="red-dot app-flex">{friends.length}</span>
-				</div>
+					<div className={`notification ${showFriends?.status && 'active-tab'}`} onClick={()=> setShowFriends({status:true,team:'A'})}>
+						<FaUserFriends className='notification-icon'/>
+						<span className="red-dot app-flex">{friends?.length}</span>
+					</div>
 
-				<div className={`notification ${isNotification  && 'active-tab'}`} onClick={(e)=>setIsNotification(!isNotification)}>
-					<IoNotifications className='notification-icon'/>
-					<span className="red-dot app-flex">{notifications.length}</span>
-					<div className={`drop-notification app-flex-wrap ${isNotification && 'show-notification'}`} onClick={(e)=> e.stopPropagation()}>
-						
-						{loading && <Loading/>}
-						{!loading && notifications.length < 1
-							? <h6>You have no notifications at the moment</h6>
-							: notifications.map((notify, i)=>(
-									notify.verb !== 'FriendRequest' 
-										?	<div key={i} className="single-notify" onClick={()=>acceptChallenge(notify.verb, notify.id, notify.description)}>
-												<MdOutlineClose className="cancel-icon" onClick={(e)=>{e.stopPropagation(); deleteNotification(notify.id)}}/>
-												<div className="unread"></div>
-												<h6>{notify.description}</h6>
-												<h6>Click to accept challenge.</h6>
-											</div>
-										: 	<div key={i} className="single-notify" onClick={()=>navigate(`/Profile/${notify.id}`)}>
-												<div className="full">
+					<div className={`notification ${isNotification  && 'active-tab'}`} onClick={(e)=>setIsNotification(!isNotification)}>
+						<IoNotifications className='notification-icon'/>
+						<span className="red-dot app-flex">{notifications?.length}</span>
+						<div className={`drop-notification app-flex-wrap ${isNotification && 'show-notification'}`} onClick={(e)=> e.stopPropagation()}>
+							
+							{loading && <Loading/>}
+							{!loading && notifications?.length < 1
+								? <h6>You have no notifications at the moment</h6>
+								: notifications.map((notify, i)=>(
+										notify.verb !== 'FriendRequest' 
+											?	<div key={i} className="single-notify" onClick={()=>acceptChallenge(notify.verb, notify.id, notify.description)}>
+													<MdOutlineClose className="cancel-icon" onClick={(e)=>{e.stopPropagation(); deleteNotification(notify.id)}}/>
 													<div className="unread"></div>
 													<h6>{notify.description}</h6>
+													<h6>Click to accept challenge.</h6>
 												</div>
-												<div className="app-flex accept_rej">
-													<h6 className="action-btn accept app-flex" onClick={(e)=>{e.stopPropagation(); acceptFriend(notify.actor.id, notify.id)}}>Accept</h6>
-													<h6 className="action-btn reject app-flex" onClick={(e)=>{e.stopPropagation(); deleteNotification(notify.id)}}>Reject</h6>
+											: 	<div key={i} className="single-notify" onClick={()=>navigate(`/Profile/${notify.id}`)}>
+													<div className="full">
+														<div className="unread"></div>
+														<h6>{notify.description}</h6>
+													</div>
+													<div className="app-flex accept_rej">
+														<h6 className="action-btn accept app-flex" onClick={(e)=>{e.stopPropagation(); acceptFriend(notify.actor.id, notify.id)}}>Accept</h6>
+														<h6 className="action-btn reject app-flex" onClick={(e)=>{e.stopPropagation(); deleteNotification(notify.id)}}>Reject</h6>
+													</div>
 												</div>
-											</div>
-									
-							))}
-						<span className="arrow"></span>
+										
+								))}
+							<span className="arrow"></span>
+						</div>
 					</div>
-				</div>
+					</>}
 				
 				<div className={`profile-tab app-flex ${(activeNav === 'Profile' || userDrop) && 'active'}`} onClick={()=> setUserDrop(!userDrop)}>
 					<div className="p-p">
