@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import './ProfileSettings.scss';
 import {Link} from 'react-router-dom';
 
@@ -9,6 +9,8 @@ import Cinput from "../../Components/Input/Input";
 import {BiCamera} from 'react-icons/bi';
 import {FiEdit} from 'react-icons/fi';
 
+import useAxios from '../../utils/useAxios'; 
+
 const mockValues = ['Aminedesu', 'Disgusting kayn one trick', 'Aminehlab@gmail.com', '0668059743'];
 
 const ProfileSettings = () => {
@@ -17,6 +19,29 @@ const ProfileSettings = () => {
 	const [bio, setBio] = useState(mockValues[1]);
 	const [email, setEmail] = useState(mockValues[2]);
 	const [num, setNum] = useState(mockValues[3]);
+
+	const api = useAxios();
+
+	const verifyEmail = () =>{
+		api.post('api/send_verification/',{
+			targetEmail: email,
+		}).then(res=>{
+			console.log(res)
+		})
+		 .catch(err=>console.log(err))
+	}
+
+	useEffect(() => {
+		api.get('api/user/').then(res=>{
+			let data = res.data.userData;
+
+			setUsername(data.username);
+			setBio(data.bio);
+			setEmail(data.email);
+			setNum(data.phone);
+			
+		}).catch(err=>console.log(err))
+	}, [])
 
 	return (
 		<section className="main-setting">
@@ -40,7 +65,7 @@ const ProfileSettings = () => {
 				<Cinput placeholder={"Bio"} handler={bio} setHandler={setBio} type="text" input="bio"/>
 				<span className="app-flex" style={{gap:'10px', width:'100%', height:'auto'}}>
 					<Cinput placeholder={"Email Adresse"} handler={email} setHandler={setEmail} type="email" input="email"/>
-					<button className="main-btn" style={{padding:'0.94rem 1.8rem'}}>Verify</button>
+					<button className="main-btn" style={{padding:'0.94rem 1.8rem'}} onClick={()=>verifyEmail()}>Verify</button>
 				</span>
 				<span className="app-flex" style={{gap:'10px', width:'100%', height:'auto'}}>
 					<Cinput placeholder={"Phone Number"} handler={num} setHandler={setNum} type="number" input="phone"/>

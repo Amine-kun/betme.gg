@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import './Input.scss';
 import {AiFillEye , AiFillPhone, AiFillEyeInvisible} from 'react-icons/ai';
 import {BiLock} from 'react-icons/bi';
@@ -10,6 +10,12 @@ import {MdEmail} from 'react-icons/md';
 const Input = ({placeholder, handler, setHandler, type, input}) => {
 	const [focused, setFocused] = useState(false);
 	const [showPass, setShowPass] = useState(false);
+
+	useEffect(() => {
+		if(handler.length > 0){
+			setFocused(true);
+		}
+	}, [input])
 
 	return (
 		<div className="input-field"
@@ -23,7 +29,7 @@ const Input = ({placeholder, handler, setHandler, type, input}) => {
 							{input === 'email' && <MdEmail className="icon"/>}
 							{input === 'phone' && <AiFillPhone className="icon"/>}
 
-							<input className="input" type={showPass ? 'text' : type} onChange={(e)=>setHandler(e.target.value)}/>
+							<input className="input" type={showPass ? 'text' : type} value={handler} onChange={(e)=>setHandler(e.target.value)}/>
 							
 							{type === 'password'
 								&&	<> 
