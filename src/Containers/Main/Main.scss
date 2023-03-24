@@ -13,5 +13,24 @@
 		flex-direction:column;
 		gap:20px;
 		overflow-y:auto; 
+
+		.verify_email{
+			background-color: #d96c13;
+			padding: 10px 15px;
+			border-radius: var(--radius);
+		}
+		.verify_button{
+			margin-left	: auto;
+			text-decoration: none;
+			color:white;
+			border-radius: var(--radius);
+			border:1px solid white;
+			padding: 10px 15px;
+
+			&:hover{
+				background-color: #c56212;
+				transition:300ms;
+			}
+		}
 	 }
 }

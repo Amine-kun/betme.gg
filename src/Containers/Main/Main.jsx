@@ -1,5 +1,5 @@
 import React,{useState, useEffect} from 'react';
-import {Routes, Route} from 'react-router-dom';
+import {Routes, Route, Link} from 'react-router-dom';
 import './Main.scss';
 import { w3cwebsocket as W3CWebSocket } from "websocket";
 import useAxios from '../../utils/useAxios';
@@ -105,6 +105,13 @@ const Main = () => {
 					<Search search={search} setSearch={setSearch} userData={userData}/>
 
 					<section className="Queue">
+						{!userData.isVerified && 
+							<div className="verify_email app-flex">
+								<h5>Please Verify your email!</h5>
+								<Link to='../Settings' className="verify_button">
+								Go to settings
+								</Link>
+							</div>}
 						<Navbar setSearch={setSearch} friends={friends} showFriends={showFriends} setShowFriends={setShowFriends} startListening={startListening} getParty={getParty}/>
 						<Routes>
 							<Route path="/" element={<Home/>}/>

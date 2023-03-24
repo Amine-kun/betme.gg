@@ -11,7 +11,7 @@ import {FiEdit} from 'react-icons/fi';
 
 import useAxios from '../../utils/useAxios'; 
 
-const mockValues = ['Aminedesu', 'Disgusting kayn one trick', 'Aminehlab@gmail.com', '0668059743'];
+const mockValues = ['username', 'bio', 'email', '00000000000'];
 
 const ProfileSettings = () => {
 
@@ -63,13 +63,10 @@ const ProfileSettings = () => {
 			<div className="inputs app-flex">
 				<Cinput placeholder={"Username"} handler={username} setHandler={setUsername} type="text" input="username"/>
 				<Cinput placeholder={"Bio"} handler={bio} setHandler={setBio} type="text" input="bio"/>
+				<Cinput placeholder={"Phone Number"} handler={num} setHandler={setNum} type="number" input="phone"/>
 				<span className="app-flex" style={{gap:'10px', width:'100%', height:'auto'}}>
 					<Cinput placeholder={"Email Adresse"} handler={email} setHandler={setEmail} type="email" input="email"/>
 					<button className="main-btn" style={{padding:'0.94rem 1.8rem'}} onClick={()=>verifyEmail()}>Verify</button>
-				</span>
-				<span className="app-flex" style={{gap:'10px', width:'100%', height:'auto'}}>
-					<Cinput placeholder={"Phone Number"} handler={num} setHandler={setNum} type="number" input="phone"/>
-					<button className="main-btn" style={{padding:'0.94rem 1.8rem'}}>Verify</button>
 				</span>
 				
 				
