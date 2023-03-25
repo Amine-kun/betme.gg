@@ -1,0 +1,34 @@
+.ver_container{
+	align-items:center;
+	height: 100vh;
+	width: 100vw;
+	gap:30px;
+
+	.email-pic{
+		height: auto;
+		width: 200px;
+	}
+	.mid{
+		align-items:center;
+
+		.msg_panel{
+			border-radius: var(--radius);
+			padding: 15px;
+		}
+		.done{
+			color: green;
+			background-color: #08ad080f;
+			border: 1px solid green;
+		}
+		.failed{
+			background-color: #d11e2614;
+			border: 1px solid red;
+			color: red;
+		}
+	}
+	.splitter{
+		height: 1px;
+		width: 50%;
+		background-color: var(--blue-color);
+	}
+}

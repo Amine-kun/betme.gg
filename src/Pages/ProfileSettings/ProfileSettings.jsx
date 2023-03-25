@@ -5,6 +5,7 @@ import {Link} from 'react-router-dom';
 import {files} from '../../Assets';
 import picture from '../../Assets/profile.jpg';
 import Cinput from "../../Components/Input/Input";
+import MessagePanel from '../../Components/MessagePanel/Message';
 
 import {BiCamera} from 'react-icons/bi';
 import {FiEdit} from 'react-icons/fi';
@@ -19,6 +20,9 @@ const ProfileSettings = () => {
 	const [bio, setBio] = useState(mockValues[1]);
 	const [email, setEmail] = useState(mockValues[2]);
 	const [num, setNum] = useState(mockValues[3]);
+	const [isV, setIsV] = useState(false);
+	const [loading, setLoading] = useState(true);
+	const [message, setMessage] = useState({show:false ,status:false, message:null})
 
 	const api = useAxios();
 
@@ -26,7 +30,17 @@ const ProfileSettings = () => {
 		api.post('api/send_verification/',{
 			targetEmail: email,
 		}).then(res=>{
-			console.log(res)
+			setLoading(true)
+			setMessage({show:true, status:true, message:'Sending email...'})
+			if(res.data.status === 'EMAIL_SENT'){
+				setMessage({show:true, status:true, message:'A verification link has been sent to your email'})
+				setTimeout(()=>{setLoading(false)}, 1000)
+				setTimeout(()=>{setMessage({...message, show:false})},3000)
+			} else {
+				setMessage({show:true,status:false, message:'There has been an issue, please try again later!'})
+				setTimeout(()=>{setLoading(false)}, 1000)
+				setTimeout(()=>{setMessage({...message, show:false})},3000)
+			}
 		})
 		 .catch(err=>console.log(err))
 	}
@@ -39,12 +53,16 @@ const ProfileSettings = () => {
 			setBio(data.bio);
 			setEmail(data.email);
 			setNum(data.phone);
+			setIsV(data.isVerified);
 			
+			localStorage.setItem("userinfo", JSON.stringify(data));
+
 		}).catch(err=>console.log(err))
 	}, [])
 
 	return (
 		<section className="main-setting">
+			<MessagePanel status={message.show} message={message.message} loading={loading}/>
 			<div className="first">	
 				<img src={files.raven} alt="setting-walp" className="settings-walp"/>
 				<span className="upload-walp">
@@ -66,7 +84,8 @@ const ProfileSettings = () => {
 				<Cinput placeholder={"Phone Number"} handler={num} setHandler={setNum} type="number" input="phone"/>
 				<span className="app-flex" style={{gap:'10px', width:'100%', height:'auto'}}>
 					<Cinput placeholder={"Email Adresse"} handler={email} setHandler={setEmail} type="email" input="email"/>
-					<button className="main-btn" style={{padding:'0.94rem 1.8rem'}} onClick={()=>verifyEmail()}>Verify</button>
+					{isV && <button className='main-btn' style={{padding:'0.94rem 1.8rem'}} >Verified</button>}
+					{!isV && <button className='attention-btn' style={{padding:'0.94rem 1.8rem'}} onClick={()=>verifyEmail()}>Verify</button>}
 				</span>
 				
 				
