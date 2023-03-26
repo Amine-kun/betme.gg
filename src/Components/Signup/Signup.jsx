@@ -26,6 +26,7 @@ const Signup = () => {
 		if(username && first_name && last_name && email && password && phone && country && birthday){
 				
 			const register = await registerUser(userData);
+			console.log(register)
 			if(register === true){
 				  setStatus({status:'success', message:'User have been created!'});
 		          setTimeout(()=>{setStatus({status:null, message:null})}, 1000)
@@ -84,7 +85,6 @@ const Signup = () => {
 			
 			<div className="btns">
 					<button className="main-btn" onClick={()=>{handleUserRegister(); }}>Signup</button>
-					{status.status === 'success' && <h5 style={{color:'var(--green-color)'}}>{status.message}</h5>}
 			</div>
 		</div>
 	)

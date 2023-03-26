@@ -15,7 +15,7 @@ const Input = ({placeholder, handler, setHandler, type, input}) => {
 		if(handler.length > 0){
 			setFocused(true);
 		}
-	}, [input])
+	}, [handler])
 
 	return (
 		<div className="input-field"

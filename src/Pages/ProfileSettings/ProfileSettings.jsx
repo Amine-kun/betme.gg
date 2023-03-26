@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import './ProfileSettings.scss';
-import {Link} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 
 import {files} from '../../Assets';
 import picture from '../../Assets/profile.jpg';
@@ -20,11 +20,13 @@ const ProfileSettings = () => {
 	const [bio, setBio] = useState(mockValues[1]);
 	const [email, setEmail] = useState(mockValues[2]);
 	const [num, setNum] = useState(mockValues[3]);
+
 	const [isV, setIsV] = useState(false);
 	const [loading, setLoading] = useState(true);
 	const [message, setMessage] = useState({show:false ,status:false, message:null})
 
 	const api = useAxios();
+	const navigate = useNavigate();
 
 	const verifyEmail = () =>{
 		api.post('api/send_verification/',{
@@ -43,6 +45,28 @@ const ProfileSettings = () => {
 			}
 		})
 		 .catch(err=>console.log(err))
+	}
+
+	const updateInfo = () =>{
+		api.put('api/user/',{
+			username: username.toLowerCase(),
+			bio:bio,
+			email:email,
+			number:num
+		})
+		.then((res)=>{
+			let data = res.data.userData;
+
+			setUsername(data.username);
+			setBio(data.bio);
+			setEmail(data.email);
+			setNum(data.phone);
+			setIsV(data.isVerified);
+			
+			localStorage.setItem("userinfo", JSON.stringify(data));
+			navigate('/')
+		})
+		.catch(err=>console.log(err))
 	}
 
 	useEffect(() => {
@@ -96,11 +120,9 @@ const ProfileSettings = () => {
 						cancel
 					</button>
 				</Link>
-				<Link to='/Profile'>
-					<button className="main-btn">
+				<button className="main-btn" onClick={()=>updateInfo()}>
 						Apply
-					</button>
-				</Link>
+				</button>
 			</div>
 		</section>
 	)

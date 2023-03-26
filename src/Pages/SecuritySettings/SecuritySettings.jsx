@@ -1,6 +1,8 @@
-import React,{useState} from 'react';
+import React,{useState, useEffect, useContext} from 'react';
 import './SecuritySettings.scss';
 import {Link} from 'react-router-dom';
+import useAxios from '../../utils/useAxios';
+import AuthContext from "../../context/AuthContext";
 
 import Cinput from "../../Components/Input/Input";
 
@@ -9,6 +11,25 @@ const SecuritySettings = () => {
 	const [newPass, setSetPass] = useState('');
 	const [rePass, setRePass] = useState('');
 	const [oldPass, setOldPass] = useState('');
+
+	const api = useAxios();
+	const { logoutUser } = useContext(AuthContext);
+
+	useEffect(() => {
+		console.log('ss')
+	}, [])
+
+	const changePassword =()=>{
+		api.put('/api/update_info/',{
+			oldPassword:oldPass,
+			newPassword:newPass,
+			rePassword:rePass
+		})
+		.then(res=>{
+			logoutUser()
+		})
+		.catch(err=>console.log(err))
+	}
 
 	return (
 		<div className="app-flex-wrap security-main">
@@ -26,9 +47,9 @@ const SecuritySettings = () => {
 			</div>
 			<div className="inputs app-flex-wrap">
 
+				<Cinput placeholder={"Your Old password"} setHandler={setOldPass} handler={oldPass} type="password"/>
 				<Cinput placeholder={"New Password"} setHandler={setSetPass} handler={newPass} type="password"/>
 				<Cinput placeholder={"Re-enter Your New Password"} setHandler={setRePass} handler={rePass} type="password"/>
-				<Cinput placeholder={"Your Old password"} setHandler={setOldPass} handler={oldPass} type="password"/>
 
 				<label htmlFor="isSignout" className="app-flex checkbox" style={{justifyContent:'flex-start', width:'100%'}}>
 					<input type="checkbox" name="isSingout" id="isSignout" className="check-icon"/>
@@ -42,11 +63,9 @@ const SecuritySettings = () => {
 						cancel
 					</button>
 				</Link>
-				<Link to='/Profile'>
-					<button className="main-btn">
+					<button className="main-btn" onClick={()=>changePassword()}>
 						Apply
 					</button>
-				</Link>
 			</div>
 		</div>
 	)

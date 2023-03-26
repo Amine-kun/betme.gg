@@ -16,7 +16,7 @@ const Login = () => {
 			const  logining = await loginUser(userCreds);
 			
 			if(logining){
-				setStatus({status:'error', message:'You have been loged in ;D'});
+				setStatus({status:'success', message:'loggining...'});
 				setTimeout(()=>{setStatus({status:null, message:null})}, 1500)
 			} else {
 				setStatus({status:'error', message:'Username or/and Password are wrong.'});
@@ -36,7 +36,9 @@ const Login = () => {
 			</div>
 			<div className="app-flex-wrap inputs">
 
-				{status.status === 'error' && <h5 style={{color:'red', fontWeight:'bold'}}>{status.message}</h5>}
+				{status.status === 'error' 
+					? <h5 style={{color:'red', fontWeight:'bold'}}>{status.message}</h5>
+					: <h5 style={{color:'green', fontWeight:'bold'}}>{status.message}</h5>}
 
 				<input type="text" placeholder="Username" className="input" onChange={(e)=>setUserCreds({...userCreds, username:e.target.value})}/>
 				<input type="password" placeholder="Password" className="input" onChange={(e)=>setUserCreds({...userCreds, password:e.target.value})}/>
