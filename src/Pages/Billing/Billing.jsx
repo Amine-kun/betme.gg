@@ -1,8 +1,8 @@
 import React, {useState, useEffect} from 'react';
 import './Billing.scss';
 import {GrPaypal} from 'react-icons/gr';
+import {BsFillCreditCard2BackFill} from 'react-icons/bs';
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
-import dropin from "braintree-web-drop-in"
 import MessagePanel from '../../Components/MessagePanel/Message';
 
 const Billing = () => {
@@ -11,28 +11,7 @@ const Billing = () => {
     const [ErrorMessage, setErrorMessage] = useState("");
     const [orderID, setOrderID] = useState(false);
 
-    const [braintreeInstance, setBraintreeInstance] = useState(undefined)
-
     const CLIENT_ID = process.env.REACT_APP_CLIENT_ID
-    const BRAINTREE_API = process.env.REACT_APP_BRAINTREE_API
-
-
-    const handlePaying =()=>{
-                    if (braintreeInstance) {
-                        braintreeInstance.requestPaymentMethod(
-                            (error, payload) => {
-                                if (error) {
-                                    console.error(error);
-                                } else {
-                                    const paymentMethodNonce = payload.nonce;
-                                    console.log("payment method nonce", payload.nonce);
-
-                                    alert(`Payment completed with nonce=${paymentMethodNonce}`);
-
-                                }
-                            });
-                    }
-                }
 
 	 const createOrder = (data, actions) => {
         return actions.order.create({
@@ -51,6 +30,12 @@ const Billing = () => {
             });
     };
 
+    const openBraintree = ()=>{
+    	let params = `scrollbars=no,resizable=no,status=no,location=no,toolbar=no,menubar=no,
+						width=700,height=900,left=-1000,top=-1000`;
+    	window.open('/Billing/CreditCard/', '',params);
+    }
+
     const onApprove = (data, actions) => {
         return actions.order.capture().then(function (details) {
             const { payer } = details;
@@ -68,31 +53,6 @@ const Billing = () => {
             console.log('Order successful . Your order id is--', orderID);
         }
     },[success]);
-
-    useEffect(() => {
-
-            const initializeBraintree = () => dropin.create({
-                // insert your tokenization key or client token here
-                authorization: BRAINTREE_API, 
-                container: '#braintree-drop-in-div',
-            }, function (error, instance) {
-                if (error)
-                    console.error(error)
-                else
-                    setBraintreeInstance(instance);
-            });
-
-            if (braintreeInstance) {
-                braintreeInstance
-                    .teardown()
-                    .then(() => {
-                        initializeBraintree();
-                    });
-            } else {
-                initializeBraintree();
-            }
-        
-    }, [])
 
 	return (
 		<PayPalScriptProvider options={{ "client-id": CLIENT_ID }}>
@@ -120,18 +80,21 @@ const Billing = () => {
 					</button>
                  
 				</div>
+				<div className="app-flex link">
+					<BsFillCreditCard2BackFill/>
+					<h4>Credit Card</h4>
+
+					<button className="second-main-btn" onClick={()=>openBraintree()} style={{marginLeft:'auto', padding:'16px 53px'}}>
+						Get SP
+					</button>
+                 
+				</div>
 			</div>
 			<span className="crossing-bar"></span>
 			<div className="others">
 				<h3>Other Billing Methods</h3>
-				<div id={"braintree-drop-in-div"} className="link" style={{fontSize:'1rem'}}>
-				 	{/*<button
-		                className={"braintreePayButton"}
-		                type="primary"
-		                disabled={!braintreeInstance}
-		                onClick={() => handlePaying()}>
-		                Pay
-		            </button>*/}
+				<div className="link" style={{fontSize:'1rem'}}>
+				 	Will be added later...
 				</div>
 			</div>	
 		</div>

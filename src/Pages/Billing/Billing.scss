@@ -35,31 +35,6 @@
 		margin-top: -5px;
 		width: 100%;
 
-		.braintree-card{
-			background-color: var(--primary-color) !important;
-			border: 2px solid var(--blue-color);
-			border-radius: var(--radius);
-		}
-		.braintree-sheet__header{
-			border-bottom: 2px solid var(--blue-color);
-		}
-		.braintree-form__hosted-field {
-			border: 2px solid var(--blue-color) !important;
-			border-radius: var(--radius) !important;
-		}
-		.braintree-sheet__text{
-			color: white;
-		}
-		.braintree-form__label{
-			color: white !important;
-		}
-		.card-sheet-header{
-			display: none !important;
-		}
-
-		input#credit-card-number{
-			color: red !important;
-		}
 	}
 
 		

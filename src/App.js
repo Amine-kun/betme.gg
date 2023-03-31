@@ -7,6 +7,7 @@ import UserAuth from './Containers/userAuth/userAuth';
 import Main from './Containers/Main/Main';
 import Settings from './Containers/Settings/Settings';
 import Verification from './Containers/Verification/Verification';
+import Braintree from './Pages/Billing/Braintree/Braintree'
 
 import PrivateRoute from "./utils/PrivateRoute";
 import { AuthProvider } from "./context/AuthContext";
@@ -29,7 +30,10 @@ function App() {
             <Route path='/email-verify/*' element={<PrivateRoute>
                                                     <Verification/>
                                                    </PrivateRoute>}/>
-          </Routes>
+            <Route path ='/Billing/CreditCard/' element={<PrivateRoute>
+                                                          <Braintree/>
+                                                         </PrivateRoute>}/>
+                </Routes>
         </AuthProvider>
       </div>
   );

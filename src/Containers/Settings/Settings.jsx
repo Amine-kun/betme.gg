@@ -60,6 +60,7 @@ const Settings = () => {
 							<Route path='Security' element={<SecuritySettings/>}/>
 							<Route path='Billing' element={<Billing/>}/>
 							<Route path='Support' element={<Support/>}/>
+					
 						</Routes>
 					</div>
 				</main>
