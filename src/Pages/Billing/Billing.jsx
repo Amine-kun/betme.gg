@@ -4,6 +4,7 @@ import {GrPaypal} from 'react-icons/gr';
 import {BsFillCreditCard2BackFill} from 'react-icons/bs';
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 import MessagePanel from '../../Components/MessagePanel/Message';
+import useAxios from '../../utils/useAxios'
 
 const Billing = () => {
 	const [message, setMessage] = useState({show:false ,status:false, message:null});
@@ -11,6 +12,7 @@ const Billing = () => {
     const [ErrorMessage, setErrorMessage] = useState("");
     const [orderID, setOrderID] = useState(false);
 
+    const api = useAxios();
     const CLIENT_ID = process.env.REACT_APP_CLIENT_ID
 
 	 const createOrder = (data, actions) => {
@@ -39,6 +41,11 @@ const Billing = () => {
     const onApprove = (data, actions) => {
         return actions.order.capture().then(function (details) {
             const { payer } = details;
+            
+            	api.post('/api/confirm_payment_paypal/',{
+            		amount:5,
+            		payer_id:payer.payer_id
+            	})
             setSuccess(true);
         });
     };

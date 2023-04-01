@@ -20,6 +20,9 @@ const ProfileSettings = () => {
 	const [bio, setBio] = useState(mockValues[1]);
 	const [email, setEmail] = useState(mockValues[2]);
 	const [num, setNum] = useState(mockValues[3]);
+	const [profilepic, setProfilepic] = useState(picture);
+
+	const [image, setImage] = useState(null);
 
 	const [isV, setIsV] = useState(false);
 	const [loading, setLoading] = useState(true);
@@ -62,9 +65,23 @@ const ProfileSettings = () => {
 			setEmail(data.email);
 			setNum(data.phone);
 			setIsV(data.isVerified);
+			setProfilepic(data.profile_picture)
 			
 			localStorage.setItem("userinfo", JSON.stringify(data));
 			navigate('/')
+		})
+		.catch(err=>console.log(err))
+	}
+
+	const updateImage = async()=>{
+		api.post('/api/upload_photo/',{
+			image: image
+		},{
+			headers:{
+				"Content-Type":"multipart/form-data"
+			}
+		}).then(res=>{
+			updateInfo();
 		})
 		.catch(err=>console.log(err))
 	}
@@ -78,6 +95,7 @@ const ProfileSettings = () => {
 			setEmail(data.email);
 			setNum(data.phone);
 			setIsV(data.isVerified);
+			setProfilepic(data.profile_picture)
 			
 			localStorage.setItem("userinfo", JSON.stringify(data));
 
@@ -94,11 +112,11 @@ const ProfileSettings = () => {
 						<input type="file" placeholder="upload" className="uploader"/>
 					</span>
 				<div className="user-img-div"> 
-					<img src={picture} alt="user-prev-img" className="user-img"/>
+					<img src={profilepic} alt="user-prev-img" className="user-img"/>
 					
 					<span className="upload">
 						<BiCamera className="camera-icon"/>
-						<input type="file" placeholder="upload" className="uploader"/>
+						<input type="file" placeholder="upload" className="uploader" onChange={(e)=>{setImage(e.target.files[0]); setProfilepic(URL.createObjectURL(e.target.files[0]))}}/>
 					</span>
 				</div>
 			</div>
@@ -120,7 +138,7 @@ const ProfileSettings = () => {
 						cancel
 					</button>
 				</Link>
-				<button className="main-btn" onClick={()=>updateInfo()}>
+				<button className="main-btn" onClick={()=>{updateImage()}}>
 						Apply
 				</button>
 			</div>
