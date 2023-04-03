@@ -1,9 +1,11 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import './GameOptions.scss';
 
 import {files} from '../../Assets';
 import GamesTable, {GameState} from '../../Components/GamesTable/GamesTable';
 import Statistics from '../../Components/Statistics/Statistics';
+import {useSelector} from 'react-redux';
+import {useLocation} from 'react-router-dom';
 
 import {IoMdArrowDropdown} from 'react-icons/io';
 import {MdAddBox} from 'react-icons/md'
@@ -13,14 +15,57 @@ const GameOptions = () => {
 		const [showMore, setShowMore] = useState(false);
 		const [tableNav, setTableNav] = useState('1V1 GAMES');
 	    const [showTab, setShowTab] = useState(false);
+	    const [loading, setLoading] = useState(true);
+
+	    const [game, setGame] = useState({});
+
+	    const games = useSelector(state=>state.games.games)
+	    const location = useLocation();
+	    const path = location.pathname.split("/")[2];
+
+	  	
+	    useEffect(() => {
+	    	const target = games.filter((game)=>{
+		    	return game.game === path
+		    })
+
+		    setGame(target[0])
+	    }, [path])
+
+	    // useEffect(() => {
+		// 	api.get(`/api/match?uid=${path}`)
+		// 		.then(res=>{
+		// 			let data= res.data.data;
+				
+		// 			setPlayerHistory(data);
+
+		// 			for(let i=0; i<data.length; i++){
+		// 				for(let j=0; j<data[i].players.length; j++){
+		// 					if(data[i].players[j].id === parseInt(path)){
+		// 						if(data[i].players[j].team === data[i].result){
+		// 							wins = wins + data[i].placedBet;
+
+		// 						} else{
+		// 							loses = loses + data[i].placedBet;
+		// 						}
+		// 					} 
+		// 				}
+		// 			}
+		// 			setWons(wins);
+		// 			setLosts(loses);
+		// 		})
+		// 		.catch(err=>console.log('cannot get player match history'))
+
+		// 	setLoading(false);
+		// }, [])
 
 	return (
 		<section className="main_gameoptions app-flex-wrap">
 			<div className="game_header">
-				<img alt="game_wallpaper" src={files.lol} className="game-wallpaper"/>
+				<img alt="game_wallpaper" src={game.bg} className="game-wallpaper"/>
 					<span className="game-sum app-flex">
-						<img alt="game-icon" src={files.League} className="game-icon"/>
-						<h3 className="game-name">League Of Lengends</h3>
+						<img alt="game-icon" src={game.icon} className="game-icon"/>
+						<h3 className="game-name">{game.game}</h3>
 					</span>
 			</div>
 			
@@ -89,7 +134,7 @@ const GameOptions = () => {
 						<div className="header">
 									<h4>Game Statistics</h4>
 					     </div>
-							<Statistics/>
+							{/*<Statistics/>*/}
 					</div>
 			</div>
 					

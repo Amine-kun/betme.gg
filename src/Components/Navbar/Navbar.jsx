@@ -170,7 +170,7 @@ const Navbar = ({showFriends, setShowFriends,friends, startListening, getParty, 
 					{userDrop ? <MdArrowDropDown /> : <MdArrowRight />}
 
 					<div className={`user-drop-down ${userDrop && 'show'}`} onClick={(e)=>{ e.stopPropagation(); setUserDrop(false)}}>
-						<div className="upper app-flex" onClick={()=>navigate('/Profile')}>
+						<div className="upper app-flex" onClick={()=>navigate(`/Profile/${userData.main_id}`)}>
 							<img src={userData?.profile_picture} alt="profile" className="p-p" style={{objectFit:'cover'}}/>
 							<h5>{userData.username.charAt(0).toUpperCase() + userData.username.slice(1)}</h5>
 						</div>

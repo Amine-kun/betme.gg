@@ -65,7 +65,7 @@ const Overview = ({path, userData}) => {
 		
 							<div className="balance palet app-flex-wrap">
 								<div className="section__header">
-									<h4>Squid Points</h4>
+									<h4>Recent games SP gains</h4>
 								</div>
 								<div className="total">
 									<h1>{wons-losts} AP</h1>

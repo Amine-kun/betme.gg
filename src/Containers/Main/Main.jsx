@@ -3,6 +3,9 @@ import {Routes, Route, Link} from 'react-router-dom';
 import './Main.scss';
 import { w3cwebsocket as W3CWebSocket } from "websocket";
 import useAxios from '../../utils/useAxios';
+import {useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
+import {setGames} from '../../Redux/games';
 
 import Profile from '../../Pages/Profile/Profile';
 import Home from '../../Pages/Home/Home';
@@ -28,7 +31,10 @@ const Main = () => {
 	const [ws, setWs] = useState(null);
 	const [gameStatus, setGameStatus] = useState(null);
 	const [updateData, setUpdateData] = useState({id:2, game:'Valorant', mode:'Select mode', bet:10})
+
+	const games = useSelector(state=>state.games.games)
 	const api = useAxios();
+	const dispatch = useDispatch();
 
     const userData = localStorage.getItem("userinfo")
 		                      ? JSON.parse(localStorage.getItem("userinfo"))
@@ -96,6 +102,17 @@ const Main = () => {
 			.then((res)=>setFriends(res.data.data))
 			.catch((err)=>console.log('cannot get friends'))
 	},[showFriends])
+
+	useEffect(() => {
+		if(games.length === 0){
+			api.get('https://www.api-arcadia.me/api/on_games/')
+			.then(res=>{
+					const data=res.data
+					dispatch(setGames({data}))
+			})
+			.catch(err=>console.log(err))
+		}
+	}, [])
 
 
 	return (

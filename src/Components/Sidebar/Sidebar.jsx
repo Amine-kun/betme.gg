@@ -3,6 +3,7 @@ import './Sidebar.scss';
 import {files} from '../../Assets';
 import {useNavigate, useLocation } from 'react-router-dom';
 import {v4 as uuidv4} from 'uuid';
+import {useSelector} from 'react-redux';
 
 import logo from '../../Assets/logo/fullLogo.png';
 import smallLogo from '../../Assets/logo/logo.png';
@@ -22,12 +23,6 @@ const tabs = [{icon:AiFillHome, name:'Home'},
 			  {icon:CgMediaLive, name:'Lives'},
 			  {icon:IoGrid, name:'Games'}];
 
-const games = [{icon:files.Csgo, game:'CS:GO'},
-							 {icon:files.League, game:'League of Legends'},
-							 {icon:files.Apex, game:'Apex Legends'},
-							 {icon:files.Rainbow, game:'Rainbow Six Siege'},
-							 {icon:files.fortnite, game:'Fortnite'}];
-
 const getWindowSize = () => {
   const {innerWidth, innerHeight} = window;
   return {innerWidth, innerHeight};
@@ -36,6 +31,8 @@ const getWindowSize = () => {
 const Sidebar = ({startListening, userData}) => {
 	const location = useLocation();
 	const navigate = useNavigate(); 
+	const games = useSelector(state=>state.games.games)
+
 	const [windowSize, setWindowSize] = useState(getWindowSize());
 
 	const [activeTab, setActiveTab] = useState('Home');

@@ -22,7 +22,6 @@ const Landing = () => {
 		axios.get('https://www.api-arcadia.me/api/on_games/')
 			.then(res=>{
 					const data=res.data
-					console.log(res.data)
 					setSupportedGames(data);
 					dispatch(setGames({data}))
 			})
