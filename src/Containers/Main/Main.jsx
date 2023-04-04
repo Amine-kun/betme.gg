@@ -137,7 +137,7 @@ const Main = () => {
 							<Route path="/Challenge/*" element={<Challenge updateData={updateData} gameStatus={gameStatus} setShowFriends={setShowFriends} userData={userData} getParty={getParty} lobbyPlayers={lobbyPlayers} ws={ws}/>}/>
 							<Route path="/Tournements" element={<Tournements/>}/>
 							<Route path="/Messanger" element={<><p>Coming soon...</p></>}/>
-							<Route path="/Games/*" element={<GameOptions/>}/>
+							<Route path="/Games/*" element={<GameOptions userData={userData}/>}/>
 						</Routes>
 					</section>
 		</main>

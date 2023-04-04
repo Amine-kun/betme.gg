@@ -59,9 +59,14 @@ const Statistics = ({history, path}) => {
 	}
 
 	useEffect(() => {
-		let calcualting = calculateWR(history);
-		setKda(calcualting);
-		labelGames();
+		if(history.length !== 0){
+			let calcualting = calculateWR(history);
+			setKda(calcualting);
+			labelGames();
+		} else{
+			setKda({wins:0, loses:0, winrate:0})
+			setStats([]);
+		}
 	}, [history])
 	return (
 		<div className="box app-flex-wrap">
@@ -107,14 +112,17 @@ const Statistics = ({history, path}) => {
 
 						<div className="games-stats app-flex-wrap">
 
-							{stats?.map((state, i)=>(
-								state.games.length > 0 &&
-									<div className={`game-stats app-flex ${(i === 0 || i % 2 === 0) && 'bg-sub'}`} key={state.id}>
-										<img src={state.icon} alt="game" className="stats-icon"/>
-										<h5 className="total">{state.stats.wins + state.stats.loses}</h5>
-										<h5 className="wr">{state.stats.winrate}%</h5>
-									</div>
-								))}
+							{stats.length !== 0  
+							   ? stats?.map((state, i)=>(
+									state.games.length > 0 &&
+										<div className={`game-stats app-flex ${(i === 0 || i % 2 === 0) && 'bg-sub'}`} key={state.id}>
+											<img src={state.icon} alt="game" className="stats-icon"/>
+											<h5 className="total">{state.stats.wins + state.stats.loses}</h5>
+											<h5 className="wr">{state.stats.winrate}%</h5>
+										</div>
+									))
+							   : <p>No games to show</p>
+							}
 
 						</div>
 					</div>

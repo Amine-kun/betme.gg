@@ -70,7 +70,7 @@ const Home = () => {
 				<div className="games_container app-flex">
 					{games.map((game, i)=>{
 						 return i <= 5 &&
-								<div className="game app-flex" key={i} onClick={()=>navigate(`/Games/${game.game}`)}>
+								<div className="game app-flex" key={i} onClick={()=>navigate(`/Games/${game.id}`)}>
 									<img src={game.icon} alt="game" className="game-icon"/>
 									<p className="p-text">{game.game}</p>
 								</div>
@@ -78,7 +78,7 @@ const Home = () => {
 					{moreGames && 
 						games.map((game, i)=>{
 							 return i > 5 &&
-									<div className="game app-flex" key={i} onClick={()=>navigate(`/Games/${game.game}`)}>
+									<div className="game app-flex" key={i} onClick={()=>navigate(`/Games/${game.id}`)}>
 										<img src={game.icon} alt="game" className="game-icon"/>
 										<p className="p-text">{game.game}</p>
 									</div>
