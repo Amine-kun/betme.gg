@@ -8,9 +8,9 @@ import useAxios from '../../utils/useAxios'
 
 const Billing = () => {
 	const [message, setMessage] = useState({show:false ,status:false, message:null});
-    const [success, setSuccess] = useState(false);
-    const [ErrorMessage, setErrorMessage] = useState("");
     const [orderID, setOrderID] = useState(false);
+
+    const [loading, setLoading] = useState(true);
 
     const api = useAxios();
     const CLIENT_ID = process.env.REACT_APP_CLIENT_ID
@@ -19,7 +19,7 @@ const Billing = () => {
         return actions.order.create({
             purchase_units: [
                 {
-                    description: "10 SP",
+                    description: "50 SP",
                     amount: {
                         currency_code: "USD",
                         value: 5,
@@ -45,27 +45,32 @@ const Billing = () => {
             	api.post('/api/confirm_payment_paypal/',{
             		amount:5,
             		payer_id:payer.payer_id
-            	})
-            setSuccess(true);
+            	}) .then((res)=>{
+            		setLoading(true)
+					setMessage({show:true, status:true, message:'Verifying payement...'})
+
+					setMessage({show:true, status:true, message:'Congrats, 50 SP has been added to your account.'})
+					setTimeout(()=>{setLoading(false)}, 1000)
+					setTimeout(()=>{setMessage({...message, show:false})},3000)
+
+            	}) .catch(err=>console.log('ERR_AT_SAVING_BILLING'))
         });
     };
 
     const onError = (data, actions) => {
-        setErrorMessage("An Error occured with your payment ");
-    };
+			setLoading(true)
+			setMessage({show:true, status:true, message:'Verifying payement...'})
 
-    useEffect(() => {
-        if (success) {
-            alert("Payment successful!!");
-            console.log('Order successful . Your order id is--', orderID);
-        }
-    },[success]);
+			setMessage({show:true, status:true, message:'An Error occured with your payment'})
+			setTimeout(()=>{setLoading(false)}, 1000)
+			setTimeout(()=>{setMessage({...message, show:false})},3000)
+    };
 
 	return (
 		<PayPalScriptProvider options={{ "client-id": CLIENT_ID }}>
 		<div className="billing_main app-flex-wrap">
 
-			<MessagePanel status={message.show} message={message.message}/>
+			<MessagePanel status={message.show} message={message.message} loading={loading}/>
 
 			<div className="paypal">	
 				<h3>  

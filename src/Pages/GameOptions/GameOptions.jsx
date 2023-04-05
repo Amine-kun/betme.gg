@@ -6,24 +6,41 @@ import GamesTable, {GameState} from '../../Components/GamesTable/GamesTable';
 import Loading from '../../Components/Loading/Loading'
 import Statistics from '../../Components/Statistics/Statistics';
 import {useSelector} from 'react-redux';
-import {useLocation} from 'react-router-dom';
+import {useLocation, useNavigate} from 'react-router-dom';
 import useAxios from '../../utils/useAxios';
+import {v4 as uuidv4} from 'uuid';
 
 import {IoMdArrowDropdown} from 'react-icons/io';
-import {MdAddBox} from 'react-icons/md'
 
-const GameOptions = ({userData}) => {
+const GameOptions = ({userData,startListening}) => {
 
 		const games = useSelector(state=>state.games.games)
 	    const location = useLocation();
 	    const path = location.pathname.split("/")[2];
 	    const api = useAxios();
+	    const navigate = useNavigate();
 
 		const [showMore, setShowMore] = useState(false);
 	    const [loading, setLoading] = useState(true);
 
 	    const [game, setGame] = useState({});
 	    const [gameMatchs, setGameMatchs] = useState([]);
+
+
+	    const checkPartStatus=()=>{
+			const PartyStatus = localStorage.getItem("partystatus")
+	        ? JSON.parse(localStorage.getItem("partystatus"))
+	        : null;
+	        
+				if(PartyStatus === null){
+						let id = uuidv4();
+						localStorage.setItem("partystatus", JSON.stringify({status:'creator',team:'A', id:id}));
+						startListening();
+						navigate(`/Challenge/${id}`);
+				}
+
+				navigate(`/Challenge/${PartyStatus.id}`);
+		}
 
 	  	
 	    useEffect(() => {
@@ -63,15 +80,11 @@ const GameOptions = ({userData}) => {
 					</div>
 					
 					<div className="game-info app-flex">
-						<button className="main-btn">
+						<button className="main-btn" onClick={()=>checkPartStatus()}>
 							Start A Bet
 						</button>
 						<p style={{opacity:'0.7'}}>Last PLayed : <span className="highlight">2 Jun</span></p>
 						
-						{/*<span className="add-btn main-btn app-flex">
-													<h5>Add to Library</h5>
-													<MdAddBox className="add-icon"/>
-												</span>*/}
 					</div>
 		
 					<span className="crossing-bar"></span>

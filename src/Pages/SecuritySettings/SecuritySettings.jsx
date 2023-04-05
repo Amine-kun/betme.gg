@@ -3,6 +3,7 @@ import './SecuritySettings.scss';
 import {Link} from 'react-router-dom';
 import useAxios from '../../utils/useAxios';
 import AuthContext from "../../context/AuthContext";
+import MessagePanel from '../../Components/MessagePanel/Message';
 
 import Cinput from "../../Components/Input/Input";
 
@@ -11,13 +12,13 @@ const SecuritySettings = () => {
 	const [newPass, setSetPass] = useState('');
 	const [rePass, setRePass] = useState('');
 	const [oldPass, setOldPass] = useState('');
+	const [logOff, setLogoff] = useState(false);
+	const [loading, setLoading] = useState(true);
+	const [message, setMessage] = useState({show:false ,status:false, message:null})
 
 	const api = useAxios();
 	const { logoutUser } = useContext(AuthContext);
 
-	useEffect(() => {
-		console.log('ss')
-	}, [])
 
 	const changePassword =()=>{
 		api.put('/api/update_info/',{
@@ -26,13 +27,28 @@ const SecuritySettings = () => {
 			rePassword:rePass
 		})
 		.then(res=>{
-			logoutUser()
+			setLoading(true)
+			setMessage({show:true, status:true, message:'Applying changes...'})
+
+			if(logOff){
+				setMessage({show:true, status:true, message:'Password has been changed. logging off ....'})
+				setTimeout(()=>{setLoading(false)}, 1000)
+				setTimeout(()=>{setMessage({...message, show:false})},3000)
+				setTimeout(()=>{logoutUser()},5000)
+				
+			} else {
+				setMessage({show:true, status:true, message:'Password has been changed.'})
+				setTimeout(()=>{setLoading(false)}, 1000)
+				setTimeout(()=>{setMessage({...message, show:false})},3000)
+			}
 		})
 		.catch(err=>console.log(err))
 	}
 
 	return (
 		<div className="app-flex-wrap security-main">
+			<MessagePanel status={message.show} message={message.message} loading={loading}/>
+			
 			<div className="instructs">
 				<h3 className="icon">Change Password</h3>	
 				<p style={{margin:'8px 0 '}}>
@@ -52,7 +68,7 @@ const SecuritySettings = () => {
 				<Cinput placeholder={"Re-enter Your New Password"} setHandler={setRePass} handler={rePass} type="password"/>
 
 				<label htmlFor="isSignout" className="app-flex checkbox" style={{justifyContent:'flex-start', width:'100%'}}>
-					<input type="checkbox" name="isSingout" id="isSignout" className="check-icon"/>
+					<input type="checkbox" name="isSingout" id="isSignout" className="check-icon" onChange={(e)=>setLogoff(e.target.checked)}/>
 					<span>Do you want to Signout ? </span>
 				</label>
 

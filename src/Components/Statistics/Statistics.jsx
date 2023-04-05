@@ -115,7 +115,7 @@ const Statistics = ({history, path}) => {
 							{stats.length !== 0  
 							   ? stats?.map((state, i)=>(
 									state.games.length > 0 &&
-										<div className={`game-stats app-flex ${(i === 0 || i % 2 === 0) && 'bg-sub'}`} key={state.id}>
+										<div className={`game-stats app-flex ${(i === 0 || i % 2 === 0) && 'bg-sub'}`} key={i}>
 											<img src={state.icon} alt="game" className="stats-icon"/>
 											<h5 className="total">{state.stats.wins + state.stats.loses}</h5>
 											<h5 className="wr">{state.stats.winrate}%</h5>

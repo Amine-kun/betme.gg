@@ -120,7 +120,7 @@ const Profile = ({userData, friends}) => {
 						
 						{tabs.map((tab, i)=>(
 							<h4  key={i}  className={activeBtn === tab ? ' pointer active' : 'pointer'} 
-								 onClick={()=>{setActiveBtn(tab); navigate(tab === 'Overview' ? '' : tab)}}>
+								 onClick={()=>{setActiveBtn(tab); navigate(tab === 'Overview' ? path : tab)}}>
 										{tab}
 							</h4>
 						))}

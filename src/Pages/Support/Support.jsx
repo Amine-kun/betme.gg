@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import './Support.scss';
+import {useNavigate} from 'react-router-dom';
 
 import Cinput from '../../Components/Input/Input';
 
@@ -8,6 +9,8 @@ const Support = () => {
 	const [username, setUsername] = useState('');
 	const [email, setEmail] = useState('');
 	const [issue, setIssue] = useState('');
+
+	const navigate = useNavigate();
 
 	return (
 		<div className="support_main">	
@@ -22,7 +25,7 @@ const Support = () => {
 					<textarea className="input-area" placeholder="Your Issue" onChange={(e)=>setIssue(e.target.value)}/>
 				</div>
 				<div className="app-flex" style={{width:'100%'}}>
-					<button className="main-btn">
+					<button className="main-btn" onClick={()=>navigate('/')}>
 						Send Ticket
 					</button>
 				</div>
