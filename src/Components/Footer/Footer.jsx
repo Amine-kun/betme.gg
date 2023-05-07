@@ -18,7 +18,7 @@ const Footer = () => {
 						<h5>Signup</h5>
 						<h5>Signin</h5>
 					</div>
-					<div className="contact">
+					<div className="contact-footer">
 						<h5>Email</h5>
 						<h5>Number</h5>
 						<h5>Sociale media 1</h5>

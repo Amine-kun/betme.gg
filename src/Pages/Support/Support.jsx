@@ -17,7 +17,7 @@ const Support = () => {
 			<div className="main_container app-flex-wrap">
 				<div className="head app-flex-wrap" style={{gap:'5px'}}>
 					<h3>Contact Support</h3>
-					<p>Are you having and issue or you encoutered a problem in <span className="highlight"> Arena Of Gaming</span> ? feel free to send our support staff a <span className="highlight">Ticket</span> . </p>
+					<p>Are you having and issue or you encoutered a problem in <span className="highlight"> SquidStacks</span> ? feel free to send our support staff a <span className="highlight">Ticket</span> . </p>
 				</div>
 				<div className="inputs app-flex-wrap">
 					<Cinput placeholder="Your Username" type="text" input="username" handler={username} setHandler={setUsername}/>

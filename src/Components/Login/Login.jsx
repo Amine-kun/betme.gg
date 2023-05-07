@@ -32,7 +32,7 @@ const Login = () => {
 		<div className="sign__main app-flex-wrap">
 			<div>
 				<p className="head-bold-text">Welcome back!</p>
-				<p className="sub-text" style={{marginTop:'-12px'}}>Signin to <span className="highlight pointer">1V1Arena</span></p>
+				<p className="sub-text" style={{marginTop:'-12px'}}>Signin to <span className="highlight pointer">SquidStacks</span></p>
 			</div>
 			<div className="app-flex-wrap inputs">
 

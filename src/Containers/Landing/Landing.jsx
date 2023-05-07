@@ -12,6 +12,8 @@ import logo from "../../Assets/logo/fullLogo.png";
 import {Carousel, TesteCarousel} from '../../Components/Carousel/Carousel';
 import Footer from '../../Components/Footer/Footer';
 
+import video from '../../Assets/adv/video.mp4'
+
 const Landing = () => {
 	const [supportedGames, setSupportedGames]= useState([]);
 
@@ -44,7 +46,8 @@ const Landing = () => {
 				</div>
 			</header>
 			<div className="pannel app-flex-wrap">
-				<img src={files.jhin} className="landingbg" alt="bg"/>
+			    <video src={video} className="landingbg" type="video/mp" autoPlay muted loop/>
+
 				<span className="blur"></span>
 					<div className="wrapper">
 						<div className="landing-text app-flex-wrap">
@@ -54,6 +57,7 @@ const Landing = () => {
 							<Link to='/UserAuth/Signup'>
 								<button className="main-btn dynamic-btn" style={{marginTop:'15px'}}>Get Started</button>
 							</Link>
+ 	
 						</div>
 					</div>
 			</div>
@@ -63,7 +67,7 @@ const Landing = () => {
 				<Carousel/>
 			</div>
 			<div className="about">
-				<p className="head-text">what is 1v1Arena?</p>
+				<p className="head-text">what is SquiStacks?</p>
 				<div className="hor-bar"></div>
 					<div className="info">
 						<div className="detail">
@@ -71,7 +75,7 @@ const Landing = () => {
 								<img src={files.raven} alt="raven" className="infopics"/>
 							</div>
 							<div className="infoDetails app-flex">
-								<p className="lg-text">	1v1Arena makes it easy for anyone to bet on any esport team
+								<p className="lg-text">	SquidStacks makes it easy for anyone to bet on any esport team
 									in a varity of supported games, thus again trophies, money and more perks .</p>
 							</div>
 						</div>
@@ -80,14 +84,14 @@ const Landing = () => {
 								<img src={files.yasuo} alt="raven" className="infopics"/>
 							</div>
 							<div className="infoDetails2 app-flex">
-								<p className="lg-text">	1v1Arena makes it easy for anyone to bet on any esport team
+								<p className="lg-text">	SquidStacks makes it easy for anyone to bet on any esport team
 									in a varity of supported games, thus again trophies, money and more perks .</p>
 							</div>
 						</div>
 					</div>
 			</div>
 			<div className="testemoniels app-flex-wrap">
-				<img src={files.streetfighter} alt="pannel2" className="pannel2"/>
+				<img src={files.jhin} className="pannel2" alt="bg"/>
 				<span className="blue2"></span>
 					<div className="content app-flex-wrap">
 						<div>
@@ -101,10 +105,14 @@ const Landing = () => {
 				<h3 className="head-bold-text">
 					Build up your online glory now with 
 				</h3>
-				<p className="head-bold-text" style={{color: 'var(--blue-color)'}}>1V1ARENA</p>
+				<p className="head-bold-text" style={{color: 'var(--blue-color)'}}>SQUIDSTACKS</p>
 				<Link to='/UserAuth/Signup'>
 					<button className="main-btn dynamic-btn" style={{background:'var(--white-color)', color:'var(--primary-color)',marginTop:'20px', padding:'1rem 4rem'}}>Get Started</button>
 				</Link>
+				<div className="app-flex">
+						<button className="sub-btn download-btn " style={{marginTop:'15px'}}>Download Desktop</button>
+						<button className="sub-btn download-btn " style={{marginTop:'15px'}}>Download Squid</button>
+				</div>
 			</div>
 
 			<Footer/>

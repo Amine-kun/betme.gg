@@ -45,7 +45,7 @@ const Signup = () => {
 	return (
 		<div className="sign__main signup app-flex-wrap">
 			<div>
-				<p className="head-bold-text">Welcome to <span className="pointer" style={{color:'var(--blue-color)'}}>1V1Arena!</span></p>
+				<p className="head-bold-text">Welcome to <span className="pointer" style={{color:'var(--blue-color)'}}>SquidStacks!</span></p>
 				<h5 className="sub-text" style={{marginTop:'-12px'}}>Feel free to join us !</h5>
 			</div>
 
