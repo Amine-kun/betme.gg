@@ -101,6 +101,14 @@ const Billing = () => {
 					</button>
                  
 				</div>
+
+				<div className="app-flex-wrap" style={{marginTop:'20px', backgroundColor:'var(--primary-color-layer3)', padding:'20px', borderRadius:'var(--radius)'}} >
+					<h5 style={{color:'red'}}>NOTE : Please do NOT enter any personal data, as the service is still under test. Thank you!</h5>
+					<h5>You can however use the account below to "BUY" AP for testing using paypal. </h5>
+					<span>Email : <h5 className="highlight">sb-ikwji25001790@personal.example.com</h5> </span>
+					<span>Password : <h5 className="highlight">TB+gg9vC</h5> </span>
+				</div>
+
 			</div>
 			<span className="crossing-bar"></span>
 			<div className="others">

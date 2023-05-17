@@ -36,6 +36,7 @@ const Landing = () => {
 				<div className="navbar app-flex">
 					<img src={logo} alt="logo" className="logo"/>
 					<span className="app-flex bar-btns">
+						<button className="sub-btn" onClick={()=>window.scrollTo(0, document.body.scrollHeight)}>Downloads</button>
 						<Link to='/UserAuth/Login'>
 							<button className="sub-btn">Signin</button>
 						</Link>
@@ -64,7 +65,7 @@ const Landing = () => {
 			<div className="carousel">
 				<p className="head-text">Featured Games</p>
 				<div className="hor-bar"></div>
-				<Carousel/>
+				<Carousel supportedGames={supportedGames}/>
 			</div>
 			<div className="about">
 				<p className="head-text">what is SquiStacks?</p>
@@ -101,7 +102,7 @@ const Landing = () => {
 						<TesteCarousel/>
 					</div>
 			</div>
-			<div className="pre-bottom app-flex">
+			<div id="Get-Started" className="pre-bottom app-flex">
 				<h3 className="head-bold-text">
 					Build up your online glory now with 
 				</h3>
@@ -110,7 +111,7 @@ const Landing = () => {
 					<button className="main-btn dynamic-btn" style={{background:'var(--white-color)', color:'var(--primary-color)',marginTop:'20px', padding:'1rem 4rem'}}>Get Started</button>
 				</Link>
 				<div className="app-flex">
-						<button className="sub-btn download-btn " style={{marginTop:'15px'}}>Download Desktop</button>
+						<button className="sub-btn download-btn " style={{marginTop:'15px'}}>Download Desktop App</button>
 						<button className="sub-btn download-btn " style={{marginTop:'15px'}}>Download Squid</button>
 				</div>
 			</div>

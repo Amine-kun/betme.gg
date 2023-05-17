@@ -33,7 +33,8 @@ const Home = () => {
 
 		api.get('/api/liveGames')
 			.then(res=>{
-				console.log(res.data)
+				setLiveGames(res.data.data);
+				console.log('t', res.data.data);
 			})
 			.catch(err=>console.log('cannot get live games'))
 	}, [])
@@ -121,15 +122,15 @@ const Home = () => {
 					<GamesTable showMore={showMore} setShowMore={setShowMore}>
 							{liveGames.length > 0 
 								?	<>
-										{[1,2,3,4,5,6,7].map((game, i)=>
+										{liveGames.map((game, i)=>
 										 i < 4 && (i === 0 || i % 2 === 0 
-															? <GameState bg={'var(--primary-color-layer3)'} key={i}/>
-															: <GameState key={i}/>) 
+															?  <GameState bg={'var(--primary-color-layer3)'} key={i}  game={game} isFinished={false}/>
+															:  <GameState key={i} game={game} isFinished={false}/>) 
 									)}
-									{showMore && [1,2,3,4,5,6,7].map((game, i)=>
+									{showMore && liveGames.map((game, i)=>
 											i > 4 && (i % 2 !== 0 
-																? <GameState bg={'var(--primary-color-layer3)'} key={i}/>
-																: <GameState key={i}/>) 
+																?  <GameState bg={'var(--primary-color-layer3)'} key={i}  game={game} isFinished={false}/>
+																:  <GameState key={i} game={game} isFinished={false}/>) 
 		 
 										)}
 									</>

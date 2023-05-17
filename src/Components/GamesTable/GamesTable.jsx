@@ -13,6 +13,7 @@ export const GameState = ({bg, isFinished, game}) => {
 	const [loading, setLoading] = useState(false);
 	const games = useSelector(state=>state.games.games)
 	const selectGame = games.filter(g=>{
+		console.log(game)
 		return g.id === game.game_info
 	})
 
@@ -28,30 +29,32 @@ export const GameState = ({bg, isFinished, game}) => {
 	}
 
 	useEffect(() => {
-		let get_user = getUser();
+		if(isFinished){
+			let get_user = getUser();
 
-		let winner=[];
-		let loser=[];
-		let players = game['players']
+			let winner=[];
+			let loser=[];
+			let players = game['players']
 
-		for(let i =0; i<players.length;i++){
-			if(players[i].team === game.result){
-				winner.push(players[i])
-			} else{
-				loser.push(players[i])
-			}
-
-			if(players[i].id === parseInt(path)){
-
+			for(let i =0; i<players.length;i++){
 				if(players[i].team === game.result){
-					setStatus('win')
-				} else {
-					setStatus('lose')
+					winner.push(players[i])
+				} else{
+					loser.push(players[i])
+				}
+
+				if(players[i].id === parseInt(path)){
+
+					if(players[i].team === game.result){
+						setStatus('win')
+					} else {
+						setStatus('lose')
+					}
 				}
 			}
+			setPlayers({winner:winner, loser:loser})
+			setLoading(false);
 		}
-		setPlayers({winner:winner, loser:loser})
-		setLoading(false);
 
 		return ()=>{
 			setStatus(null);
@@ -63,8 +66,7 @@ export const GameState = ({bg, isFinished, game}) => {
 
 	return (
 		<>
-		{!players.winner && <p>waiting ....</p>}
-		{players.winner && 
+		{isFinished && players.winner && 
 			<div className="gamestate_main app-flex" style={{backgroundColor:bg}}>	
 				<img src={selectGame[0]?.icon} alt="game" className="game-icon"/>
 				
@@ -82,15 +84,34 @@ export const GameState = ({bg, isFinished, game}) => {
 					</div>
 				</div>
 
-				{isFinished 
-					? <span className={`timer ${status === "win" && "winner"}`}>
-							<h6>{status}</h6>
-					  </span>
-					: <span className="timer">
-							<h6>10:23</h6>
-						</span>}
+				 <span className={`timer ${status === "win" && "winner"}`}>
+					<h6>{status}</h6>
+				 </span>
 
 			</div>}
+
+		{!isFinished &&
+			<div className="gamestate_main app-flex" style={{backgroundColor:bg}}>	
+				<img src={selectGame[0]?.icon} alt="game" className="game-icon"/>
+				
+				<div className="players app-flex">
+					<div className="player app-flex">
+						<img src={game.players[0].profile_picture.split(" ").join("")} alt="game" className="player-pp"/>
+						<h5 className="playername">{game.players[0].username}</h5>
+					</div>
+					<h5>VS</h5>
+					<div className="player app-flex">
+						<h5 className="playername">{game.players[1].username}</h5>
+						<img src={game.players[1].profile_picture.split(" ").join("")} alt="game" className="player-pp"/>
+					</div>
+				</div>
+
+				 <span className="timer" style={{backgroundColor:"var(--green-color)"}}>
+					<h6>in game</h6>
+				</span>
+
+			</div>
+	     	}
 		</>
 	)
 }

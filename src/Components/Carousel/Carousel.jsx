@@ -7,34 +7,8 @@ import { files } from '../../Assets';
 import Teste from '../Testes/Testes';
 import {BsFillArrowRightCircleFill, BsFillArrowLeftCircleFill} from 'react-icons/bs';
 
-
-const featuredGames = [
-	{	game:'League of legends',
-		url:files.lol
-	}, 
-	{	game:'apex',
-		url:files.apexWalp
-	}, 
-	{	game:'COD:warzon',
-		url:files.warzone
-	}, 
-	{	game:'valorant',
-		url:files.valo
-	}, 
-	{	game:'PUBG',
-		url:files.pubg
-	}, 
-	{	game:'minecraft',
-		url:files.minecraft
-	}, 
-	{	game:'streetfighters',
-		url:files.streetfighter2
-	}, 
-	{	game:'League of legends',
-		url:files.lol
-	}];
 	
-const Carousel = () => {
+const Carousel = ({supportedGames}) => {
 
 	const gap = 16;
 
@@ -74,9 +48,9 @@ const Carousel = () => {
 			<div id="carousel__main" className="carousel__main app-flex">
 						<div id="element_div" className="element_div app-flex">
 								{
-									featuredGames.map((game, i)=>(
+									supportedGames.map((game, i)=>(
 										<div className="element" key={i}>
-											<img src={game.url} className="carousel-element" alt={game.game}/>
+											<img src={game.bg} className="carousel-element" alt={game.game}/>
 											<span className='overlay app-flex'>
 												<p className="overlay-text">{game.game}</p>
 											</span>
