@@ -20,7 +20,7 @@ const gamesData = [{name:'League of legends', icon:files.lol, modes:['1V1','5V5'
 				   {name:'Valorant', icon:files.valo, modes:['1V1','5V5']}]
 
 
-const Challenge = ({updateData, setShowFriends, e, userData, getParty, lobbyPlayers, ws, gameStatus}) => {
+const Challenge = ({updateData, setShowFriends, e, userData, getParty, lobbyPlayers, ws, gameStatus, setGameStatus}) => {
 
 	 const [currentGame, setCurrentGame] = useState(updateData.game);
 	 const [gameId, setGameId] = useState(updateData.id)
@@ -39,8 +39,13 @@ const Challenge = ({updateData, setShowFriends, e, userData, getParty, lobbyPlay
 	 const games = useSelector(state=>state.games.games)
 
 
+	 const clearStatus = () =>{
+	 	setStatus(false);
+	 	setGameStatus(null)
+	 }
+
+
 	 useEffect(() => {
-	 	console.log(games);
 	 	let getP= getParty();
 	 	setParty(getP);
 	 	setLoading(false);
@@ -79,6 +84,7 @@ const Challenge = ({updateData, setShowFriends, e, userData, getParty, lobbyPlay
 	 }
 
 	 const startBet = ()=>{
+	 	console.log('coock')
 	 	if(!isOpen){
 	 		setStatus(true);
 
@@ -203,6 +209,7 @@ const Challenge = ({updateData, setShowFriends, e, userData, getParty, lobbyPlay
 
 	 	localStorage.removeItem("partystatus")
 	 	navigate('/');
+	 	clearStatus();
 	 	ws.send(JSON.stringify({"verb":"close", "status":party.status, "user":userData, "team":party.team, "data":"leave"}));
 	 	ws.close();
 	 }
@@ -214,7 +221,7 @@ const Challenge = ({updateData, setShowFriends, e, userData, getParty, lobbyPlay
 				{status && 
 							<div className="friends_list app-flex-wrap">
 								<div className="friends-header app-flex-wrap">
-									<MdOutlineClose className="pointer" onClick={()=>setStatus(false)}/>
+									<MdOutlineClose className="pointer" onClick={()=>clearStatus()}/>
 								</div>
 								<div className="container msg-container full app-flex-wrap">
 									{betProgress === 'init' && <AiOutlineLoading3Quarters className="loading-icon"/>}

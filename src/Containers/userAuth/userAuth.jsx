@@ -8,7 +8,7 @@ const userAuth = () => {
 	return (
 			<main className="userauth">
 				<div className="navbar">
-					<Link to="/betme">
+					<Link to="/squidstacks">
 						<button className="sub-btn">Back</button>
 					</Link>
 				</div>

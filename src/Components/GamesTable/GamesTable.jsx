@@ -13,7 +13,6 @@ export const GameState = ({bg, isFinished, game}) => {
 	const [loading, setLoading] = useState(false);
 	const games = useSelector(state=>state.games.games)
 	const selectGame = games.filter(g=>{
-		console.log(game)
 		return g.id === game.game_info
 	})
 
@@ -101,8 +100,8 @@ export const GameState = ({bg, isFinished, game}) => {
 					</div>
 					<h5>VS</h5>
 					<div className="player app-flex">
-						<h5 className="playername">{game.players[1].username}</h5>
-						<img src={game.players[1].profile_picture.split(" ").join("")} alt="game" className="player-pp"/>
+						<h5 className="playername">{game?.players[1]?.username}</h5>
+						<img src={game?.players[1]?.profile_picture.split(" ").join("")} alt="game" className="player-pp"/>
 					</div>
 				</div>
 

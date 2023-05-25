@@ -53,8 +53,6 @@ const GameOptions = ({userData,startListening}) => {
 		    api.get(`/api/match?uid=${userData.main_id}`)
 				.then(res=>{
 					let data= res.data.data;
-				
-					setGameMatchs(data);
 
 					let filtering = data.filter((match)=>{
 						return match.game_info === target[0].id
@@ -65,12 +63,12 @@ const GameOptions = ({userData,startListening}) => {
 
 			setLoading(false);
 
-	    }, [path, games])
+	    }, [path])
 
 	return (
 		<>
-		{game === undefined && <Loading/>}
-		{game !== undefined && <section className="main_gameoptions app-flex-wrap">
+		{game === undefined && loading&& <Loading/>}
+		{game !== undefined && !loading&& <section className="main_gameoptions app-flex-wrap">
 					<div className="game_header">
 						<img alt="game_wallpaper" src={game?.bg} className="game-wallpaper"/>
 							<span className="game-sum app-flex">
@@ -96,29 +94,14 @@ const GameOptions = ({userData,startListening}) => {
 							     </div>
 								<div className="games-table app-flex-wrap">
 									<span className="crossing-bar"></span>
-									<div className="app-flex table-key">
+									{/*<div className="app-flex table-key">
 										<h6 style={{marginRight:'auto'}}>Game</h6>
 										<h6>Stats</h6>
 										<h6 style={{marginLeft:'auto'}}>Timer</h6>
 									</div>
-									<span className="crossing-bar"></span>
-									<GamesTable showMore={showMore} setShowMore={setShowMore}>
-											{gameMatchs !== 'none' && gameMatchs.length >0 
-												? <>
-													{gameMatchs.map((game, i)=>
-													 i < 4 && (i === 0 || i % 2 === 0 
-																		? <GameState bg={'var(--primary-color-layer3)'} key={i}  game={game} isFinished={true}/>
-																		: <GameState key={i} game={game} isFinished={true}/>) 
-												)}
-												{showMore && gameMatchs.map((game, i)=>
-														i > 4 && (i % 2 !== 0 
-																			? <GameState bg={'var(--primary-color-layer3)'} key={i} game={game} isFinished={true}/>
-																			: <GameState key={i} game={game} isFinished={true}/>) 
-					 
-													)}
-												  </>
-												: <span className="full app-flex"><h5>You have no games on this game to show.</h5></span>	}
-										</GamesTable>
+									<span className="crossing-bar"></span>*/}
+								
+										<h4>Coming soon...</h4>
 		
 								</div>
 							</div>

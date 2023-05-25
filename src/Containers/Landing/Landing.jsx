@@ -76,8 +76,8 @@ const Landing = () => {
 								<img src={files.raven} alt="raven" className="infopics"/>
 							</div>
 							<div className="infoDetails app-flex">
-								<p className="lg-text">	SquidStacks makes it easy for anyone to bet on any esport team
-									in a varity of supported games, thus again trophies, money and more perks .</p>
+								<p className="lg-text">	SquidStacks is a competitive gaming platform where gamers can compete against 
+								each others and get rewarded based on each one's skills.</p>
 							</div>
 						</div>
 						<div className="detail detail2">
@@ -85,8 +85,8 @@ const Landing = () => {
 								<img src={files.yasuo} alt="raven" className="infopics"/>
 							</div>
 							<div className="infoDetails2 app-flex">
-								<p className="lg-text">	SquidStacks makes it easy for anyone to bet on any esport team
-									in a varity of supported games, thus again trophies, money and more perks .</p>
+								<p className="lg-text">	SquidStacks makes it easy for anyone to challenge other players
+									in a varity of supported games, thus gain trophies, rewards and more perks .</p>
 							</div>
 						</div>
 					</div>

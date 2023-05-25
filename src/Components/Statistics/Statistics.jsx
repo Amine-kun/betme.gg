@@ -96,8 +96,8 @@ const Statistics = ({history, path}) => {
 								<div className="circle" ></div>
 							</span>
 							<span className="brief">
-								<h5 style={{opacity:'0.9'}}>WINRATE</h5>
-								<h5>{kda?.winrate}%</h5>
+								<h5 style={{opacity:'0.9', marginLeft:'2px'}}>WINRATE</h5>
+								<h5>{kda?.winrate.toFixed(2)}%</h5>
 								<div className="circle" style={{backgroundColor:'var(--blue-color)'}}></div>
 							</span>
 						</div>
@@ -118,7 +118,7 @@ const Statistics = ({history, path}) => {
 										<div className={`game-stats app-flex ${(i === 0 || i % 2 === 0) && 'bg-sub'}`} key={i}>
 											<img src={state.icon} alt="game" className="stats-icon"/>
 											<h5 className="total">{state.stats.wins + state.stats.loses}</h5>
-											<h5 className="wr">{state.stats.winrate}%</h5>
+											<h5 className="wr">{state.stats.winrate.toFixed(2)}%</h5>
 										</div>
 									))
 							   : <p>No games to show</p>

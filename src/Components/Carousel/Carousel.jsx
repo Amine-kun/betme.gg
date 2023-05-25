@@ -110,13 +110,8 @@ const TesteCarousel = () => {
 			<>
 				<div className="app-flex testemoniel__Carousel">
 						<div className="testes app-flex">
-								<Teste/>
-								<Teste/>
-								<Teste/>
-								<Teste/>
-								<Teste/>
-								<Teste/>
-								<Teste/>
+								<Teste data={{user:'Amine', date:'May 2', stars:5, title:'Absolutely promising !', message:'A very rare concept that i am sure will have the liking of the gaming community!'}}/>
+								<Teste data={{user:'Jhon', date:'May 2', stars:4, title:'Nice Concept.', message:'Good idea, great application of it, looking forward for the final product.'}}/>
 						</div>
 				</div>
 					<div style={{alignSelf:'center'}}>

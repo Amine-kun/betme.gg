@@ -1,8 +1,10 @@
 import React from 'react';
 import './Footer.scss';
 import logo from '../../Assets/logo/fullLogo.png';
+import {useNavigate} from 'react-router-dom';
 
 const Footer = () => {
+	const navigate = useNavigate();
 
 	const up =()=>{
 		window.scrollTo(0,0);
@@ -13,16 +15,16 @@ const Footer = () => {
 				<div className="footer__main app-flex">
 					<img src={logo} className="logo" alt="logo"/>
 					<div className="tabs">
-						<h5>News</h5>
-						<h5>Tournements</h5>
-						<h5>Signup</h5>
-						<h5>Signin</h5>
+						<h5 className="pointer" onClick={()=>navigate('/')}>News</h5>
+						<h5 className="pointer" onClick={()=>navigate('/')}>Tournements</h5>
+						<h5 className="pointer" onClick={()=>navigate('/UserAuth/Signup')}>Signup</h5>
+						<h5 className="pointer" onClick={()=>navigate('/UserAuth/Login')}>Signin</h5>
 					</div>
 					<div className="contact-footer">
-						<h5>Email</h5>
-						<h5>Number</h5>
-						<h5>Sociale media 1</h5>
-						<h5>Sociale media 2</h5>
+						<h5 className="pointer">contact@squidstacks.com</h5>
+						<h5 className="pointer">0666666666</h5>
+						<h5 className="pointer">Facebook</h5>
+						<h5 className="pointer">Discord</h5>
 					</div>
 				</div>
 				<button onClick={()=>up()} className="arrow">
@@ -36,7 +38,7 @@ const Footer = () => {
 					        </svg>
 				 </button>
 				<div className="copyright">
-					<p>All rights reserved 2022</p>
+					<p>© 2023 SquidStacks</p>
 				</div>
 		</footer>
 	)

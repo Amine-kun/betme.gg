@@ -68,13 +68,17 @@ const Main = () => {
 	useEffect(() => {
 		let party = getParty();
 	 	if (party !== null){
+	 		
 	 		var gameSocket = new W3CWebSocket(`wss://www.api-arcadia.me/ws/create-game/${party.id}/`);
+	 		
 	 		setWs(gameSocket);
 	 		gameSocket.onopen = (event) =>{
-					 gameSocket.send(JSON.stringify({"verb":"open", "user":userData,"status":party.status, "team":party.team, "data":"init", "game":updateData.id}))
+	 			console.log(updateData)
+					 gameSocket.send(JSON.stringify({"verb":"open", "user":userData,"status":party.status, "team":party.team, "data":"init", "game":1}))
 				}
 
 			gameSocket.onmessage = (event) =>{
+				console.log('test')
 					let data = JSON.parse(event.data)
 					 setLobbyPlayers(data.players.players)
 					 
@@ -134,7 +138,7 @@ const Main = () => {
 							<Route path="/" element={<Home/>}/>
 							<Route path="/Profile/*" element={<Profile userData={userData} friends={friends} />}/>
 							<Route path="/Lives" element={<Lives/>}/>
-							<Route path="/Challenge/*" element={<Challenge updateData={updateData} gameStatus={gameStatus} setShowFriends={setShowFriends} userData={userData} getParty={getParty} lobbyPlayers={lobbyPlayers} ws={ws}/>}/>
+							<Route path="/Challenge/*" element={<Challenge setGameStatus={setGameStatus} updateData={updateData} gameStatus={gameStatus} setShowFriends={setShowFriends} userData={userData} getParty={getParty} lobbyPlayers={lobbyPlayers} ws={ws}/>}/>
 							<Route path="/Tournements" element={<Tournements/>}/>
 							<Route path="/Messanger" element={<><p>Coming soon...</p></>}/>
 							<Route path="/Games/*" element={<GameOptions userData={userData} startListening={startListening}/>}/>

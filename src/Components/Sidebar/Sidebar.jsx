@@ -150,12 +150,12 @@ const Sidebar = ({startListening, userData}) => {
 
 									{!shrink 
 										? games.map((game, i)=>(
-											<div className={activeGame === game.game ? 'game tab active' :  'game tab'} key={i} onClick={()=>{setActiveGame(`${game.game}`); navigate(`/Games/${game.id}`)}}>
+											<div className={parseInt(activeGame) === parseInt(game.id) ? 'game tab active' :  'game tab'} key={i} onClick={()=>{setActiveGame(`${game.id}`); navigate(`/Games/${game.id}`);}}>
 												<p className="sub-text">{game.game}</p>
 											</div>
 											))
 										: games.map((game, i)=>(
-											<div className={activeGame === game.game ? 'game-shrinked tab active' :  'game-shrinked tab'} key={i} onClick={()=>{setActiveGame(`${game.game}`); navigate(`/Games/${game.id}`)}}>
+											<div className={parseInt(activeGame) === parseInt(game.id) ? 'game-shrinked tab active' :  'game-shrinked tab'} key={i} onClick={()=>{setActiveGame(`${game.id}`); navigate(`/Games/${game.id}`)}}>
 												<img src={game.icon} alt="game-icon" className="game-icon"/>											
 											</div>
 											))

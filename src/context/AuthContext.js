@@ -98,7 +98,7 @@ const BASE_URL = 'https://www.api-arcadia.me';
       localStorage.removeItem("userinfo");
       localStorage.removeItem("partystatus");
       localStorage.removeItem("authTokens");
-      navigate('/betme')
+      navigate('/squidstacks')
     };
 
     const contextData = {

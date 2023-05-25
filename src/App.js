@@ -17,7 +17,7 @@ function App() {
       <div className="app">
         <AuthProvider>
           <Routes>
-            <Route path="/betme" element={<Landing/>}/>
+            <Route path="/squidstacks" element={<Landing/>}/>
             <Route path="/userAuth/*" element={<UserAuth/>}/>
              
             
