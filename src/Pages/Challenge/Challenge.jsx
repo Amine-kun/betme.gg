@@ -14,10 +14,6 @@ import {IoIosAddCircle} from 'react-icons/io';
 import {MdOutlineClose, MdDoneAll} from 'react-icons/md';
 import {HiOutlineEmojiSad} from 'react-icons/hi';
 
-const gamesData = [{name:'League of legends', icon:files.lol, modes:['1V1','5V5','2v2 BOTLANE']},
-				   {name:'Apex', icon:files.apexWalp, modes:['1V1','TEAM VS TEAM','2v2']},
-				   {name:'Streetfighter', icon:files.streetfighter, modes:['1V1', '3V3']},
-				   {name:'Valorant', icon:files.valo, modes:['1V1','5V5']}]
 
 
 const Challenge = ({updateData, setShowFriends, e, userData, getParty, lobbyPlayers, ws, gameStatus, setGameStatus}) => {
@@ -100,7 +96,7 @@ const Challenge = ({updateData, setShowFriends, e, userData, getParty, lobbyPlay
 	 		setBetProgress('init');
 	 		setMessage('start a bet ...');
 
-	 		var client = new W3CWebSocket(`ws://localhost:8080/?user=${userData.username}&game=${party?.id}&players=${parseInt(mode[0])+parseInt(mode[2])}`);
+	 		var client = new W3CWebSocket(`ws://localhost:${currentGame === 'Valorant' ? '8081' : '8080'}/?user=${userData.username}&game=${party?.id}&players=${parseInt(mode[0])+parseInt(mode[2])}`);
 
 		 	client.onopen =(data) =>{
 		 		setStatus(true);
