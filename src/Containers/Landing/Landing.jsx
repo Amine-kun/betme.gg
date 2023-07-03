@@ -112,7 +112,7 @@ const Landing = () => {
 				</Link>
 				<div className="app-flex">
 						{/*<button className="sub-btn download-btn " style={{marginTop:'15px'}}>Download Desktop App</button>*/}
-						<a className="sub-btn download-btn " style={{marginTop:'15px'}} href="https://download1337.mediafire.com/myajbaxhfvogjiAesShgRVx-_b1qxEZjjDOl6x7gnXAZnTV6EmjneviKf4e9zhfbhE1uD5xzo_mm51DCgfy3LZVEVSFhZmBGmYKVPSHVktISZ7Cuk4-Yj2wSpHGWBom821uWKuWc5Q3FwqGvhjbMfyP4z0JYI1tdZg29z2qK_g/p43euxrn0bjk694/SquidJudge+Setup1.0.0.exe" download>Download Squid</a>
+						<a className="sub-btn download-btn " style={{marginTop:'15px', padding:'12px 15px'}} href="https://download1337.mediafire.com/myajbaxhfvogjiAesShgRVx-_b1qxEZjjDOl6x7gnXAZnTV6EmjneviKf4e9zhfbhE1uD5xzo_mm51DCgfy3LZVEVSFhZmBGmYKVPSHVktISZ7Cuk4-Yj2wSpHGWBom821uWKuWc5Q3FwqGvhjbMfyP4z0JYI1tdZg29z2qK_g/p43euxrn0bjk694/SquidJudge+Setup1.0.0.exe" download>Download Squid</a>
 				</div>
 			</div>
 
