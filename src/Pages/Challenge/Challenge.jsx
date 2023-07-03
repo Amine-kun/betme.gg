@@ -44,6 +44,15 @@ const Challenge = ({updateData, setShowFriends, e, userData, getParty, lobbyPlay
 	 	setGameStatus(null)
 	 }
 
+	 const leaveGame = ()=>{
+
+	 	localStorage.removeItem("partystatus")
+	 	navigate('/');
+	 	clearStatus();
+	 	ws.send(JSON.stringify({"verb":"close", "status":party.status, "user":userData, "team":party.team, "data":"leave"}));
+	 	ws.close();
+	 }
+
 
 	 useEffect(() => {
 	 	let getP= getParty();
@@ -113,6 +122,7 @@ const Challenge = ({updateData, setShowFriends, e, userData, getParty, lobbyPlay
 					 	}).then(res=>console.log('saved')).catch(err=>console.log(err))
 				 		
 				 		ws.send(JSON.stringify({"verb":"finish", "status":party.status, "user":userData, "team":party.team, "data":"end"}));
+				 		leaveGame();
 				 	}
 
 				 	return setMessage('GG, You have Won.');
@@ -132,6 +142,7 @@ const Challenge = ({updateData, setShowFriends, e, userData, getParty, lobbyPlay
 					 	}).then(res=>console.log('saved')).catch(err=>console.log(err))
 				 		
 				 		ws.send(JSON.stringify({"verb":"finish", "status":party.status, "user":userData, "team":party.team, "data":"end"}));
+				 		leaveGame();
 				 	}
 
 				 	return setMessage('You have Lost. HARD LUCK next game :)');
@@ -205,14 +216,7 @@ const Challenge = ({updateData, setShowFriends, e, userData, getParty, lobbyPlay
 	 	}
 	 }
 
-	 const leaveGame = ()=>{
-
-	 	localStorage.removeItem("partystatus")
-	 	navigate('/');
-	 	clearStatus();
-	 	ws.send(JSON.stringify({"verb":"close", "status":party.status, "user":userData, "team":party.team, "data":"leave"}));
-	 	ws.close();
-	 }
+	 
 
 	return (
 		<>
@@ -223,7 +227,7 @@ const Challenge = ({updateData, setShowFriends, e, userData, getParty, lobbyPlay
 								<div className="friends-header app-flex-wrap">
 									<MdOutlineClose className="pointer" onClick={()=>clearStatus()}/>
 								</div>
-								<div className="container msg-container full app-flex-wrap">
+								<div className="container msg-container full app-flex-wrap" style={{width:'550px'}}>
 									{betProgress === 'init' && <AiOutlineLoading3Quarters className="loading-icon"/>}
 									{betProgress === 'win' && <MdDoneAll className="progress-icon" style={{color:'var(--blue-color)'}}/>}
 									{betProgress === 'lose' && <HiOutlineEmojiSad className="progress-icon" style={{color:'var(--red-color)'}}/>}

@@ -17,7 +17,7 @@ import {RiMessage3Fill} from 'react-icons/ri';
 
 const tabs = [{icon:AiFillHome, name:'Home'},
 			  {icon:IoPerson, name:'Profile'},
-			  {icon:RiMessage3Fill, name:'Messanger'},
+			  {icon:RiMessage3Fill, name:'Messenger'},
 			  {icon:HiFlag, name:'Challenge'},
 			  {icon:AiFillStar, name:'Tournements'},
 			  {icon:CgMediaLive, name:'Lives'},

@@ -123,7 +123,7 @@ const Navbar = ({showFriends, setShowFriends,friends, startListening, getParty, 
 
 					<div className={`notification ${showFriends?.status && 'active-tab'}`} onClick={()=> setShowFriends({status:true,team:'A'})}>
 						<FaUserFriends className='notification-icon'/>
-						<span className="red-dot app-flex">{friends?.length}</span>
+						{friends?.length > 0 && <span className="red-dot app-flex">{friends?.length}</span>}
 					</div>
 
 					<div className={`notification ${isNotification  && 'active-tab'}`} onClick={(e)=>setIsNotification(!isNotification)}>
