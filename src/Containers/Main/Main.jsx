@@ -30,7 +30,7 @@ const Main = () => {
 	const [lobbyPlayers, setLobbyPlayers] = useState([]);
 	const [ws, setWs] = useState(null);
 	const [gameStatus, setGameStatus] = useState(null);
-	const [updateData, setUpdateData] = useState({id:2, game:'Valorant', mode:'Select mode', bet:10})
+	const [updateData, setUpdateData] = useState({id:2, game:'Valorant', mode:'Select mode', bet:5})
 
 	const games = useSelector(state=>state.games.games)
 	const api = useAxios();
@@ -78,14 +78,15 @@ const Main = () => {
 				}
 
 			gameSocket.onmessage = (event) =>{
-				console.log('test')
+				
 					let data = JSON.parse(event.data)
 					 setLobbyPlayers(data.players.players)
 					 
 					 if(data.status === 'start'){
 					 	setGameStatus('start');
 					 }
-					 if(data.status === 'mode'){
+					 if(data.status === 'mode' && party.status !== 'creator'){
+					 	console.log(data.mode.placedBet)
 					 	setUpdateData({game:data.mode.currentGame, bet:data.mode.placedBet, mode:data.mode.mode})
 					 }
 

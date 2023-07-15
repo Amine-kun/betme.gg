@@ -10,7 +10,7 @@ import {files} from '../../Assets';
 import {AiOutlineLoading3Quarters} from 'react-icons/ai';
 import {BiErrorAlt} from 'react-icons/bi';
 import {BsFillCircleFill} from 'react-icons/bs';
-import {IoIosAddCircle} from 'react-icons/io';
+import {IoIosAddCircle, IoIosRemove, IoIosAdd} from 'react-icons/io';
 import {MdOutlineClose, MdDoneAll} from 'react-icons/md';
 import {HiOutlineEmojiSad} from 'react-icons/hi';
 
@@ -62,7 +62,7 @@ const Challenge = ({updateData, setShowFriends, e, userData, getParty, lobbyPlay
 	 	setPlacedBet(updateData.bet);
 	 },[updateData])
 
-	 useEffect(()=>{
+	 const setSettings=()=>{
 	 	if(gameStatus === 'start'){
 			 		startBet();
 	 	}
@@ -72,13 +72,7 @@ const Challenge = ({updateData, setShowFriends, e, userData, getParty, lobbyPlay
 			ws.send(JSON.stringify({"verb":"mode", "user":userData, "team":party?.team, "data":data}))
 
 	 	}
-
-	 },[placedBet, currentGame, mode, gameStatus])
-
-	 const controlPlacedBet = (e) =>{
-	 		 e.target.value > 100 ? console.log('too high') :setPlacedBet(e.target.value);
-	 		 return 0
-	 		}
+	 }
 
 	 const checkPLayersValidity = async () =>{
 	 	const res = await api.post(`api/validation/`,{
@@ -89,7 +83,7 @@ const Challenge = ({updateData, setShowFriends, e, userData, getParty, lobbyPlay
 	 }
 
 	 const startBet = ()=>{
-	 	console.log('coock')
+	 	
 	 	if(!isOpen){
 	 		setStatus(true);
 
@@ -118,10 +112,11 @@ const Challenge = ({updateData, setShowFriends, e, userData, getParty, lobbyPlay
 					 	}).then(res=>console.log('saved')).catch(err=>console.log(err))
 				 		
 				 		ws.send(JSON.stringify({"verb":"finish", "status":party.status, "user":userData, "team":party.team, "data":"end"}));
-				 		leaveGame();
+				 		setMessage('GG, You have Won.');
+				 		setTimeout(()=>{leaveGame()}, 1500);
 				 	}
 
-				 	return setMessage('GG, You have Won.');
+				 	return true
 				 }
 				 else if(event.data === 'LOSE'){
 				 	setBetProgress('lose');
@@ -138,10 +133,11 @@ const Challenge = ({updateData, setShowFriends, e, userData, getParty, lobbyPlay
 					 	}).then(res=>console.log('saved')).catch(err=>console.log(err))
 				 		
 				 		ws.send(JSON.stringify({"verb":"finish", "status":party.status, "user":userData, "team":party.team, "data":"end"}));
-				 		leaveGame();
+				 		setMessage('You have Lost. HARD LUCK next game :)');
+				 		setTimeout(()=>{leaveGame()}, 1500);
 				 	}
 
-				 	return setMessage('You have Lost. HARD LUCK next game :)');
+				 	return true
 				 }
 				 else if(event.data === 'CANCEL_GAME'){
 				 	setBetProgress('canceled');
@@ -156,6 +152,7 @@ const Challenge = ({updateData, setShowFriends, e, userData, getParty, lobbyPlay
 				 }
 			}
 			client.onerror = (data) =>{
+				console.log('error', data)
 				if(data.type === 'error'){
 					setMessage('Our system cannot detect our desktop program');
 					setBetProgress('canceled')
@@ -281,15 +278,24 @@ const Challenge = ({updateData, setShowFriends, e, userData, getParty, lobbyPlay
 										<div className="amount select_container">
 											<div className="app-flex select_container">
 												<h4 className="def">Placed Bet : </h4>
-												<span className="input selector app-flex">	
+												<span className="input selector app-flex">
+													
+														
 													<h5>SP</h5>
-													<input type="number" className="bet" value={placedBet} onChange={(e)=> controlPlacedBet(e)}/>
+													<span className="full">
+														<h5>{placedBet}</h5>
+													</span>
+													 
+													<IoIosRemove className="add-ic" onClick={()=>setPlacedBet(placedBet === 0 ? 0 : placedBet - 5)}/>
+													<IoIosAdd className="add-ic" onClick={()=>setPlacedBet(placedBet + 5)}/>
 												</span>
 											</div>
 											<span className="warn app-flex">
 												<BsFillCircleFill className="warn-icon" />
 												<h6 className="warn-text">Only the party owner is able to change the settings, GG HF ! </h6>
 											</span>
+
+											
 										</div>
 								</>}
 					{party.status === 'invited' && 
@@ -310,11 +316,16 @@ const Challenge = ({updateData, setShowFriends, e, userData, getParty, lobbyPlay
 										<div className="amount select_container">
 											<div className="app-flex select_container">
 												<h4 className="def">Placed Bet : </h4>
-												<span className="input selector app-flex">	
+												<span className="input selector app-flex">
+													
 													<h5>SP</h5>
 													<span className="full">
 														<h5>{placedBet}</h5>
 													</span>
+
+													<IoIosRemove className="add-ic" onClick={()=>setPlacedBet(placedBet === 0 ? 0 : placedBet - 5)}/>
+													<IoIosAdd className="add-ic" onClick={()=>setPlacedBet(placedBet + 5)}/>	
+													
 												</span>
 											</div>
 											<span className="warn app-flex">
@@ -385,6 +396,9 @@ const Challenge = ({updateData, setShowFriends, e, userData, getParty, lobbyPlay
 			</div>
 
 			<div className="btns app-flex">
+				<button className="main-btn" onClick={()=>setSettings()}>
+						Apply settings
+				</button>
 				<button className="main-btn" onClick={()=>startGame()}>
 					{party?.status === 'creator' ? 'Start Game' : 'Ready'}
 				</button>
