@@ -62,11 +62,13 @@ const Challenge = ({updateData, setShowFriends, e, userData, getParty, lobbyPlay
 	 	setPlacedBet(updateData.bet);
 	 },[updateData])
 
-	 const setSettings=()=>{
+	 useEffect(()=>{
 	 	if(gameStatus === 'start'){
 			 		startBet();
 	 	}
+	 }, [gameStatus])
 
+	 const setSettings=()=>{
 	 	if(ws !== null && party !== null){
 	 		const data = {currentGame:currentGame, mode:mode, placedBet:placedBet}
 			ws.send(JSON.stringify({"verb":"mode", "user":userData, "team":party?.team, "data":data}))
