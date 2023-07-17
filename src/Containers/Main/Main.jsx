@@ -86,8 +86,7 @@ const Main = () => {
 					 	setGameStatus('start');
 					 }
 					 if(data.status === 'mode' && party.status !== 'creator'){
-					 	console.log(data.mode.placedBet)
-					 	setUpdateData({game:data.mode.currentGame, bet:data.mode.placedBet, mode:data.mode.mode})
+					 	setUpdateData({id:2, game:data.mode.currentGame, bet:data.mode.placedBet, mode:data.mode.mode})
 					 }
 
 				}
