@@ -73,7 +73,7 @@ const Main = () => {
 	 		
 	 		setWs(gameSocket);
 	 		gameSocket.onopen = (event) =>{
-	 			
+
 					 gameSocket.send(JSON.stringify({"verb":"open", "user":userData,"status":party.status, "team":party.team, "data":"init", "game":1}))
 				}
 
@@ -85,9 +85,9 @@ const Main = () => {
 					 if(data.status === 'start'){
 					 	setGameStatus('start');
 					 }
-					 if(data.status === 'mode' && party.status !== 'creator'){
+					 if(data.status === 'mode'){
 		
-					 	setUpdateData({game:data.mode.currentGame, bet:data.mode.placedBet, mode:data.mode.mode})
+					 	setUpdateData({id:data.mode.id, game:data.mode.currentGame, bet:data.mode.placedBet, mode:data.mode.mode})
 					 }
 
 				}

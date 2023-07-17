@@ -69,8 +69,13 @@ const Challenge = ({updateData, setShowFriends, e, userData, getParty, lobbyPlay
 	 }, [gameStatus])
 
 	 const setSettings=()=>{
+	 	const selectedId = games.filter(g=>{
+			return g.game === currentGame
+		})
+
 	 	if(ws !== null && party !== null){
-	 		const data = {currentGame:currentGame, mode:mode, placedBet:placedBet}
+	 		const data = {id:selectedId, currentGame:currentGame, mode:mode, placedBet:placedBet}
+	 		console.log(data)
 			ws.send(JSON.stringify({"verb":"mode", "user":userData, "team":party?.team, "data":data}))
 
 	 	}
@@ -258,7 +263,7 @@ const Challenge = ({updateData, setShowFriends, e, userData, getParty, lobbyPlay
 											<select className="selector" onChange={(e)=>setCurrentGame(e.target.value)}>	
 												
 												{games.map((game, i)=>(
-													<option key={i} onClick={()=>console.log(game.id)}>{game.game}</option>
+													<option key={i}>{game.game}</option>
 															))}
 					
 											</select>
