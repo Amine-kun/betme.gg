@@ -74,8 +74,8 @@ const Challenge = ({updateData, setShowFriends, e, userData, getParty, lobbyPlay
 		})
 
 	 	if(ws !== null && party !== null){
-	 		const data = {id:selectedId, currentGame:currentGame, mode:mode, placedBet:placedBet}
-	 		console.log(data)
+	 		const data = {id:selectedId[0].id, currentGame:currentGame, mode:mode, placedBet:placedBet}
+	 		
 			ws.send(JSON.stringify({"verb":"mode", "user":userData, "team":party?.team, "data":data}))
 
 	 	}
