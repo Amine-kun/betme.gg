@@ -63,11 +63,9 @@ const Profile = ({userData, friends}) => {
 
 	const checkIfFriend = ()=>{
 		for (let i=0; i<friends.length ; i++){
+			
 			if(friends[i].id === parseInt(path)){
 				setIsFriend(true);
-				return 1;
-			} else {
-				setIsFriend(false);
 				return 1;
 			}
 		}

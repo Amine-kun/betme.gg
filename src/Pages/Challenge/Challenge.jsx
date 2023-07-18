@@ -57,6 +57,7 @@ const Challenge = ({updateData, setShowFriends, e, userData, getParty, lobbyPlay
 	 }, [])
 
 	 useEffect(()=>{
+	 	setGameId(updateData.id)
 	 	setCurrentGame(updateData.game);
 	 	setMode(updateData.mode);
 	 	setPlacedBet(updateData.bet);
@@ -69,6 +70,7 @@ const Challenge = ({updateData, setShowFriends, e, userData, getParty, lobbyPlay
 	 }, [gameStatus])
 
 	 const setSettings=()=>{
+	 	''
 	 	const selectedId = games.filter(g=>{
 			return g.game === currentGame
 		})
@@ -119,9 +121,10 @@ const Challenge = ({updateData, setShowFriends, e, userData, getParty, lobbyPlay
 					 	}).then(res=>console.log('saved')).catch(err=>console.log(err))
 				 		
 				 		ws.send(JSON.stringify({"verb":"finish", "status":party.status, "user":userData, "team":party.team, "data":"end"}));
-				 		setMessage('GG, You have Won.');
-				 		setTimeout(()=>{leaveGame()}, 1500);
 				 	}
+
+				 	setMessage('GG, You have Won.');
+				 	setTimeout(()=>{leaveGame()}, 1500);
 
 				 	return true
 				 }
@@ -140,9 +143,10 @@ const Challenge = ({updateData, setShowFriends, e, userData, getParty, lobbyPlay
 					 	}).then(res=>console.log('saved')).catch(err=>console.log(err))
 				 		
 				 		ws.send(JSON.stringify({"verb":"finish", "status":party.status, "user":userData, "team":party.team, "data":"end"}));
-				 		setMessage('You have Lost. HARD LUCK next game :)');
-				 		setTimeout(()=>{leaveGame()}, 1500);
 				 	}
+
+				 	setMessage('You have Lost. HARD LUCK next game :)');
+				 	setTimeout(()=>{leaveGame()}, 1500);
 
 				 	return true
 				 }
@@ -159,7 +163,6 @@ const Challenge = ({updateData, setShowFriends, e, userData, getParty, lobbyPlay
 				 }
 			}
 			client.onerror = (data) =>{
-				console.log('error', data)
 				if(data.type === 'error'){
 					setMessage('Our system cannot detect our desktop program');
 					setBetProgress('canceled')
