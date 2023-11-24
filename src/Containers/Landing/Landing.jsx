@@ -52,7 +52,7 @@ const Landing = () => {
 				<span className="blur"></span>
 					<div className="wrapper">
 						<div className="landing-text app-flex-wrap">
-							<p className="head-bold-text">A New Home For Competitive Gamers.</p>
+							<p className="head-bold-text">The Word's First Home For Competitive Gamers.</p>
 							<p className="p-text">Challenge your friends and win real money.</p>
 							<p className="p-text">Push your limits. Start playing NOW!</p>
 							<Link to='/UserAuth/Signup'>
